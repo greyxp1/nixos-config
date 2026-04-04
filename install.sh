@@ -18,12 +18,10 @@ echo ">>> Setting target disk to $DISK in disko-config.nix..."
 sed -i "s|__TARGET_DISK__|$DISK|g" disko-config.nix
 
 echo ">>> Running disko-install..."
-# --flake: points to your repo folder and the 'default' config
-# --disk main: tells disko which disk defined in your nix file to use
+# We use --write-efi-boot-entries to ensure the BIOS sees the new install
 sudo nix --experimental-features "nix-command flakes" \
   run github:nix-community/disko/latest -- \
   --mode disko-install \
   --flake ".#default" \
-  --disk main "$DISK"
-
-echo ">>> Done! You can now type 'reboot'."
+  --write-efi-boot-entries \
+  --yes-wipe-all-disks
