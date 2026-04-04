@@ -28,7 +28,7 @@ sudo nixos-generate-config --root /mnt
 
 echo ">>> Installing NixOS..."
 # We install from the local folder we just modified, using the impure flag
-sudo nixos-install --no-root-passwd --flake .#default --impure
+sudo nixos-install --no-root-passwd --flake .#default --impure --extra-files /etc/nixos/hardware-configuration.nix
 
 echo ">>> Cleaning up and moving repo to your new home folder..."
 sudo cp -r /tmp/nixos-install /mnt/home/nixos-config
