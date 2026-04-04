@@ -1,7 +1,5 @@
 { config, pkgs, ... }: {
   imports = [
-    # This points to the physical reality of the specific machine
-    ./hardware-configuration.nix
     ./disko-config.nix
   ];
 
