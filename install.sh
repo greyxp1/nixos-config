@@ -24,11 +24,18 @@ sudo nixos-generate-config --root /mnt
 echo ">>> Preparing the Flake Bridge..."
 # Copy the hardware file locally so the Flake can see it relatively
 cp /mnt/etc/nixos/hardware-configuration.nix .
+
+# This removes the fileSystems and swapDevices blocks that conflict with Disko
+sed -i '/fileSystems."\/"/,/};/d' hardware-configuration.nix
+sed -i '/fileSystems."\/boot"/,/};/d' hardware-configuration.nix
+sed -i '/swapDevices/,/];/d' hardware-configuration.nix
+
+# Stage files for the Flake
 git add .
 
 echo ">>> Installing NixOS..."
 # We install from the local folder we just modified, using the impure flag
-sudo nixos-install --no-root-passwd --flake .#default
+sudo nixos-install --no-root-passwd --flake path:.#default
 
 echo ">>> Cleaning up and moving repo to your new home folder..."
 sudo cp -r /tmp/nixos-install /mnt/home/nixos-config
