@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: bash <(curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh) /dev/sda"
-    exit 1
-fi
-
 REPO=$1
 DISK=$2
 
@@ -25,6 +20,11 @@ echo ">>> Generating hardware config for this specific machine..."
 sudo mkdir -p /mnt/etc/nixos
 # This captures the drivers and UUIDs for the PC you are currently sitting at
 sudo nixos-generate-config --root /mnt
+
+echo ">>> Preparing the Flake Bridge..."
+# Copy the hardware file locally so the Flake can see it relatively
+cp /mnt/etc/nixos/hardware-configuration.nix .
+git add .
 
 echo ">>> Installing NixOS..."
 # We install from the local folder we just modified, using the impure flag
