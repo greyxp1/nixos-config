@@ -18,10 +18,10 @@ echo ">>> Setting target disk to $DISK in disko-config.nix..."
 sed -i "s|__TARGET_DISK__|$DISK|g" disko-config.nix
 
 echo ">>> Running disko-install..."
-# We use --write-efi-boot-entries to ensure the BIOS sees the new install
+# We use the full flake path and explicit flag for the disk
 sudo nix --experimental-features "nix-command flakes" \
   run github:nix-community/disko/latest -- \
   --mode disko-install \
   --flake ".#default" \
-  --write-efi-boot-entries \
-  --yes-wipe-all-disks
+  --yes-wipe-all-disks \
+  --argstr device "$DISK"
