@@ -15,15 +15,19 @@ git clone "https://github.com/$REPO.git" /tmp/nixos-install
 cd /tmp/nixos-install
 
 echo ">>> Setting target disk to $DISK in disko-config.nix..."
-# This ensures your disko-config uses the physical drive you passed as an argument
+# This swaps your placeholder for the real disk path
 sed -i "s|__TARGET_DISK__|$DISK|g" disko-config.nix
 
 echo ">>> Running disko-install..."
-# We use the direct executable path to ensure arguments are passed correctly
+# Syntax breakdown:
+# --mode disko-install : The action
+# --flake .#default     : The configuration to use
+# --yes-wipe-all-disks : Automation safety bypass
+# main "$DISK"         : Map the 'main' definition in Nix to the physical disk
 sudo nix --experimental-features "nix-command flakes" \
   run github:nix-community/disko/latest -- \
   --mode disko-install \
   --flake ".#default" \
-  --write-efi-boot-entries \
   --yes-wipe-all-disks \
+  --write-efi-boot-entries \
   main "$DISK"
