@@ -5,7 +5,8 @@ REPO=$1
 DISK=$2
 
 if [ -z "$REPO" ] || [ -z "$DISK" ]; then
-    echo "Usage: install.sh <user/repo> <disk>"
+    echo "Usage: install.sh <github-user/repo> <target-disk>"
+    echo "Example: install.sh greyxp1/nixos-config /dev/sda"
     exit 1
 fi
 
@@ -14,20 +15,14 @@ rm -rf /tmp/nixos-install
 git clone "https://github.com/$REPO.git" /tmp/nixos-install
 cd /tmp/nixos-install
 
-echo ">>> Setting target disk to $DISK in disko-config.nix..."
-# This swaps your placeholder for the real disk path
-sed -i "s|__TARGET_DISK__|$DISK|g" disko-config.nix
+echo ">>> Running official disko-install..."
+# Notice the '#disko-install' at the end of the URL. That was the missing link.
+# The '--disk main "$DISK"' flag magically overwrites the disk path in your nix config!
 
-echo ">>> Running disko-install..."
-# Syntax breakdown:
-# --mode disko-install : The action
-# --flake .#default     : The configuration to use
-# --yes-wipe-all-disks : Automation safety bypass
-# main "$DISK"         : Map the 'main' definition in Nix to the physical disk
 sudo nix --experimental-features "nix-command flakes" \
-  run github:nix-community/disko/latest -- \
-  --mode disko-install \
+  run 'github:nix-community/disko/latest#disko-install' -- \
   --flake ".#default" \
-  --yes-wipe-all-disks \
-  --write-efi-boot-entries \
-  main "$DISK"
+  --disk main "$DISK" \
+  --write-efi-boot-entries
+
+echo ">>> Installation complete! You can now type 'reboot'."
