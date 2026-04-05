@@ -1,48 +1,26 @@
 {
-  inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-  inputs.disko.url = "github:nix-community/disko/latest";
-  inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
+  description = "Universal One-Command NixOS Setup";
 
-  outputs = { self, disko, nixpkgs }: {
-    nixosConfigurations.nixos = nixpkgs.legacyPackages.x86_64-linux.nixos [
-      ./configuration.nix
-      disko.nixosModules.disko
-      {
-        disko.devices = {
-          disk = {
-            main = {
-              type = "disk";
-              device = "/dev/sda";
-              content = {
-                type = "gpt";
-                partitions = {
-                  ESP = {
-                    priority = 1;
-                    name = "ESP";
-                    start = "1M";
-                    end = "512M";
-                    type = "EF00";
-                    content = {
-                      type = "filesystem";
-                      format = "vfat";
-                      mountpoint = "/boot";
-                      mountOptions = [ "umask=0077" ];
-                    };
-                  };
-                  root = {
-                    size = "100%";
-                    content = {
-                      type = "filesystem";
-                      format = "ext4";
-                      mountpoint = "/";
-                    };
-                  };
-                };
-              };
-            };
-          };
-        };
-      }
-    ];
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { self, nixpkgs, disko, ... }@inputs: {
+    nixosConfigurations = {
+      nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          disko.nixosModules.disko
+          ./disko-config.nix
+          ./configuration.nix
+        ];
+      };
+    };
   };
 }
