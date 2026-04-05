@@ -1,10 +1,14 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, modulesPath, ... }: {
   imports = [
+    (modules + "/installer/scan/not-detected.nix")
+    (modules + "/profiles/all-hardware.nix")
     ./disko-config.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  hardware.enableRedistributableFirmware = true;
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
