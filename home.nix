@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 
+{
   home.username = "grey";
   home.homeDirectory = "/home/grey";
 
