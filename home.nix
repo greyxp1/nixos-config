@@ -2,7 +2,7 @@
 
 {
   imports = [
-    inputs.niri.homeManagerModules.niri
+    inputs.niri.homeModules.niri
   ];
 
   home.username = "grey";
