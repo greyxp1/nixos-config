@@ -13,7 +13,7 @@ sudo nix --experimental-features "nix-command flakes" run 'github:nix-community/
 ```bash
 sudo -i
 lsblk
-cfdisk /dev/vda
+cfdisk /dev/nvme0n1
 
 gpt labels
 
@@ -43,6 +43,6 @@ cd /mnt/etc/nixos/
 nixos-install
 
 ## type your password
-nixos-enter --root /mnt -c 'passwd tony'
+nixos-enter --root /mnt -c 'passwd grey'
 reboot
 ```
