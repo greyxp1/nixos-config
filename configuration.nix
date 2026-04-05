@@ -20,7 +20,7 @@
     settings = {
       X11Forwarding = true;
       PermitRootLogin = "yes";
-      PasswordAuthentication = yes;
+      PasswordAuthentication = "yes";
     };
     openFirewall = true;
   };
