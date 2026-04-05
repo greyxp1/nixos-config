@@ -3,17 +3,17 @@
     disk = {
       main = {
         type = "disk";
-        device = lib.mkDefault "/dev/sda"; #
+        device = lib.mkDefault "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
             # For systemd-boot on UEFI
             ESP = {
               size = "1G";
-              type = "EF00"; #
+              type = "EF00";
               content = {
                 type = "filesystem";
-                format = "vfat"; #
+                format = "vfat";
                 mountpoint = "/boot";
                 mountOptions = [ "umask=0077" ];
               };
