@@ -14,7 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    inputs.niri.url = "github:YaLTeR/niri";
+    niri.url = "github:sodiboo/niri-flake";
   };
 
   outputs = { self, nixpkgs, disko, home-manager, ... }@inputs: {
