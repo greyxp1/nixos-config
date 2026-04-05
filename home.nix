@@ -1,6 +1,10 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
+  imports = [
+    inputs.niri.homeManagerModules.niri
+  ];
+
   home.username = "grey";
   home.homeDirectory = "/home/grey";
 
