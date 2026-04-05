@@ -18,6 +18,12 @@
         modules = [
           inputs.disko.nixosModules.disko
           ./configuration.nix
+          ({ modulesPath, ... }: {
+            imports = [
+              (modulesPath + "/installer/scan/not-detected.nix")
+              (modulesPath + "/profiles/all-hardware.nix")
+            ];
+          })
         ];
       };
     };
