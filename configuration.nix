@@ -31,7 +31,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  programs.niri.enable
+  programs.niri.enable = true;
   services.displayManager.defaultSession = "niri";
 
   environment.systemPackages = with pkgs; [
