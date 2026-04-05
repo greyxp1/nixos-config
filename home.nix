@@ -2,7 +2,7 @@
 
 {
   imports = [
-    intputs.noctalia.homeModules.default
+    inputs.noctalia.homeModules.default
     ./niri.nix
   ];
 
