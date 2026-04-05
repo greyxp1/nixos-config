@@ -13,6 +13,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    inputs.niri.url = "github:YaLTeR/niri";
   };
 
   outputs = { self, nixpkgs, disko, home-manager, ... }@inputs: {
