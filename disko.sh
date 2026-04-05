@@ -1,0 +1,1 @@
+sudo nix --experimental-features "nix-command flakes" run 'github:nix-community/disko/latest#disko-install' -- --write-efi-boot-entries --flake github:greyxp1/nixos-config#nixos --disk nixos /dev/nvme0n1
