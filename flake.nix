@@ -14,7 +14,7 @@
     niri.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, disko, home-manager, niri... }@inputs: {
+  outputs = { self, nixpkgs, disko, home-manager, niri, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
