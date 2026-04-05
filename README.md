@@ -7,9 +7,13 @@ bash <(curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/insta
 ### disko-install:
 
 #### Option 1:
+
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh)
+```
+
 #### Option 2:
+
 ```bash
 git clone https://github.com/greyxp1/nixos-config.git
 ```
