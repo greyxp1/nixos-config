@@ -8,6 +8,7 @@
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+
   users.users.grey = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
