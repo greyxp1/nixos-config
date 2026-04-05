@@ -39,6 +39,7 @@
     vim
     wget
     curl
+    ghostty
   ];
 
   system.stateVersion = "23.11";
