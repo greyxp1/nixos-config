@@ -15,6 +15,16 @@
     initialPassword = "password";
   };
 
+  services.openssh = {
+    enable = true;
+    settings = {
+      X11Forwarding = true;
+      PermitRootLogin = "yes";
+      PasswordAuthentication = yes;
+    };
+    openFirewall = true;
+  };
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   environment.systemPackages = with pkgs; [
