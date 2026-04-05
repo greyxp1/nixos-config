@@ -32,6 +32,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   services.displayManager.defaultSession = "niri";
+  security.polkit.enable = true;
 
   environment.systemPackages = with pkgs; [
     git
