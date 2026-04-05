@@ -10,6 +10,12 @@ curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh | b
 nix-shell -p git --run "nix --extra-experimental-features 'nix-command flakes' flake lock"
 ```
 
+### To rebuild the system:
+
+```bash
+sudo nixos-rebuild switch --flake ~/nixos-config/
+```
+
 ---
 
 ### Manual Installation
