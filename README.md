@@ -3,19 +3,13 @@
 #### Option 1:
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh)
+curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko1.sh | bash
 ```
 
 #### Option 2:
 
 ```bash
-git clone https://github.com/greyxp1/nixos-config.git
-```
-```bash
-cd nixos-config
-```
-```bash
-sudo nix --experimental-features "nix-command flakes" run 'github:nix-community/disko/latest#disko-install' -- --write-efi-boot-entries --flake '.#nixos' --disk nixos /dev/nvme0n1
+curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko2.sh | bash
 ```
 
 ---
