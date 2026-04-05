@@ -1,10 +1,6 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, ... }:
 
 {
-  imports = [
-    inputs.niri.homeModules.niri
-  ];
-
   home.username = "grey";
   home.homeDirectory = "/home/grey";
 
@@ -50,22 +46,6 @@
       aws.disabled = true;
       gcloud.disabled = true;
       line_break.disabled = true;
-    };
-  };
-
-  programs.ghostty = {
-    enable = true;
-  };
-
-  programs.niri = {
-    enable = true;
-    settings = {
-      input.keyboard.xkb.layout = "us,ua";
-      layout.gaps = 5;
-      binds = {
-        "Mod+Return".spawn-sh = lib.getExe pkgs.ghostty;
-        "Mod+Q".close-window = null;
-      };
     };
   };
 
