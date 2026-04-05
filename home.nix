@@ -1,6 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, intputs, ... }:
 
 {
+  imports = [
+    intputs.noctalia.homeModules.default
+    ./niri.nix
+  ];
+
   home.username = "grey";
   home.homeDirectory = "/home/grey";
 
@@ -12,6 +17,8 @@
   home.packages = with pkgs; [
     tree
   ];
+
+  programs.noctalia-shell.enable = true;
 
   programs.git.settings = {
     enable = true;
