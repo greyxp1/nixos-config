@@ -1,7 +1,5 @@
-{ config, pkgs, modulesPath, ... }: {
+{ config, pkgs, ... }: {
   imports = [
-    (modules + "/installer/scan/not-detected.nix")
-    (modules + "/profiles/all-hardware.nix")
     ./disko-config.nix
   ];
 
