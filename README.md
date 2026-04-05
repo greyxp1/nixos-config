@@ -9,40 +9,133 @@ bash <(curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/insta
 sudo nix --experimental-features "nix-command flakes" run 'github:nix-community/disko/latest#disko-install' -- --write-efi-boot-entries --flake github:greyxp1/nixos-config#nixos --disk main /dev/nvme0n1
 ```
 
-### Manual Installation:
-```bash
-sudo -i
-lsblk
-cfdisk /dev/nvme0n1
+---
 
-gpt labels
+### Manual Installation
 
-1G type: EFI
-4G type: swap
-remaining space, type: Linux Filesystem
-```
+#### Option 1: UEFI
 
-```bash
-mkfs.ext4 -L nixos /dev/nvme0n1p3
-mkswap -L swap /dev/nvme0n1p2
-mkfs.fat -F 32 -n boot /dev/nvme0n1p1
-```
+1. **Partitioning**
+   ```bash
+   cfdisk /dev/nvme0n1
+   # Select 'gpt'
+   # New -> 1G -> Type: EFI System
+   # New -> 4G -> Type: Linux swap
+   # New -> Remaining -> Type: Linux Filesystem
+   # Write -> quit
+   ```
 
-```bash
-mount /dev/nvme0n1p3 /mnt
-mount --mkdir /dev/nvme0n1p1 /mnt/boot
-swapon /dev/nvme0n1p2
-```
+2. **Formatting & Mounting**
+   ```bash
+   mkfs.fat -F 32 -n boot /dev/nvme0n1p1
+   mkswap -L swap /dev/nvme0n1p2
+   mkfs.ext4 -L nixos /dev/nvme0n1p3
 
-```bash
-nixos-generate-config --root /mnt
-cd /mnt/etc/nixos/
-```
+   mount /dev/disk/by-label/nixos /mnt
+   mount --mkdir /dev/disk/by-label/boot /mnt/boot
+   swapon /dev/nvme0n1p2
+   ```
 
-```bash
-nixos-install
+3. **Configuration**
+   ```bash
+   nixos-generate-config --root /mnt
+   vim /mnt/etc/nixos/configuration.nix
+   ```
+   
+   ```bash
+   { config, pkgs, ... }: {
+     imports = [
+       ./hardware-configuration.nix
+     ];
 
-## type your password
-nixos-enter --root /mnt -c 'passwd grey'
-reboot
-```
+     boot.loader.systemd-boot.enable = true;
+     boot.loader.efi.canTouchEfiVariables = true;
+   
+     networking.hostName = "nixos";
+     networking.networkmanager.enable = true;
+
+     users.users.grey = {
+       isNormalUser = true;
+       extraGroups = [ "networkmanager" "wheel" ];
+       initialPassword = "password";
+     };
+
+     environment.systemPackages = with pkgs; [
+       git
+       vim
+       wget
+       curl
+     ];
+
+     system.stateVersion = "23.11";
+   }
+   ```
+
+4. **Installation**
+   ```bash
+   nixos-install
+   shutdown now
+   ```
+
+---
+
+#### Option 2: BIOS
+
+1. **Partitioning**
+   ```bash
+   cfdisk /dev/nvme0n1
+   # Select 'gpt'
+   # New -> 1M -> Type: BIOS boot
+   # New -> 4G -> Type: Linux swap
+   # New -> Remaining -> Type: Linux filesystem
+   # Write -> quit
+   ```
+
+2. **Formatting & Mounting**
+   ```bash
+   mkfs.ext4 -L nixos /dev/nvme0n1p3
+   mkswap -L swap /dev/nvme0n1p2
+   swapon /dev/nvme0n1p2
+   mount /dev/nvme0n1p3 /mnt
+   ```
+
+3. **Configuration**
+   ```bash
+   nixos-generate-config --root /mnt
+   vim /mnt/etc/nixos/configuration.nix
+   ```
+   
+   ```bash
+   { config, pkgs, ... }: {
+     imports = [
+       ./hardware-configuration.nix
+     ];
+
+     boot.loader.grub.enable = true;
+     boot.loader.grub.device = "/dev/nvme0n1";
+   
+     networking.hostName = "nixos";
+     networking.networkmanager.enable = true;
+
+     users.users.grey = {
+       isNormalUser = true;
+       extraGroups = [ "networkmanager" "wheel" ];
+       initialPassword = "password";
+     };
+
+     environment.systemPackages = with pkgs; [
+       git
+       vim
+       wget
+       curl
+     ];
+
+     system.stateVersion = "23.11";
+   }
+   ```
+
+4. **Installation**
+   ```bash
+   nixos-install
+   shutdown now
+   ```
