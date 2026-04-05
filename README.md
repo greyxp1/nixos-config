@@ -1,11 +1,5 @@
 ### Install script: 
 
-```bash
-bash <(curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh) greyxp1/nixos-config /dev/nvme0n1
-```
-
-### disko-install:
-
 #### Option 1:
 
 ```bash
