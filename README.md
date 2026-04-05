@@ -4,6 +4,12 @@
 curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh | bash
 ```
 
+### To build the flake.lock file in wsl:
+
+```bash
+nix-shell -p git --run "nix --extra-experimental-features 'nix-command flakes' flake lock"
+```
+
 ---
 
 ### Manual Installation
