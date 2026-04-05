@@ -16,8 +16,7 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
         modules = [
-          disko.nixosModules.disko
-          ./disko-config.nix
+          inputs.disko.nixosModules.disko
           ./configuration.nix
         ];
       };

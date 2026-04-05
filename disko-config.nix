@@ -1,30 +1,51 @@
 { lib, ... }: {
   disko.devices = {
     disk = {
-      nixos = {
+      main = {
         type = "disk";
         device = lib.mkDefault "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
-            boot = {
-              size = "1M";
-              type = "EF02";
-            };
-            swap = {
-              size = "4G";
+            # For systemd-boot on UEFI
+            ESP = {
+              size = "1G";
+              type = "EF00";
               content = {
-                type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true;
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
               };
             };
+            # Btrfs partition for the OS
             root = {
               size = "100%";
               content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
+                type = "btrfs";
+                extraArgs = [ "-f" ]; # Override existing partition
+                subvolumes = {
+                  # The actual root (to be wiped in Tony's guide)
+                  "/root" = {
+                    mountpoint = "/";
+                    mountOptions = [ "compress=zstd" "noatime" ];
+                  };
+                  # Persistent user data
+                  "/home" = {
+                    mountpoint = "/home";
+                    mountOptions = [ "compress=zstd" "noatime" ];
+                  };
+                  # The Nix store (read-only system files)
+                  "/nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = [ "compress=zstd" "noatime" ];
+                  };
+                  # Optional: persistence layer if you do the "wipe on boot"
+                  "/persist" = {
+                    mountpoint = "/persist";
+                    mountOptions = [ "compress=zstd" "noatime" ];
+                  };
+                };
               };
             };
           };
