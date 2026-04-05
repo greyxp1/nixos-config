@@ -3,8 +3,6 @@
     ./disko-config.nix
   ];
 
-  disko.devices.disk.main.device = "/dev/sda";
-
   # Bootloader setup (Systemd-boot works on 99% of modern UEFI systems)
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
