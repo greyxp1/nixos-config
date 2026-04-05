@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.username = "grey";
@@ -49,6 +49,21 @@
     };
   };
 
-  
+  programs.ghostty = {
+    enable = true;
+  };
+
+  programs.niri = {
+    enable = true;
+    settings = {
+      input.keyboard.xkb.layout = "us,ua";
+      layout.gaps = 5;
+      binds = {
+        "Mod+Return.spawn-sh = lib.getExe pkgs.ghostty;
+        "Mod+Q".close-window = null;
+      };
+    };
+  };
+
   home.stateVersion = "25.11";
 }
