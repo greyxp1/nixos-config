@@ -1,7 +1,7 @@
 ### Install script: 
 
 ```bash
-curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko2.sh | bash
+curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh | bash
 ```
 
 ---
