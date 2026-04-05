@@ -1,7 +1,7 @@
 { lib, ... }: {
   disko.devices = {
     disk = {
-      main = {
+      nixos = {
         type = "disk";
         device = lib.mkDefault "/dev/nvme0n1";
         content = {
