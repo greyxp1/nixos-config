@@ -14,7 +14,7 @@
     niri.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, disko, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, disko, home-manager, niri... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -37,6 +37,8 @@
             home-manager.users.grey = import ./home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; };
           }
+
+          niri.nixosModules.niri
         ];
       };
     };
