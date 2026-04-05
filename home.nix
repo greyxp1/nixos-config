@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./niri.nix
+  ];
+
   home.username = "grey";
   home.homeDirectory = "/home/grey";
 
