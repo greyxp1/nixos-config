@@ -31,6 +31,9 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  programs.niri.enable
+  services.displayManager.defaultSession = "niri";
+
   environment.systemPackages = with pkgs; [
     git
     vim
