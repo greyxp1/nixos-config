@@ -11,6 +11,8 @@
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
+  time.timeZone = "America/Montreal";
+
   users.users.grey = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
