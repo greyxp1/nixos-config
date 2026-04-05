@@ -7,9 +7,14 @@ bash <(curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/insta
 ### disko-install:
 ```bash
 sudo nix --experimental-features "nix-command flakes" run 'github:nix-community/disko/latest#disko-install' -- --write-efi-boot-entries --flake github:greyxp1/nixos-config#nixos --disk nixos /dev/nvme0n1
-
+```
+```bash
 git clone https://github.com/greyxp1/nixos-config.git
+```
+```bash
 cd nixos-config
+```
+```bash
 sudo nix --experimental-features "nix-command flakes" run 'github:nix-community/disko/latest#disko-install' -- --write-efi-boot-entries --flake '.#nixos' --disk nixos /dev/nvme0n1
 ```
 
