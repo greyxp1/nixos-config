@@ -10,6 +10,6 @@ sudo nix --experimental-features "nix-command flakes" run \
 
 cd ..
 
-rm -rf nixos-config
+sudo rm -rf nixos-config
 
 cd /etc/nixos
