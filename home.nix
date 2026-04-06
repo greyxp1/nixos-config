@@ -41,7 +41,7 @@
       layout.gaps = 5;
       binds = {
         "Mod+Return".action.spawn = [ (lib.getExe pkgs.ghostty) ];
-        "Mod+Q".action.close-window = null;
+        "Mod+Q".action.close-window = [];
       };
     };
   };
