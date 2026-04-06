@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   home.username = "grey";
@@ -13,13 +13,13 @@
     tree
   ];
 
-  programs.noctalia-shell.enable = true;
-
-  programs.git.settings = {
+  programs.git = {
     enable = true;
     userName = "greyxp1";
     userEmail = "greyxp999@gmail.com";
-    init.defaultBranch = "main";
+    extraConfig = {
+      init.defaultBranch = "main";
+    };
   };
 
   programs.starship = {
@@ -32,9 +32,7 @@
     };
   };
 
-  programs.ghostty = {
-    enable = true;
-  };
+  programs.ghostty.enable = true;
 
   programs.niri = {
     enable = true;
@@ -42,15 +40,13 @@
       input.keyboard.xkb.layout = "us,ua";
       layout.gaps = 5;
       binds = {
-        "Mod+Return".spawn-sh = lib.getExe pkgs.ghostty;
-        "Mod+Q".close-window = null;
+        "Mod+Return".action.spawn = [ (lib.getExe pkgs.ghostty) ];
+        "Mod+Q".action.close-window = null;
       };
     };
   };
 
-  programs.noctalia = {
-    enable = true;
-  };
+  programs.noctalia-shell.enable = true;
 
-  home.stateVersion = "25.11";
+  home.stateVersion = "24.11";
 }
