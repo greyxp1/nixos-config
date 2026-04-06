@@ -8,6 +8,9 @@ curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh | b
 
 ```bash
 wsl -d NixOS
+```
+
+```bash
 nix-shell -p git --run "nix --extra-experimental-features 'nix-command flakes' flake lock"
 ```
 
@@ -15,6 +18,9 @@ nix-shell -p git --run "nix --extra-experimental-features 'nix-command flakes' f
 
 ```bash
 cd ~/nixos-config/ && git pull
+```
+
+```bash
 sudo nixos-rebuild switch --flake ~/nixos-config/
 ```
 
