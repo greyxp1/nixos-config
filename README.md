@@ -14,6 +14,7 @@ nix-shell -p git --run "nix --extra-experimental-features 'nix-command flakes' f
 ### To rebuild the system:
 
 ```bash
+cd ~/nixos-config/ && git pull
 sudo nixos-rebuild switch --flake ~/nixos-config/
 ```
 
