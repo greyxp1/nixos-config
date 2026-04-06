@@ -15,10 +15,15 @@
 
   programs.git = {
     enable = true;
-    userName = "greyxp1";
-    userEmail = "greyxp999@gmail.com";
-    extraConfig = {
-      init.defaultBranch = "main";
+    signing.format = null;
+    settings = {
+      user = {
+        name = "greyxp1";
+        email = "greyxp999@gmail.com";
+      };
+      init = {
+        defaultBranch = "main";
+      };
     };
   };
 
