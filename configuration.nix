@@ -33,6 +33,13 @@
 
   services.displayManager.defaultSession = "niri";
   security.polkit.enable = true;
+  environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
+
+  xdg.portal = {
+    enable = true;
+    config.common.default = "*";
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+  };
 
   environment.systemPackages = with pkgs; [
     git
