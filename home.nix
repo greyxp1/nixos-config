@@ -1,11 +1,6 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [
-    inputs.noctalia.homeModules.default
-    ./niri.nix
-  ];
-
   home.username = "grey";
   home.homeDirectory = "/home/grey";
 
@@ -35,6 +30,26 @@
       gcloud.disabled = true;
       line_break.disabled = true;
     };
+  };
+
+  programs.ghostty = {
+    enable = true;
+  };
+
+  programs.niri = {
+    enable = true;
+    settings = {
+      input.keyboard.xkb.layout = "us,ua";
+      layout.gaps = 5;
+      binds = {
+        "Mod+Return".spawn-sh = lib.getExe pkgs.ghostty;
+        "Mod+Q".close-window = null;
+      };
+    };
+  };
+
+  programs.noctalia = {
+    enable = true;
   };
 
   home.stateVersion = "25.11";
