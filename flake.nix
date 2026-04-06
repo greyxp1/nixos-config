@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -17,33 +16,35 @@
     noctalia.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, disko, home-manager, niri, noctalia, ... }@inputs: {
-    nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          inputs.disko.nixosModules.disko
-          ./configuration.nix
+  outputs = { self, nixpkgs, disko, home-manager, niri, ... }@inputs: {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
+      modules = [
+        disko.nixosModules.disko
+        ./configuration.nix
 
-          ({ modulesPath, ... }: {
+        ({ modulesPath, ... }: {
+          imports = [
+            (modulesPath + "/installer/scan/not-detected.nix")
+            (modulesPath + "/profiles/all-hardware.nix")
+          ];
+        })
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.users.grey = {
             imports = [
-              (modulesPath + "/installer/scan/not-detected.nix")
-              (modulesPath + "/profiles/all-hardware.nix")
+              ./home.nix
+              inputs.niri.homeModules.niri
+              inputs.noctalia.homeModules.default
             ];
-          })
-
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.grey = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
-
-          niri.nixosModules.niri
-        ];
-      };
+          };
+        }
+      ];
     };
   };
 }
