@@ -10,7 +10,7 @@
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  nix.settings.download-buffer-size = 250000000;
+  nix.settings.download-buffer-size = 500000000;
 
   time.timeZone = "America/Montreal";
 
