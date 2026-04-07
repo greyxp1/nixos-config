@@ -17,12 +17,15 @@
       modules = [
         disko.nixosModules.disko
         ./configuration.nix
+        niri.nixosModules.niri
 
         ({ modulesPath, pkgs, lib, ... }: {
           imports = [
             (modulesPath + "/installer/scan/not-detected.nix")
             (modulesPath + "/profiles/all-hardware.nix")
           ];
+
+          environment.systemPackages = [
 
             pkgs.vim
             pkgs.curl
