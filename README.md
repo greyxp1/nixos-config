@@ -20,6 +20,16 @@ cd ~/nixos-config/ && git pull
 sudo nixos-rebuild switch --flake ~/nixos-config/
 ```
 
+### To update the system:
+
+```bash
+nix flake update --flake ~/nixos-config/
+```
+
+```bash
+sudo nixos-rebuild switch --flake ~/nixos-config/
+```
+
 ### To build the flake.lock file in wsl:
 
 ```bash
