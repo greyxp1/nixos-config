@@ -6,8 +6,8 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    #home-manager.url = "github:nix-community/home-manager";
+    #home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, disko, home-manager, ... }@inputs: {
@@ -25,17 +25,17 @@
           ];
         })
 
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.users.grey = {
-            imports = [
-              ./home.nix
-            ];
-          };
-        }
+        #home-manager.nixosModules.home-manager
+        #{
+        #  home-manager.useGlobalPkgs = true;
+        #  home-manager.useUserPackages = true;
+        #  home-manager.extraSpecialArgs = { inherit inputs; };
+        #  home-manager.users.grey = {
+        #    imports = [
+        #      ./home.nix
+        #    ];
+        #  };
+        #}
       ];
     };
   };
