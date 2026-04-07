@@ -16,7 +16,7 @@
   users.users.grey = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
-    initialPassword = "password";
+    initialPassword = "123";
   };
 
   services.openssh = {
