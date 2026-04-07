@@ -16,7 +16,7 @@
         { nixpkgs.hostPlatform = "x86_64-linux"; }
         disko.nixosModules.disko
         ./configuration.nix
-        wrappers.modules.wrappers
+        wrappers.nixosModules.default
         niri.nixosModules.niri
 
         ({ pkgs, ... }: {
