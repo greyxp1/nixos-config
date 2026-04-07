@@ -29,8 +29,6 @@
     openFirewall = true;
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   services.displayManager.defaultSession = "niri";
   security.polkit.enable = true;
   environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
@@ -48,5 +46,10 @@
     curl
   ];
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = "23.11";
 }
