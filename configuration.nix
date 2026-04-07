@@ -32,8 +32,6 @@
     wget
     curl
     ghostty
-    noctalia-shell
-    niri
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
