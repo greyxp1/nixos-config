@@ -1,6 +1,6 @@
 { inputs, ... }: {
-  perSystem = { pkgs, system, ... }: {
-    packages.ghostty-custom = inputs.wrappers.packages.${system}.ghostty.wrap {
+  perSystem = { pkgs, ... }: {
+    packages.ghostty-custom = inputs.wrappers.wrappers.ghostty.wrap {
       inherit pkgs;
       settings = {
         theme = "dark";
