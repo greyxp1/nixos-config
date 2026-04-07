@@ -31,6 +31,7 @@
     vim
     wget
     curl
+    tree
     ghostty
   ];
 
