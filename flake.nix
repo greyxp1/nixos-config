@@ -23,6 +23,7 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [
+            disko.nixosModules.disko
             ./configuration.nix
             ({ pkgs, self, ... }: {
               services.displayManager.sessionPackages = [ self.packages."x86_64-linux".niri-custom ];
@@ -40,4 +41,5 @@
         };
       };
     };
-}
+  };
+};
