@@ -12,7 +12,7 @@
 
   swapDevices = [ {
     device = "/var/lib/swapfile";
-    size = 4096; # 4GB in MB
+    size = 4096;
   } ];
 
   users.users.grey = {
@@ -37,7 +37,6 @@
     curl
     tree
     bat
-    ghostty
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
