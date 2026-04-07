@@ -18,12 +18,12 @@
 
 {
   imports = [
-    inputs.wrappers.nixosModules.default
+    inputs.wrappers.nixosModules.pipe
   ];
   config.wrappers.g.git = {
     enable = true;
     package = pkgs.git;
-    config = {
+    inner = {
       user = {
         name = "greyxp1";
         email = "greyxp999@gmail.com";
