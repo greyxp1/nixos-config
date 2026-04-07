@@ -75,7 +75,7 @@
         };
       };
 
-      nixosConfigurations.myHost = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           disko.nixosModules.disko
