@@ -10,6 +10,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   hardware.enableRedistributableFirmware = true;
 
+  swapDevices = [ {
+    device = "/var/lib/swapfile";
+    size = 4096; # 4GB in MB
+  } ];
+
   users.users.grey = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
