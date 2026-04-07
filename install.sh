@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DISK="/dev/nvme0n1"
+DISK=$(lsblk -dn -o NAME,TYPE | grep disk | head -n1 | awk '{print "/dev/" $1}')
 FLAKE_ATTR="nixos"
 
 # 1. Prepare Workspace
