@@ -22,4 +22,3 @@ echo "Starting Installation..."
 sudo nixos-install --root /mnt --flake ".#$FLAKE_ATTR" --no-root-passwd
 
 echo "Installation Complete. You can now reboot."
-..
