@@ -16,7 +16,6 @@
 
       imports = [
         ./parts/niri.nix
-        ./parts/ghostty.nix
         ./parts/git.nix
       ];
 
