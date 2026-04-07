@@ -17,7 +17,7 @@
       imports = [
         ./parts/niri.nix
         #./parts/ghostty.nix
-        ./parts/git.nix
+        #./parts/git.nix
       ];
 
       flake = {
@@ -32,7 +32,7 @@
 
               environment.systemPackages = [
                 #self.packages."x86_64-linux".ghostty-custom
-                self.packages."x86_64-linux".git-custom
+                #self.packages."x86_64-linux".git-custom
                 pkgs.vim
               ];
 
