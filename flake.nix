@@ -8,7 +8,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }: {
+  outputs = inputs@{ self, nixpkgs, wrappers, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs self; };
