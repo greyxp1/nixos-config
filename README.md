@@ -1,6 +1,5 @@
 ### Installation: 
 
-
 1. **View content of the script**
 ```bash
 curl -L https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh
