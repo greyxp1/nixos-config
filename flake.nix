@@ -41,17 +41,16 @@
               })
 
               # 2. Wrapped Ghostty
-              ghostty = (wlib.wrapPackage {
+              (wlib.wrapPackage {
                 inherit pkgs;
                 package = pkgs.ghostty;
-                # Use environment variables instead of flags for store paths
                 env.GHOSTTY_CONFIG_FILE = pkgs.writeText "ghostty-config" ''
                   theme = dark
                   font-family = "JetBrainsMono Nerd Font"
                   window-decoration = false
                   cursor-style = block
                 '';
-              });
+              })
 
               # 3. Wrapped Niri
               (wlib.wrapPackage {
