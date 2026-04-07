@@ -4,6 +4,10 @@
 curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh | bash
 ```
 
+```bash
+curl -L https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh
+```
+
 ### To build the flake.lock file in wsl:
 
 ```bash
