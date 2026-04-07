@@ -16,9 +16,9 @@
         inputs.disko.nixosModules.disko
         ./disko-config.nix
         ./configuration.nix
-        #./parts/niri.nix
-        #./parts/ghostty.nix
-        ./parts/git.nix
+        #./modules/niri.nix
+        #./modules/ghostty.nix
+        ./modules/git.nix
       ];
     };
   };
