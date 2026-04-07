@@ -31,6 +31,7 @@
     vim
     curl
     tree
+    bat
     ghostty
   ];
 
