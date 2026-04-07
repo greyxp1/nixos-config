@@ -14,11 +14,11 @@
 #}
 
 
-{ inputs, pkgs, ... }:
+{ config, lib, wlib, pkgs, ... }:
 
 {
   imports = [
-    inputs.wrappers.nixosModules.pipe
+    wlib.wrapperModules.git
   ];
   config.wrappers.g.git = {
     enable = true;
