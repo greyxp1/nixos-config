@@ -3,15 +3,12 @@
     ./disko-config.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  hardware.enableRedistributableFirmware = true;
-
+  time.timeZone = "America/Montreal";
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-
-  time.timeZone = "America/Montreal";
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  hardware.enableRedistributableFirmware = true;
 
   users.users.grey = {
     isNormalUser = true;
@@ -29,25 +26,11 @@
     openFirewall = true;
   };
 
-  services.displayManager.defaultSession = "niri";
-  security.polkit.enable = true;
-  environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
-
-  xdg.portal = {
-    enable = true;
-    config.common.default = "*";
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
-  };
-
   environment.systemPackages = with pkgs; [
     git
     vim
     wget
     curl
-  ];
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
