@@ -19,18 +19,20 @@
         ./configuration.nix
         niri.nixosModules.niri
 
-        ({ modulesPath, pkgs, ... }: {
+        ({ modulesPath, pkgs, lib, ... }: {
           imports = [
             (modulesPath + "/installer/scan/not-detected.nix")
             (modulesPath + "/profiles/all-hardware.nix")
           ];
 
+          # This is where all your packages and wrappers must live
           environment.systemPackages = [
 
+            # Wrapped Niri
             (wrappers.wrapperModules.niri.apply {
               inherit pkgs;
-              package = inputs.niri.packages.${pkgs.system}.niri-stable;
-              # Changed from "niri/config.kdl"
+              # Use mkForce to resolve the "defined multiple times" error
+              package = lib.mkForce inputs.niri.packages.${pkgs.system}.niri-stable;
               "config.kdl".content = ''
                 input {
                     keyboard { repeat-delay 200; repeat-rate 35; }
@@ -47,10 +49,10 @@
               '';
             }).wrapper
 
+            # Wrapped Ghostty
             (wrappers.wrapperModules.ghostty.apply {
               inherit pkgs;
-              package = pkgs.ghostty;
-              # Changed from "ghostty/config"
+              package = lib.mkForce pkgs.ghostty;
               "config".content = ''
                 theme = dark
                 font-family = "JetBrainsMono Nerd Font"
@@ -59,10 +61,10 @@
               '';
             }).wrapper
 
+            # Wrapped Git
             (wrappers.wrapperModules.git.apply {
               inherit pkgs;
-              package = pkgs.git;
-              # Changed from "git/config"
+              package = lib.mkForce pkgs.git;
               "config".content = ''
                 [user]
                   name = greyxp1
@@ -72,7 +74,7 @@
               '';
             }).wrapper
 
-            # Standard packages
+            # Standard packages that were "floating" in your previous file
             pkgs.vim
             pkgs.curl
             pkgs.tree
