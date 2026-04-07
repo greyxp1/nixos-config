@@ -53,5 +53,13 @@
 
   programs.noctalia-shell.enable = true;
 
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 16;
+    x11.enable = true;
+    gtk.enable = true;
+  };
+
   home.stateVersion = "24.11";
 }
