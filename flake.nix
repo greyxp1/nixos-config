@@ -11,7 +11,7 @@
 
   outputs = { self, nixpkgs, disko, wrappers, niri, ... }@inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux"; # Required for nixosSystem
+      system = "x86_64-linux";
       specialArgs = { inherit inputs; };
 
       modules = [
@@ -19,20 +19,19 @@
         ./configuration.nix
         niri.nixosModules.niri
 
-        # Inline module to declare your system packages
         ({ modulesPath, pkgs, ... }: {
           imports = [
             (modulesPath + "/installer/scan/not-detected.nix")
             (modulesPath + "/profiles/all-hardware.nix")
           ];
 
-          # Assign all wrapped and standard packages here
           environment.systemPackages = [
 
             (wrappers.wrapperModules.niri.apply {
               inherit pkgs;
               package = inputs.niri.packages.${pkgs.system}.niri-stable;
-              "niri/config.kdl".content = ''
+              # Changed from "niri/config.kdl"
+              "config.kdl".content = ''
                 input {
                     keyboard { repeat-delay 200; repeat-rate 35; }
                 }
@@ -50,8 +49,9 @@
 
             (wrappers.wrapperModules.ghostty.apply {
               inherit pkgs;
-              package = pkgs.ghostty; # Explicitly set the package to wrap
-              "ghostty/config".content = ''
+              package = pkgs.ghostty;
+              # Changed from "ghostty/config"
+              "config".content = ''
                 theme = dark
                 font-family = "JetBrainsMono Nerd Font"
                 window-decoration = false
@@ -61,8 +61,9 @@
 
             (wrappers.wrapperModules.git.apply {
               inherit pkgs;
-              package = pkgs.git; # Explicitly set the package to wrap
-              "git/config".content = ''
+              package = pkgs.git;
+              # Changed from "git/config"
+              "config".content = ''
                 [user]
                   name = greyxp1
                   email = greyxp999@gmail.com
