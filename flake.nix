@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
     flake-parts.url = "github:hercules-ci/flake-parts";
     wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
     niri.url = "github:YaLTeR/niri";
@@ -23,9 +25,9 @@
           system = "x86_64-linux";
           specialArgs = { inherit inputs self; };
           modules = [
-            disko.nixosModules.disko
+            inputs.disko.nixosModules.disko
             ./configuration.nix
-            ({ pkgs, self, ... }: {
+            ({ pkgs, ... }: {
               services.displayManager.sessionPackages = [ self.packages."x86_64-linux".niri-custom ];
 
               environment.systemPackages = [
@@ -41,4 +43,4 @@
         };
       };
     };
-};
+}
