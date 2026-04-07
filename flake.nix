@@ -5,18 +5,20 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    niri.url = "github:YaLTeR/niri";
 
     #home-manager.url = "github:nix-community/home-manager";
     #home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, disko, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, disko, niri, ... }@inputs: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
         disko.nixosModules.disko
         ./configuration.nix
+        niri.nixosModules.niri
 
         ({ modulesPath, ... }: {
           imports = [
