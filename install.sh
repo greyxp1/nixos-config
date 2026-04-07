@@ -17,6 +17,13 @@ sudo nix --experimental-features "nix-command flakes" run \
   ./disko-config.nix \
   --argstr device "$DISK"
 
+# 3. Swap Setup
+echo "Setting up swap..."
+sudo fallocate -l 4G /mnt/swapfile
+sudo chmod 600 /mnt/swapfile
+sudo mkswap /mnt/swapfile
+sudo swapon /mnt/swapfile
+
 # 5. Final Installation
 echo "Starting Installation..."
 sudo nixos-install --root /mnt --flake ".#$FLAKE_ATTR" --no-root-passwd
