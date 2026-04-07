@@ -32,7 +32,7 @@
   };
 
   programs.niri.enable = true;
-  programs.niri.package = pkgs.niri-stable;
+  programs.niri.package = inputs.niri.packages.${pkgs.system}.niri-stable;
 
   environment.systemPackages = with pkgs; [
     git
