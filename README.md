@@ -2,12 +2,12 @@
 
 1. **View content of the script**
 ```bash
-curl -L https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh
+curl -L https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh
 ```
 
 2. **Run the script**
 ```bash
-curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/disko.sh | bash
+curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh | bash
 ```
 
 ### To rebuild the system:
