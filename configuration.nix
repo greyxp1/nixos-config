@@ -32,7 +32,8 @@
   };
 
   programs.niri.enable = true;
-  programs.niri.package = inputs.niri.packages.${pkgs.system}.niri-stable;
+  programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-stable;
+  services.display-manager.ly.enable = true;
 
   environment.systemPackages = with pkgs; [
     git
