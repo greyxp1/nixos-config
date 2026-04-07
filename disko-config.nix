@@ -16,7 +16,6 @@
             type = "filesystem";
             format = "vfat";
             mountpoint = "/boot";
-            label = "BOOT";
             mountOptions = [ "umask=0077" ];
           };
         };
@@ -26,7 +25,6 @@
             type = "filesystem";
             format = "ext4";
             mountpoint = "/";
-            label = "ROOT";
             mountOptions = [ "noatime" ];
           };
         };
