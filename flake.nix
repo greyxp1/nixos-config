@@ -1,65 +1,106 @@
 {
-  description = "Basic flake";
+  description = "Refactored flake using BirdeeHub wrapper modules";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    wrappers.url = "github:lassulus/wrappers";
-    niri.url = "github:sodiboo/niri-flake";
+
+    # Using BirdeeHub as requested
+    wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
+
+    # Niri source for the underlying package
+    niri.url = "github:YaLTeR/niri";
   };
 
-  outputs = { self, nixpkgs, disko, wrappers, niri, ... }@inputs: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, disko, wrappers, niri, ... }@inputs:
+    let
       system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      packages.${system} = {
+        # 1. Wrapped Niri: Merged current and commented-out settings
+        niri-custom = wrappers.wrappers.${system}.niri.wrap {
+          inherit pkgs;
+          package = niri.packages.${system}.niri;
+          settings = {
+            input = {
+              keyboard = {
+                xkb.layout = "us";
+                repeat-delay = 200;
+                repeat-rate = 35;
+              };
+              touchpad.tap = true;
+            };
 
-      modules = [
-        disko.nixosModules.disko
-        ./configuration.nix
-        niri.nixosModules.niri
+            outputs."DP-1" = {
+              mode = "2560x1440@144";
+              position = { x = 0; y = 0; };
+            };
 
-        ({ modulesPath, pkgs, lib, ... }: {
-          imports = [
-            (modulesPath + "/installer/scan/not-detected.nix")
-            (modulesPath + "/profiles/all-hardware.nix")
-          ];
+            layout = {
+              gaps = 10;
+              default-column-width = { proportion = 0.5; };
+            };
 
-          environment.systemPackages = [
-            # Wrapped Ghostty — prepends --config-file so users can still pass
-            # their own flags and the baked config is always loaded.
-            (wrappers.lib.wrapPackage {
-              inherit pkgs;
-              package = pkgs.ghostty;
-              flags."--config-file" = "${pkgs.writeText "ghostty-config" ''
-                theme = dark
-                font-family = JetBrainsMono Nerd Font
-                window-decoration = false
-                cursor-style = block
-              ''}";
-            })
+            binds = {
+              "Mod+Return".action.spawn = [ "ghostty" ];
+              "Mod+Q".action.close-window = [];
+              "Mod+Shift+E".action.quit = [];
+            };
+          };
+        };
 
-            # Wrapped Git — GIT_CONFIG_GLOBAL points to the baked config,
-            # while still respecting per-repo .git/config as usual.
-            (wrappers.lib.wrapPackage {
-              inherit pkgs;
-              package = pkgs.git;
-              env.GIT_CONFIG_GLOBAL = "${pkgs.writeText "gitconfig" ''
-                [user]
-                  name = greyxp1
-                  email = greyxp999@gmail.com
-                [init]
-                  defaultBranch = main
-              ''}";
-            })
+        # 2. Wrapped Ghostty
+        ghostty-custom = wrappers.wrappers.${system}.ghostty.wrap {
+          inherit pkgs;
+          settings = {
+            theme = "dark";
+            font-family = "JetBrainsMono Nerd Font";
+            window-decoration = false;
+            cursor-style = "block";
+          };
+        };
 
-            pkgs.vim
-            pkgs.curl
-            pkgs.tree
-            pkgs.bat
-          ];
-        })
-      ];
+        # 3. Wrapped Git
+        git-custom = wrappers.wrappers.${system}.git.wrap {
+          inherit pkgs;
+          settings = {
+            user = {
+              name = "greyxp1";
+              email = "greyxp999@gmail.com";
+            };
+            init.defaultBranch = "main";
+          };
+        };
+      };
+
+      nixosConfigurations.myHost = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          disko.nixosModules.disko
+          ./configuration.nix
+
+          ({ pkgs, ... }: {
+            # Added as a session package for your display manager
+            services.displayManager.sessionPackages = [ self.packages.${system}.niri-custom ];
+
+            environment.systemPackages = [
+              # Using the wrapped packages defined above
+              self.packages.${system}.ghostty-custom
+              self.packages.${system}.git-custom
+
+              pkgs.vim
+              pkgs.curl
+              pkgs.tree
+              pkgs.bat
+            ];
+
+            # Ensure the niri service/polkit settings from the input are available
+            programs.niri.enable = true;
+            programs.niri.package = self.packages.${system}.niri-custom;
+          })
+        ];
+      };
     };
-  };
 }
