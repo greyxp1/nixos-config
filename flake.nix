@@ -20,43 +20,14 @@
 
         ({ pkgs, ... }:
           let
-            # Access the wrapper library directly from inputs
-            wlib = wrappers.lib;
+            wm = inputs.wrappers.wrapperModules;
           in {
             environment.systemPackages = [
-              # 1. Wrapped Git
-              (wlib.wrapPackage {
-                inherit pkgs;
-                package = pkgs.git;
-                # Equivalent to HM 'settings'
-                env.GIT_CONFIG_GLOBAL = pkgs.writeText "gitconfig" ''
-                  [user]
-                    name = greyxp1
-                    email = greyxp999@gmail.com
-                  [init]
-                    defaultBranch = main
-                  [pull]
-                    rebase = true
-                '';
-              })
 
-              # 2. Wrapped Ghostty
-              (wlib.wrapPackage {
-                inherit pkgs;
-                package = pkgs.ghostty;
-                env.GHOSTTY_CONFIG_FILE = pkgs.writeText "ghostty-config" ''
-                  theme = dark
-                  font-family = "JetBrainsMono Nerd Font"
-                  window-decoration = false
-                  cursor-style = block
-                '';
-              })
-
-              # 3. Wrapped Niri
-              (wlib.wrapPackage {
+              (wm.niri.apply {
                 inherit pkgs;
                 package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-stable;
-                env.NIRI_CONFIG = pkgs.writeText "niri-config.kdl" ''
+                "niri/config.kdl".content = ''
                   input {
                       keyboard { repeat-delay 200; repeat-rate 35; }
                   }
@@ -70,9 +41,29 @@
                       default-column-width { proportion 0.5; }
                   }
                 '';
-              })
+              }).wrapper
 
-              # Standard System Tools
+              (wm.ghostty.apply {
+                inherit pkgs;
+                "ghostty/config".content = ''
+                  theme = dark
+                  font-family = "JetBrainsMono Nerd Font"
+                  window-decoration = false
+                  cursor-style = block
+                '';
+              }).wrapper
+
+              (wm.git.apply {
+                inherit pkgs;
+                "git/config".content = ''
+                  [user]
+                    name = greyxp1
+                    email = greyxp999@gmail.com
+                  [init]
+                    defaultBranch = main
+                '';
+              }).wrapper
+
               pkgs.vim
               pkgs.curl
               pkgs.tree
