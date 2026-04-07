@@ -5,7 +5,6 @@
   home.homeDirectory = "/home/grey";
 
   home.packages = with pkgs; [
-    tree
   ];
 
   programs.git = {
