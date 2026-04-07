@@ -18,7 +18,7 @@
         ./configuration.nix
         #./modules/niri.nix
         #./modules/ghostty.nix
-        ./modules/git.nix
+        #./modules/git.nix
       ];
     };
   };
