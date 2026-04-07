@@ -32,21 +32,5 @@
     };
   };
 
-  programs.ghostty.enable = true;
-
-  programs.niri = {
-    enable = true;
-    settings = {
-      input.keyboard.xkb.layout = "us,ua";
-      layout.gaps = 5;
-      binds = {
-        "Mod+Return".action.spawn = [ (lib.getExe pkgs.ghostty) ];
-        "Mod+Q".action.close-window = [];
-      };
-    };
-  };
-
-  programs.noctalia-shell.enable = true;
-
   home.stateVersion = "24.11";
 }
