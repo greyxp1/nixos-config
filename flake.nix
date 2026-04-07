@@ -16,64 +16,72 @@
         { nixpkgs.hostPlatform = "x86_64-linux"; }
         disko.nixosModules.disko
         ./configuration.nix
-        wrappers.nixosModules.default
         niri.nixosModules.niri
 
-        ({ pkgs, ... }: {
-          wrappers = {
-            git = {
-              enable = true;
-              settings = {
-                user = {
-                  name = "greyxp1";
-                  email = "greyxp999@gmail.com";
+        ({ pkgs, ... }:
+          let
+            # Access the wrapper library directly from inputs
+            wlib = wrappers.lib;
+          in {
+            environment.systemPackages = [
+              # 1. Wrapped Git
+              (wlib.wrapPackage {
+                inherit pkgs;
+                package = pkgs.git;
+                # Equivalent to HM 'settings'
+                env.GIT_CONFIG_GLOBAL = pkgs.writeText "gitconfig" ''
+                  [user]
+                    name = greyxp1
+                    email = greyxp999@gmail.com
+                  [init]
+                    defaultBranch = main
+                  [pull]
+                    rebase = true
+                '';
+              })
+
+              # 2. Wrapped Ghostty
+              (wlib.wrapPackage {
+                inherit pkgs;
+                package = pkgs.ghostty;
+                # Mimics HM settings by writing a config file
+                flags = {
+                  "--config-file" = pkgs.writeText "ghostty-config" ''
+                    theme = dark
+                    font-family = "JetBrainsMono Nerd Font"
+                    window-decoration = false
+                    cursor-style = block
+                  '';
                 };
-                init = {
-                  defaultBranch = "main";
-                };
-                pull.rebase = true;
-              };
-            };
+              })
 
-            ghostty = {
-              enable = true;
-              settings = {
-                theme = "dark";
-                font-family = "JetBrainsMono Nerd Font";
-                window-decoration = false;
-                cursor-style = "block";
-              };
-            };
+              # 3. Wrapped Niri
+              (wlib.wrapPackage {
+                inherit pkgs;
+                package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-stable;
+                env.NIRI_CONFIG = pkgs.writeText "niri-config.kdl" ''
+                  input {
+                      keyboard { repeat-delay 200; repeat-rate 35; }
+                  }
+                  binds {
+                      "Super+Return" { spawn "ghostty"; }
+                      "Super+Q" { close-window; }
+                      "Super+Shift+E" { quit; }
+                  }
+                  layout {
+                      gutter 10
+                      default-column-width { proportion 0.5; }
+                  }
+                '';
+              })
 
-            niri = {
-              enable = true;
-              package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-stable;
-              config = ''
-                input {
-                    keyboard { repeat-delay 200; repeat-rate 35; }
-                }
-
-                binds {
-                    "Super+Return" { spawn "ghostty"; }
-                    "Super+Q" { close-window; }
-                    "Super+Shift+E" { quit; }
-                }
-
-                layout {
-                    gutter 10
-                    default-column-width { proportion 0.5; }
-                }
-              '';
-            };
-          };
-
-          environment.systemPackages = with pkgs; [
-            vim
-            curl
-            tree
-            bat
-          ];
-        })
+              # Standard System Tools
+              pkgs.vim
+              pkgs.curl
+              pkgs.tree
+              pkgs.bat
+            ];
+          })
 
         ({ modulesPath, ... }: {
           imports = [
