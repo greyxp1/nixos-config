@@ -16,6 +16,7 @@
 
       imports = [
         ./parts/niri.nix
+        #./parts/ghostty.nix
         ./parts/git.nix
       ];
 
@@ -30,7 +31,7 @@
               services.displayManager.sessionPackages = [ self.packages."x86_64-linux".niri-custom ];
 
               environment.systemPackages = [
-                self.packages."x86_64-linux".ghostty-custom
+                #self.packages."x86_64-linux".ghostty-custom
                 self.packages."x86_64-linux".git-custom
                 pkgs.vim
               ];
