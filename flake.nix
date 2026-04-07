@@ -25,6 +25,30 @@
             (modulesPath + "/profiles/all-hardware.nix")
           ];
 
+          # Niri via its NixOS module so the session file is registered for ly.
+          # The wrapped package bakes the config in via the NIRI_CONFIG env var.
+          programs.niri = {
+            enable = true;
+            package = lib.mkForce (wrappers.lib.wrapPackage {
+              inherit pkgs;
+              package = inputs.niri.packages.${pkgs.system}.niri-stable;
+              env.NIRI_CONFIG = "${pkgs.writeText "niri-config.kdl" ''
+                input {
+                    keyboard { repeat-delay 200; repeat-rate 35; }
+                }
+                binds {
+                    Super+Return { spawn "ghostty"; }
+                    Super+Q { close-window; }
+                    Super+Shift+E { quit; }
+                }
+                layout {
+                    gaps 10
+                    default-column-width { proportion 0.5; }
+                }
+              ''}";
+            });
+          };
+
           environment.systemPackages = [
 
             pkgs.vim
