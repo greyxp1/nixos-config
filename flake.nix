@@ -32,7 +32,6 @@
         #    useUserPackages = true;
         #    extraSpecialArgs = { inherit inputs; };
         #    users.grey = imports ./home.nix
-        #      ];
         #    };
         #  };
         #}
