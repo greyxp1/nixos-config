@@ -5,7 +5,7 @@ set -e
 git clone https://github.com/greyxp1/nixos-config.git
 cd nixos-config
 
-# 2. Run Disko to partition and mount the REAL disk
+# 2. Run Disko
 sudo nix --experimental-features "nix-command flakes" run \
   github:nix-community/disko/latest -- --mode destroy,format,mount \
   --yes-wipe-all-disks \
@@ -14,18 +14,19 @@ sudo nix --experimental-features "nix-command flakes" run \
 
 # 3. Attempt Installation
 echo "Starting NixOS installation..."
-set +e # Temporarily allow errors so we can catch the OOM crash
+set +e
 sudo nixos-install --root /mnt --flake .#nixos
 INSTALL_EXIT_CODE=$?
 set -e
 
-# 4. Logic: If it failed due to Out of Memory (Exit code 137 or general failure)
+# 4. Error Handling: Btrfs-compatible Swap
 if [ $INSTALL_EXIT_CODE -ne 0 ]; then
-    echo "Installation failed or was killed (Exit code: $INSTALL_EXIT_CODE). Checking for OOM..."
+    echo "Installation failed (Exit code: $INSTALL_EXIT_CODE). Creating Btrfs-safe swap..."
 
-    # Create 4GB swapfile ON THE DISK (/mnt) to provide extra RAM
-    echo "Creating 4GB emergency swapfile on /mnt..."
-    sudo dd if=/dev/zero of=/mnt/swapfile bs=1M count=4096
+    # Ensure we are working on the actual disk
+    sudo touch /mnt/swapfile
+    sudo chattr +C /mnt/swapfile          # Disable CoW (Required for Btrfs swap)
+    sudo fallocate -l 2G /mnt/swapfile    # 2GB is safer for smaller VM disks
     sudo chmod 600 /mnt/swapfile
     sudo mkswap /mnt/swapfile
     sudo swapon /mnt/swapfile
@@ -33,5 +34,5 @@ if [ $INSTALL_EXIT_CODE -ne 0 ]; then
     echo "Retrying installation with swap enabled..."
     sudo nixos-install --root /mnt --flake .#nixos
 else
-    echo "Installation finished successfully on the first try."
+    echo "Installation finished successfully."
 fi
