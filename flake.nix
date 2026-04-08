@@ -20,8 +20,8 @@
         ./disko-config.nix
         ./configuration.nix
         ./modules/git.nix
-        #./modules/ghostty.nix
         ./modules/niri.nix
+        ./modules/ghostty.nix
 
         ({ pkgs, ... }: {
           environment.systemPackages = with pkgs; [
