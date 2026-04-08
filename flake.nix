@@ -20,7 +20,7 @@
         ./disko-config.nix
         ./configuration.nix
         ./modules/git.nix
-        ./modules/ghostty.nix
+        #./modules/ghostty.nix
         ./modules/niri.nix
       ];
     };
