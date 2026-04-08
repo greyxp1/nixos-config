@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrappers.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -17,7 +18,7 @@
         ./disko-config.nix
         ./configuration.nix
         ./modules/git.nix
-        #./modules/ghostty.nix
+        ./modules/ghostty.nix
         #./modules/niri.nix
       ];
     };

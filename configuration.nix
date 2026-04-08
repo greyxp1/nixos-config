@@ -1,6 +1,5 @@
 { config, pkgs, inputs, ... }: {
   imports = [
-    ./disko-config.nix
   ];
 
   time.timeZone = "America/Montreal";
