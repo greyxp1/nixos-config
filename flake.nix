@@ -22,6 +22,14 @@
         ./modules/git.nix
         #./modules/ghostty.nix
         ./modules/niri.nix
+
+        ({ pkgs, ... }: {
+          environment.systemPackages = with pkgs; [
+            vim
+            curl
+            tree
+          ];
+        })
       ];
     };
   };
