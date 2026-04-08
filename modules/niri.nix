@@ -18,8 +18,8 @@
       binds = {
         "Mod+T".spawn-sh = "ghostty";
         #"Mod+D".spawn-sh = "fuzzel";
-        "Mod+Q"          = { close-window = null; };
-        "Mod+Shift+E"    = { quit.skip-confirmation = true; };
+        "Mod+Q"          = { close-window = { }; };
+        "Mod+Shift+E"    = { quit = { skip-confirmation = [ ]; }; };
         "Mod+H"          = { focus-column-left = null; };
         "Mod+L"          = { focus-column-right = null; };
         "Mod+J"          = { focus-window-down = null; };
@@ -33,7 +33,7 @@
           active-color = "#cba6f7";
           inactive-color = "#313244";
         };
-        focus-ring.off = null;
+        focus-ring.off = { };
       };
     };
 
