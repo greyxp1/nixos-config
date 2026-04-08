@@ -18,7 +18,7 @@
     };
 
     binds = {
-      "Mod+T".spawn-sh = "alacritty";
+      "Mod+T".spawn-sh = "ghostty";
       "Mod+D".spawn-sh = "fuzzel";
       "Mod+Q"          = { close-window = null; };
       "Mod+Shift+E"    = { quit.skip-confirmation = true; };
