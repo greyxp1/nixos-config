@@ -19,7 +19,7 @@
 
     binds = {
       "Mod+T".spawn-sh = "ghostty";
-      "Mod+D".spawn-sh = "fuzzel";
+      #"Mod+D".spawn-sh = "fuzzel";
       "Mod+Q"          = { close-window = null; };
       "Mod+Shift+E"    = { quit.skip-confirmation = true; };
       "Mod+H"          = { focus-column-left = null; };
@@ -38,9 +38,9 @@
       focus-ring.off = null;
     };
 
-    startupPrograms = [
-      [ "waybar" ]
-      [ "swaybg" "-i" "/path/to/wallpaper.png" ]
-    ];
+    #startupPrograms = [
+    #  [ "waybar" ]
+    #  [ "swaybg" "-i" "/path/to/wallpaper.png" ]
+    #];
   };
 }
