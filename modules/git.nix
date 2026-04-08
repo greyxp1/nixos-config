@@ -1,31 +1,17 @@
-#{ inputs, ... }: {
-#  perSystem = { pkgs, system, ... }: {
-#    packages.git-custom = inputs.wrappers.packages.${system}.git.wrap {
-#      inherit pkgs;
-#      settings = {
-#        user = {
-#          name = "greyxp1";
-#          email = "greyxp999@gmail.com";
-#        };
-#        init.defaultBranch = "main";
-#      };
-#    };
-#  };
-#}
-
-
-{ config, lib, wlib, pkgs, ... }:
-
+{ inputs, ... }:
 {
   imports = [
-    wlib.wrapperModules.git
+    (inputs.wrappers.lib.mkInstallModule {
+      name  = "git";
+      value = inputs.wrappers.lib.wrapperModules.git;
+    })
   ];
-  config.wrappers.g.git = {
+
+  wrappers.git = {
     enable = true;
-    package = pkgs.git;
-    inner = {
+    settings = {
       user = {
-        name = "greyxp1";
+        name  = "greyxp1";
         email = "greyxp999@gmail.com";
       };
       init.defaultBranch = "main";
