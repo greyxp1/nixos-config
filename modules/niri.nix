@@ -18,7 +18,11 @@
         "Mod+T"       = { spawn-sh = "ghostty"; };
         #"Mod+D"      = { spawn-sh = "fuzzel"; };
         "Mod+Q"       = { close-window = null; };
-        "Mod+Shift+E" = { quit.skip-confirmation = true; };
+        # quit takes `skip-confirmation` as a KDL *property* (an argument on
+        # the node itself), not a child node. Use the `_:` function form so
+        # wlib.toKdl renders:  quit skip-confirmation=true
+        # instead of:          quit { skip-confirmation true }
+        "Mod+Shift+E" = { quit = _: { props.skip-confirmation = true; }; };
         "Mod+H"       = { focus-column-left = null; };
         "Mod+L"       = { focus-column-right = null; };
         "Mod+J"       = { focus-window-down = null; };
@@ -35,9 +39,6 @@
         focus-ring.off = null;
       };
 
-      # spawn-at-startup takes a list of strings or lists of strings.
-      # Each entry is a command; if it's a list, the first element is
-      # the program and the rest are its arguments.
       # spawn-at-startup = [
       #   "waybar"
       #   [ "swaybg" "-i" "/path/to/wallpaper.png" ]
