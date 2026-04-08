@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, ... }:
 {
   imports = [
     (inputs.wrappers.lib.mkInstallModule {
@@ -11,36 +11,37 @@
     enable = true;
 
     settings = {
-      # Map your keybinds
       input.keyboard.xkb.layout = "us";
-      # Output configuration
       # outputs."eDP-1".scale = 2.0;
-    };
 
-    binds = {
-      "Mod+T".spawn-sh = "ghostty";
-      #"Mod+D".spawn-sh = "fuzzel";
-      "Mod+Q"          = { close-window = null; };
-      "Mod+Shift+E"    = { quit.skip-confirmation = true; };
-      "Mod+H"          = { focus-column-left = null; };
-      "Mod+L"          = { focus-column-right = null; };
-      "Mod+J"          = { focus-window-down = null; };
-      "Mod+K"          = { focus-window-up = null; };
-    };
-
-    layout = {
-      gaps = 8;
-      border = {
-        width = 2;
-        active-color = "#cba6f7";
-        inactive-color = "#313244";
+      binds = {
+        "Mod+T"       = { spawn-sh = "ghostty"; };
+        #"Mod+D"      = { spawn-sh = "fuzzel"; };
+        "Mod+Q"       = { close-window = null; };
+        "Mod+Shift+E" = { quit.skip-confirmation = true; };
+        "Mod+H"       = { focus-column-left = null; };
+        "Mod+L"       = { focus-column-right = null; };
+        "Mod+J"       = { focus-window-down = null; };
+        "Mod+K"       = { focus-window-up = null; };
       };
-      focus-ring.off = null;
-    };
 
-    #startupPrograms = [
-    #  [ "waybar" ]
-    #  [ "swaybg" "-i" "/path/to/wallpaper.png" ]
-    #];
+      layout = {
+        gaps = 8;
+        border = {
+          width          = 2;
+          active-color   = "#cba6f7";
+          inactive-color = "#313244";
+        };
+        focus-ring.off = null;
+      };
+
+      # spawn-at-startup takes a list of strings or lists of strings.
+      # Each entry is a command; if it's a list, the first element is
+      # the program and the rest are its arguments.
+      # spawn-at-startup = [
+      #   "waybar"
+      #   [ "swaybg" "-i" "/path/to/wallpaper.png" ]
+      # ];
+    };
   };
 }
