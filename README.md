@@ -10,6 +10,11 @@ curl -L https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh
 curl -s https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh | bash
 ```
 
+3. **Run the script**
+```bash
+curl -L https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh -o install.sh && bash install.sh
+```
+
 ### To rebuild the system:
 
 ```bash
