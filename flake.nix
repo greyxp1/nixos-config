@@ -27,7 +27,7 @@
 
         ({ pkgs, ... }: {
           nixpkgs.overlays = [ nix-cachyos-kernel.overlays.default ];
-          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lto;
+          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lts;
 
           environment.systemPackages = with pkgs; [
             vim
