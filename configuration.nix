@@ -28,11 +28,14 @@
     openFirewall = true;
   };
 
+  # programs.niri.enable is set in modules/niri.nix alongside the package.
+  # greetd auto-logs in as grey and immediately launches niri-session,
+  # which uses programs.niri.package — our wrapped niri.
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd niri-session";
+        command = "${pkgs.greetd}/bin/agreety --cmd niri-session";
         user    = "grey";
       };
     };
