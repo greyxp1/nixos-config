@@ -7,35 +7,38 @@ rm -rf nixos-config
 git clone https://github.com/greyxp1/nixos-config.git
 cd nixos-config
 
-# 2. Interactive Disk Selection
+# 2. Interactive Disk Selection via JSON
 echo "------------------------------------------"
 echo "AVAILABLE DISKS:"
 echo "------------------------------------------"
 
-# Generate a simple list of disks
-mapfile -t DISKS < <(lsblk -dpno NAME,SIZE,MODEL | grep disk)
+# Use JSON to avoid parsing issues with columns/tree lines
+# We filter for 'disk' type and skip 'loop' devices
+mapfile -t DEVICE_PATHS < <(lsblk -Jno NAME,SIZE,MODEL,TYPE | jq -r '.blockdevices[] | select(.type == "disk") | "/dev/" + .name')
+mapfile -t DEVICE_INFO < <(lsblk -Jno NAME,SIZE,MODEL,TYPE | jq -r '.blockdevices[] | select(.type == "disk") | .name + " (" + .size + ") " + (.model // "")')
 
-if [ ${#DISKS[@]} -eq 0 ]; then
-    echo "Error: No physical disks detected."
+if [ ${#DEVICE_PATHS[@]} -eq 0 ]; then
+    echo "Error: No disks found even with JSON parsing."
+    echo "Current lsblk output for debugging:"
+    lsblk
     exit 1
 fi
 
-# Display disks with index numbers
-for i in "${!DISKS[@]}"; do
-    echo "$((i+1))) ${DISKS[$i]}"
+# Display the menu
+for i in "${!DEVICE_INFO[@]}"; do
+    echo "$((i+1))) ${DEVICE_INFO[$i]}"
 done
 
 echo "------------------------------------------"
-read -p "Select the disk number (1-${#DISKS[@]}): " CHOICE < /dev/tty
+read -p "Select the disk number (1-${#DEVICE_PATHS[@]}): " CHOICE < /dev/tty
 
-# Validate input
-if ! [[ "$CHOICE" =~ ^[0-9]+$ ]] || [ "$CHOICE" -lt 1 ] || [ "$CHOICE" -gt "${#DISKS[@]}" ]; then
-    echo "Invalid selection: $CHOICE"
+# Validate and Assign
+if [[ "$CHOICE" =~ ^[0-9]+$ ]] && [ "$CHOICE" -le "${#DEVICE_PATHS[@]}" ] && [ "$CHOICE" -gt 0 ]; then
+    DISK="${DEVICE_PATHS[$((CHOICE-1))]}"
+else
+    echo "Invalid selection."
     exit 1
 fi
-
-# Extract the device path
-DISK=$(echo "${DISKS[$((CHOICE-1))]}" | awk '{print $1}')
 
 echo ""
 echo "SELECTED: $DISK"
