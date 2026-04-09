@@ -14,7 +14,7 @@ sudo nix --experimental-features "nix-command flakes" run \
   github:nix-community/disko/latest -- --mode destroy,format,mount \
   --yes-wipe-all-disks \
   ./disko-config.nix \
-  --argstr device nvme0n1
+  --argstr device /dev/nvme0n1
 
 # 3. Swap Setup
 echo "Setting up swap..."
