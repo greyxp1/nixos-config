@@ -25,7 +25,7 @@
         ./modules/ghostty.nix
         ./modules/noctalia-shell.nix
 
-#        ({ pkgs, ... }: {
+        ({ pkgs, ... }: {
 #          nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ];
 #          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lts;
 #
