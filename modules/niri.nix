@@ -14,7 +14,7 @@
       input.keyboard.xkb.layout = "us";
 
       binds = {
-        "Mod+Enter"   = { spawn-sh = "ghostty"; };
+        "Mod+Return"  = { spawn-sh = "ghostty"; };
         "Mod+Q"       = { close-window = _: {}; };
         "Mod+H"       = { focus-column-left = _: {}; };
         "Mod+L"       = { focus-column-right = _: {}; };
