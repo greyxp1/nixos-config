@@ -22,6 +22,7 @@
         ./modules/git.nix
         ./modules/niri.nix
         ./modules/ghostty.nix
+        ./modules/noctalia-shell.nix
 
         ({ pkgs, ... }: {
           environment.systemPackages = with pkgs; [
