@@ -15,7 +15,7 @@
       # Enable rEFInd for UEFI, GRUB for BIOS
       refind.enable = isUEFI;
       grub = {
-        enable = !isUEFI;.
+        enable = !isUEFI;
         device = "/dev/disk/by-partlabel/disk-nixos-boot";
         efiSupport = false;
       };
