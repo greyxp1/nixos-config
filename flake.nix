@@ -13,12 +13,12 @@
   };
 
   outputs = inputs@{ self, nixpkgs, nix-cachyos-kernel, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs self; };
       modules = [
         cachyos-kernel.nixosModules.cachyos-kernel
-        inputs.disko.nixosModules.disko
+        disko.nixosModules.disko
         ./disko-config.nix
         ./configuration.nix
         ./modules/git.nix
