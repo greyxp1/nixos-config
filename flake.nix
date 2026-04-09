@@ -27,7 +27,11 @@
         ./modules/noctalia-shell.nix
 
         ({ pkgs, ... }: {
-          nix-cachyos-kernel.overlays.default
+
+          nixpkgs.overlays = [
+              inputs.nix-cachyos-kernel.overlays.default
+            ];
+
           environment.systemPackages = with pkgs; [
             vim
             curl
