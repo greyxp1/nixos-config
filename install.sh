@@ -12,28 +12,28 @@ echo "--------------------------------------------------------------------------
 echo "Detected the following physical disks:"
 echo
 
-# Use lsblk -d to show only full disks, excluding partitions and loop devices
+# 2. Extract disks and exclude the loop device and the installer USB (/iso)
+mapfile -t DISK_NAMES < <(lsblk -dn -o NAME,TYPE,MOUNTPOINTS | grep disk | grep -v '/iso' | awk '{print $1}')
+mapfile -t DISK_INFO < <(lsblk -dn -o NAME,SIZE,MODEL | grep -v 'loop' | grep -v 'sda') # Simple filter for display
+
 i=0
-declare -A DEVICES
-while read -r dev; do
-    echo "[$i] /dev/$dev"
-    DEVICES[$i]="/dev/$dev"
+for name in "${DISK_NAMES[@]}"; do
+    # Get size for a better display
+    SIZE=$(lsblk -dno SIZE "/dev/$name")
+    echo "[$i] /dev/$name ($SIZE)"
     i=$((i+1))
-done < <(lsblk -dn -o NAME,TYPE | grep disk | awk '{print $1}')
+done
 
 echo
-# Force read from the terminal device (/dev/tty)
-read -p "Which device do you wish to install on? " CHOICE < /dev/tty
+# Force use of /dev/tty for input
+exec < /dev/tty
+read -p "Which device do you wish to install on? (Enter number): " CHOICE
 
-DEV=${DEVICES[$CHOICE]}
-
-if [ -z "$DEV" ]; then
-    echo "Invalid selection. Exiting."
-    exit 1
-fi
+DEV="/dev/${DISK_NAMES[$CHOICE]}"
 
 echo "Selected: $DEV"
-read -p "Confirm formatting $DEV? (y/n): " CONFIRM < /dev/tty
+read -p "DANGER: This will WIPE $DEV. Are you sure? (y/n): " CONFIRM
+
 if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
     echo "Aborted."
     exit 1
