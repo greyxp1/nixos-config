@@ -41,6 +41,8 @@
     };
   };
 
+  nix.settings.trusted-users = [ "root" "grey" ];
+
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
