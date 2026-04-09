@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DISK=$(nvme0n1)
 FLAKE_ATTR="nixos"
 
 # 1. Prepare Workspace
@@ -15,7 +14,7 @@ sudo nix --experimental-features "nix-command flakes" run \
   github:nix-community/disko/latest -- --mode destroy,format,mount \
   --yes-wipe-all-disks \
   ./disko-config.nix \
-  --argstr device "$DISK"
+  --argstr device nvme0n1
 
 # 3. Swap Setup
 echo "Setting up swap..."
