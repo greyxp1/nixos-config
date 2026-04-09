@@ -1,6 +1,4 @@
 { config, pkgs, inputs, ... }: {
-  imports = [
-  ];
 
   time.timeZone = "America/Montreal";
   networking.hostName = "nixos";
@@ -16,7 +14,7 @@
 
   users.users.grey = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "input" ];
     initialPassword = "123";
   };
 
@@ -28,6 +26,22 @@
       PasswordAuthentication = true;
     };
     openFirewall = true;
+  };
+
+  programs.niri.enable = true;
+
+  services.getty.autologinUser = "grey";
+
+  environment.etc."profile.d/start-niri.sh".text = ''
+    if [ -z "$WAYLAND_DISPLAY" ] && [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+      exec niri-session
+    fi
+  '';
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    config.common.default = "*";
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
