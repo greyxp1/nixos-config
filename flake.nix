@@ -29,7 +29,7 @@
         ({ pkgs, ... }: {
 
           nixpkgs.overlays = [
-              inputs.nix-cachyos-kernel.overlays.default
+              nix-cachyos-kernel.overlays.default
             ];
 
           environment.systemPackages = with pkgs; [
