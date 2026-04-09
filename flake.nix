@@ -17,7 +17,6 @@
       system = "x86_64-linux";
       specialArgs = { inherit inputs self; };
       modules = [
-        cachyos-kernel.nixosModules.cachyos-kernel
         disko.nixosModules.disko
         ./disko-config.nix
         ./configuration.nix
