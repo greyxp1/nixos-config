@@ -71,5 +71,5 @@ sudo swapon /mnt/swapfile
 echo "Starting Installation..."
 sudo nixos-install --root /mnt --flake ".#nixos" --no-root-passwd
 
-echo "Complete. Rebooting..."
+echo "Complete. Rebooting...."
 sudo reboot
