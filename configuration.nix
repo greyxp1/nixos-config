@@ -5,23 +5,21 @@
   networking.networkmanager.enable = true;
   hardware.enableRedistributableFirmware = true;
 
-  boot.loader = if (builtins.pathExists /sys/class/efivars) then {
-      # UEFI: rEFInd
-      refind.enable = true;
-      efi.canTouchEfiVariables = true;
-    } else {
-      # BIOS: GRUB
+  # Detect if booted via UEFI or Legacy BIOS
+    boot.loader = let
+      isUEFI = builtins.pathExists /sys/class/efivars;
+    in {
+      efi.canTouchEfiVariables = isUEFI;
+      efi.efiSysMountPoint = "/boot";
+
+      # Enable rEFInd for UEFI, GRUB for BIOS
+      refind.enable = isUEFI;
       grub = {
-        enable = true;
-        # Use "nodev" for UEFI-compatible GRUB,
-        # but for BIOS fallback, we use a shell trick to find the disk
-        device = "/dev/disk/by-label/nixos";
+        enable = !isUEFI;.
+        device = "/dev/disk/by-partlabel/disk-nixos-boot";
         efiSupport = false;
       };
     };
-
-    # Tell NixOS where the EFI partition is without a hardcoded path
-    boot.loader.efi.efiSysMountPoint = "/boot";
 
   swapDevices = [ {
     device = "/var/lib/swapfile";
