@@ -26,7 +26,7 @@
         ./modules/noctalia-shell.nix
 
         ({ pkgs, ... }: {
-          nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ];
+          nixpkgs.overlays = [ nix-cachyos-kernel.overlays.default ];
           boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
 
           environment.systemPackages = with pkgs; [
