@@ -4,7 +4,7 @@
     (inputs.ghosttyWrappers.wrappers.ghostty.wrap {
       inherit pkgs;
       settings = {
-        theme             = "dark";
+        theme             = "catppuccin-mocha";
         font-family       = "JetBrainsMono Nerd Font";
         window-decoration = false;
         cursor-style      = "block";
