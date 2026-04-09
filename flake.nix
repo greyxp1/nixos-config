@@ -27,7 +27,7 @@
 
         ({ pkgs, ... }: {
           nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ];
-          #boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lts;
+          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-lts;
 
           nix.settings = {
             trusted-users = [ "root" "@wheel" ];
