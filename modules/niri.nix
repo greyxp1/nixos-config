@@ -1,15 +1,8 @@
-{ inputs, ... }: {
-  imports = [
-    (inputs.wrappers.lib.mkInstallModule {
-      name  = "niri";
-      value = inputs.wrappers.lib.wrapperModules.niri;
-    })
-  ];
-
-  wrappers.niri = {
-    enable = true;
+{ inputs, pkgs, lib, ... }:
+let
+  wrappedNiri = inputs.wrappers.wrappers.niri.wrap {
+    inherit pkgs;
     v2-settings = true;
-
     settings = {
       input.keyboard.xkb.layout = "us";
 
@@ -37,5 +30,11 @@
         "noctalia-shell"
       ];
     };
+  };
+in
+{
+  programs.niri = {
+    enable  = true;
+    package = wrappedNiri;
   };
 }

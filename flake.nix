@@ -29,6 +29,7 @@
             vim
             curl
             tree
+            bat
           ];
         })
       ];
