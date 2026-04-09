@@ -6,7 +6,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   hardware.enableRedistributableFirmware = true;
-  boot.kernelPackages = pkgs.linuxPackages_cachyos;
 
   swapDevices = [ {
     device = "/var/lib/swapfile";
