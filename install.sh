@@ -12,36 +12,36 @@ echo "------------------------------------------"
 echo "AVAILABLE DISKS:"
 echo "------------------------------------------"
 
-# List disks with index numbers
-mapfile -t DISK_LIST < <(lsblk -dn -o NAME,SIZE,MODEL | grep disk)
+# Generate a simple list of disks
+mapfile -t DISKS < <(lsblk -dpno NAME,SIZE,MODEL | grep disk)
 
-if [ ${#DISK_LIST[@]} -eq 0 ]; then
-    echo "No disks found! Exiting."
+if [ ${#DISKS[@]} -eq 0 ]; then
+    echo "Error: No physical disks detected."
     exit 1
 fi
 
-for i in "${!DISK_LIST[@]}"; do
-    echo "$((i+1))) /dev/${DISK_LIST[$i]}"
+# Display disks with index numbers
+for i in "${!DISKS[@]}"; do
+    echo "$((i+1))) ${DISKS[$i]}"
 done
 
 echo "------------------------------------------"
-# Force read from /dev/tty so curl | bash doesn't skip this
-read -p "Select the disk number (1-${#DISK_LIST[@]}): " CHOICE < /dev/tty
+read -p "Select the disk number (1-${#DISKS[@]}): " CHOICE < /dev/tty
 
-# Extract the device name from the chosen line
-DISK_NAME=$(echo "${DISK_LIST[$((CHOICE-1))]}" | awk '{print $1}')
-DISK="/dev/$DISK_NAME"
-
-if [ -z "$DISK_NAME" ]; then
-    echo "Invalid selection. Exiting."
+# Validate input
+if ! [[ "$CHOICE" =~ ^[0-9]+$ ]] || [ "$CHOICE" -lt 1 ] || [ "$CHOICE" -gt "${#DISKS[@]}" ]; then
+    echo "Invalid selection: $CHOICE"
     exit 1
 fi
 
+# Extract the device path
+DISK=$(echo "${DISKS[$((CHOICE-1))]}" | awk '{print $1}')
+
 echo ""
 echo "SELECTED: $DISK"
-read -p "DANGER: This will WIP ALL DATA on $DISK. Type 'y' to confirm: " CONFIRM < /dev/tty
+read -p "DANGER: This will WIPE ALL DATA on $DISK. Type 'y' to confirm: " CONFIRM < /dev/tty
 
-if [[ ! $CONFIRM =~ ^[Yy]$ ]]; then
+if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
     echo "Installation cancelled."
     exit 1
 fi
