@@ -41,7 +41,7 @@
     };
   };
 
-  nix.settings.trusted-users = [ "root" "grey" ];
+  nix.settings.trusted-users = [ "root" "@wheel" ];
 
   xdg.portal = {
     enable = true;
