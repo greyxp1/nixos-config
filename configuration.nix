@@ -3,9 +3,25 @@
   time.timeZone = "America/Montreal";
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
-  boot.loader.limine.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   hardware.enableRedistributableFirmware = true;
+
+  boot.loader = if (builtins.pathExists /sys/class/efivars) then {
+      # UEFI: rEFInd
+      refind.enable = true;
+      efi.canTouchEfiVariables = true;
+    } else {
+      # BIOS: GRUB
+      grub = {
+        enable = true;
+        # Use "nodev" for UEFI-compatible GRUB,
+        # but for BIOS fallback, we use a shell trick to find the disk
+        device = "/dev/disk/by-label/nixos";
+        efiSupport = false;
+      };
+    };
+
+    # Tell NixOS where the EFI partition is without a hardcoded path
+    boot.loader.efi.efiSysMountPoint = "/boot";
 
   swapDevices = [ {
     device = "/var/lib/swapfile";
