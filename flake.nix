@@ -8,13 +8,18 @@
     wrappers.inputs.nixpkgs.follows = "nixpkgs";
     ghosttyWrappers.url     = "github:nouritsu/nix-wrapper-modules/ghostty";
     ghosttyWrappers.inputs.nixpkgs.follows = "nixpkgs";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.0.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-cachyos-kernel, ... }: {
+  outputs = inputs@{ self, nixpkgs, nix-cachyos-kernel, lanzaboote, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs self; };
       modules = [
+        lanzaboote.nixosModules.lanzaboote
         ./hardware-configuration.nix
         ./configuration.nix
         ./modules/git.nix
