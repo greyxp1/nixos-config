@@ -95,6 +95,13 @@ sudo nixos-generate-config --root /mnt --show-hardware-config > hardware-configu
 head -n -1 hardware-configuration.nix > temp.nix && mv temp.nix hardware-configuration.nix
 
 if $UEFI; then
+  # --- Generate Secure Boot keys in the installer environment ---
+  # This is required because Lanzaboote needs to sign the kernel during nixos-install.
+  echo "Generating Secure Boot keys..."
+  sudo mkdir -p /var/lib/sbctl
+  # Run sbctl from a temporary nix-shell to create the keys
+  sudo nix shell nixpkgs#sbctl -c sbctl create-keys
+
   # Inject UEFI + Lanzaboote configuration
   cat >> hardware-configuration.nix << 'NIXEOF'
 
@@ -111,6 +118,10 @@ if $UEFI; then
   environment.systemPackages = [ pkgs.sbctl ];
 }
 NIXEOF
+
+# --- Copy the keys to the new system so they persist after reboot ---
+  sudo mkdir -p /mnt/var/lib/sbctl
+  sudo cp -r /var/lib/sbctl/* /mnt/var/lib/sbctl/
 
 else
   # Inject BIOS/GRUB configuration
