@@ -100,7 +100,8 @@ if $UEFI; then
   echo "Generating Secure Boot keys..."
   sudo mkdir -p /var/lib/sbctl
   # Run sbctl from a temporary nix-shell to create the keys
-  sudo nix shell nixpkgs#sbctl -c sbctl create-keys
+  sudo nix --extra-experimental-features "nix-command flakes" \
+    shell nixpkgs#sbctl -c sbctl create-keys
 
   # Inject UEFI + Lanzaboote configuration
   cat >> hardware-configuration.nix << 'NIXEOF'
