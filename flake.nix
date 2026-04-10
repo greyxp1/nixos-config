@@ -18,7 +18,6 @@
       specialArgs = { inherit inputs self; };
       modules = [
         inputs.disko.nixosModules.disko
-        { _module.args.device = nixpkgs.lib.mkDefault "/dev/null"; }
         ./disko-config.nix
         ./configuration.nix
         ./modules/git.nix
