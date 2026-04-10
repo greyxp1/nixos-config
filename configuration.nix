@@ -5,12 +5,33 @@ let
 in {
   boot.loader = lib.mkMerge [
     (lib.mkIf isUEFI {
-      systemd-boot.enable      = true;
+      systemd-boot.enable      = lib.mkForce false;
       efi.canTouchEfiVariables = true;
     })
     (lib.mkIf (!isUEFI) {
       grub.enable = true;
     })
+  ];
+
+  boot.lanzaboote = lib.mkIf isUEFI {
+    enable    = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
+
+  # Automatically generate Secure Boot keys on first boot if they don't exist.
+  # This allows the system to boot and rebuild correctly out of the box —
+  # the user can then choose to enroll the keys and enable Secure Boot in their
+  # UEFI firmware settings, but it's not required for normal operation.
+  system.activationScripts.sbctl-keys = lib.mkIf isUEFI {
+    text = ''
+      if [ ! -d /var/lib/sbctl ]; then
+        ${pkgs.sbctl}/bin/sbctl create-keys
+      fi
+    '';
+  };
+
+  environment.systemPackages = with pkgs; [
+    sbctl  # Secure Boot key management and signature verification
   ];
 
   time.timeZone          = "America/Montreal";
