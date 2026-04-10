@@ -54,6 +54,10 @@ sudo chmod 600 /mnt/swapfile
 sudo mkswap /mnt/swapfile
 sudo swapon /mnt/swapfile
 
+echo "Updating flake with selected device: $DEV"
+# This replaces the hardcoded device in specialArgs within flake.nix
+sed -i "s|device = \".*\"; # Default|device = \"$DEV\"; # Default|" flake.nix
+
 # 5. Final Installation
 echo "Starting Installation..."
 sudo nixos-install --root /mnt --flake ".#$FLAKE_ATTR" --no-root-passwd
