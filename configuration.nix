@@ -5,7 +5,7 @@ let
 in {
   boot.loader = lib.mkMerge [
     (lib.mkIf isUEFI {
-      systemd-boot.enable      = true;
+      systemd-boot.enable      = lib.mkForce false;
       efi.canTouchEfiVariables = true;
     })
     (lib.mkIf (!isUEFI) {
