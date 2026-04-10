@@ -5,16 +5,18 @@
   networking.networkmanager.enable = true;
   hardware.enableRedistributableFirmware = true;
 
-  boot.loader = let
-      isUEFI = builtins.pathExists /sys/class/efivars;
-    in {
+  let
+    isUEFI = builtins.pathExists /sys/class/efivars;
+    selectedDevice = import ./device.nix;
+  in {
+    boot.loader = {
       efi.canTouchEfiVariables = isUEFI;
       efi.efiSysMountPoint = "/boot";
-
       refind.enable = isUEFI;
 
       grub = {
         enable = !isUEFI;
+        device = selectedDevice;
         efiSupport = false;
       };
     };

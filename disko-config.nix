@@ -1,7 +1,10 @@
-{ lib, device ? "/dev/nvme0n1", ... }: {
+{ lib, ... }:
+let
+  selectedDevice = import ./device.nix;
+in {
   disko.devices.disk.nixos = {
     type = "disk";
-    device = lib.mkDefault device;
+    device = lib.mkDefault selectedDevice;
     content = {
       type = "gpt";
       partitions = {
@@ -16,7 +19,6 @@
             type = "filesystem";
             format = "vfat";
             mountpoint = "/boot";
-            mountOptions = [ "umask=0077" ];
           };
         };
         root = {
@@ -25,7 +27,6 @@
             type = "filesystem";
             format = "ext4";
             mountpoint = "/";
-            mountOptions = [ "noatime" ];
           };
         };
       };
