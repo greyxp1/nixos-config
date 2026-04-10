@@ -24,8 +24,11 @@ in {
 
     grub = lib.mkIf (!isUEFI) {
       enable     = true;
-      device     = selectedDevice;   # installs the MBR bootloader onto the disk
       efiSupport = false;
+      # Do NOT set `device` here — disko already populates
+      # boot.loader.grub.devices from the EF02 partition in disko-config.nix.
+      # Setting it again would create a duplicate in mirroredBoots and trigger
+      # the "You cannot have duplicated devices" assertion.
     };
   };
 
