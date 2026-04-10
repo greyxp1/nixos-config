@@ -15,7 +15,10 @@
   outputs = inputs@{ self, nixpkgs, nix-cachyos-kernel, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = { inherit inputs self; };
+      specialArgs = {
+        inherit inputs self;
+        device = "/dev/sda";
+      };
       modules = [
         inputs.disko.nixosModules.disko
         ./disko-config.nix
