@@ -13,7 +13,6 @@ in {
     })
   ];
 
-{
   time.timeZone          = "America/Montreal";
   networking.hostName    = "nixos";
   networking.networkmanager.enable       = true;
