@@ -14,6 +14,19 @@ in {
 
   # ── Bootloader ──────────────────────────────────────────────────────────────
   # systemd-boot on UEFI; GRUB (MBR/BIOS mode) on legacy systems.
+  # Modules needed in the initrd to find the disk. Because nixos-generate-config
+  # is never run, these must be listed manually. This set covers SATA (ahci),
+  # NVMe, VirtIO (KVM/QEMU), IDE (ata_piix), and USB storage — i.e. effectively
+  # any machine this config might land on.
+  boot.initrd.availableKernelModules = [
+    "ahci" "ata_piix"          # SATA / IDE
+    "nvme"                     # NVMe SSDs
+    "virtio_pci" "virtio_blk"  # VirtIO (KVM / QEMU)
+    "xhci_pci" "usb_storage"   # USB storage
+    "sd_mod"                   # generic SCSI/SATA block device (/dev/sd*)
+  ];
+  boot.kernelModules = [ "kvm-intel" "kvm-amd" ];
+
   boot.loader = {
     efi.canTouchEfiVariables = isUEFI;
     efi.efiSysMountPoint     = "/boot";
