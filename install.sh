@@ -64,6 +64,7 @@ fi
 # ── 3. Write device.nix ───────────────────────────────────────────────────────
 # Both disko-config.nix and configuration.nix import this file.
 echo "\"$DEV\"" > device.nix
+git add device.nix
 
 # ── 4. Disk Setup ─────────────────────────────────────────────────────────────
 echo "Running Disko..."
