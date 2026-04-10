@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, inputs, lib, ... }: {
 
   time.timeZone          = "America/Montreal";
   networking.hostName    = "nixos";
