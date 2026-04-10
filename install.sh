@@ -90,8 +90,8 @@ sudo nixos-generate-config --root /mnt --show-hardware-config > hardware-configu
 # Only needed for BIOS — GRUB requires the disk device, which is machine-specific.
 # UEFI systems use systemd-boot and need no device, so this is a no-op for them.
 if ! $UEFI; then
-  echo '{ config, ... }: { boot.loader.grub.device = "'"$DEV"'"; }' \
-    >> hardware-configuration.nix
+  sed -i "s|^}$|  boot.loader.grub.device = \"$DEV\";\n}|" \
+    hardware-configuration.nix
 fi
 
 git add -f hardware-configuration.nix
