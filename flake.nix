@@ -16,7 +16,6 @@
       specialArgs = { inherit inputs self; };
       modules = [
         ./hardware-configuration.nix
-        ./bootloader.nix
         ./configuration.nix
         ./modules/git.nix
         ./modules/niri.nix

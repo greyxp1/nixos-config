@@ -86,32 +86,15 @@ sudo swapon          /mnt/.swapfile-install
 echo "Detecting hardware..."
 sudo nixos-generate-config --root /mnt --show-hardware-config > hardware-configuration.nix
 
-# ── 7. Generate bootloader configuration ─────────────────────────────────────
-# A small standalone NixOS module. Not committed to GitHub — it lives only in
-# /etc/nixos on each installed machine alongside hardware-configuration.nix.
-if $UEFI; then
-  cat > bootloader.nix << 'NIXEOF'
-{ ... }: {
-  boot.loader.systemd-boot.enable      = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint     = "/boot";
-}
-NIXEOF
-else
-  cat > bootloader.nix << NIXEOF
-{ ... }: {
-  boot.loader.grub = {
-    enable     = true;
-    device     = "$DEV";
-    efiSupport = false;
-  };
-}
-NIXEOF
+# ── 7. Append bootloader device to hardware configuration ─────────────────────
+# Only needed for BIOS — GRUB requires the disk device, which is machine-specific.
+# UEFI systems use systemd-boot and need no device, so this is a no-op for them.
+if ! $UEFI; then
+  echo '{ ... }: { boot.loader.grub.device = "'"$DEV"'"; }' \
+    >> hardware-configuration.nix
 fi
 
-# Stage both files so the flake evaluator includes them when it copies the
-# source tree to the Nix store (flakes only see git-tracked files).
-git add -f hardware-configuration.nix bootloader.nix
+git add -f hardware-configuration.nix
 
 # ── 8. Install ────────────────────────────────────────────────────────────────
 echo "Installing NixOS..."
