@@ -53,38 +53,38 @@ echo "Firmware: $( $UEFI && echo UEFI || echo BIOS/Legacy )"
 if [[ "$DEV" =~ (nvme|mmcblk) ]]; then PART="${DEV}p"; else PART="$DEV"; fi
 
 echo "Wiping and partitioning $DEV..."
-wipefs -af "$DEV"
-parted -s "$DEV" mklabel gpt
+sudo wipefs -af "$DEV"
+sudo parted -s "$DEV" mklabel gpt
 
 if $UEFI; then
-  parted -s "$DEV" mkpart ESP  fat32  1MiB    1025MiB
-  parted -s "$DEV" mkpart root ext4   1025MiB 100%
-  parted -s "$DEV" set 1 esp on
-  mkfs.fat  -F 32 -n NIXBOOT "${PART}1"
-  mkfs.ext4 -F    -L nixos   "${PART}2"
-  mount /dev/disk/by-label/nixos   /mnt
-  mkdir -p /mnt/boot
-  mount /dev/disk/by-label/NIXBOOT /mnt/boot
+  sudo parted -s "$DEV" mkpart ESP  fat32  1MiB    1025MiB
+  sudo parted -s "$DEV" mkpart root ext4   1025MiB 100%
+  sudo parted -s "$DEV" set 1 esp on
+  sudo mkfs.fat  -F 32 -n NIXBOOT "${PART}1"
+  sudo mkfs.ext4 -F    -L nixos   "${PART}2"
+  sudo mount /dev/disk/by-label/nixos   /mnt
+  sudo mkdir -p /mnt/boot
+  sudo mount /dev/disk/by-label/NIXBOOT /mnt/boot
 else
   # GPT + BIOS-boot partition: GRUB writes its core image here.
-  parted -s "$DEV" mkpart bios_boot 1MiB  2MiB
-  parted -s "$DEV" mkpart root ext4 2MiB  100%
-  parted -s "$DEV" set 1 bios_grub on
-  mkfs.ext4 -F -L nixos "${PART}2"
-  mount /dev/disk/by-label/nixos /mnt
+  sudo parted -s "$DEV" mkpart bios_boot 1MiB  2MiB
+  sudo parted -s "$DEV" mkpart root ext4 2MiB  100%
+  sudo parted -s "$DEV" set 1 bios_grub on
+  sudo mkfs.ext4 -F -L nixos "${PART}2"
+  sudo mount /dev/disk/by-label/nixos /mnt
 fi
 
 # ── 5. Temporary swap (for the installer only) ────────────────────────────────
-fallocate -l 4G /mnt/.swapfile-install
-chmod 600       /mnt/.swapfile-install
-mkswap          /mnt/.swapfile-install
-swapon          /mnt/.swapfile-install
+sudo fallocate -l 4G /mnt/.swapfile-install
+sudo chmod 600       /mnt/.swapfile-install
+sudo mkswap          /mnt/.swapfile-install
+sudo swapon          /mnt/.swapfile-install
 
 # ── 6. Generate hardware configuration ───────────────────────────────────────
 # nixos-generate-config inspects /mnt and writes every driver, UUID, and
 # hardware detail the target machine needs — impossible to know ahead of time.
 echo "Detecting hardware..."
-nixos-generate-config --root /mnt --show-hardware-config > hardware-configuration.nix
+sudo nixos-generate-config --root /mnt --show-hardware-config > hardware-configuration.nix
 
 # ── 7. Generate bootloader configuration ─────────────────────────────────────
 # A small standalone NixOS module. Not committed to GitHub — it lives only in
@@ -115,13 +115,13 @@ git add -f hardware-configuration.nix bootloader.nix
 
 # ── 8. Install ────────────────────────────────────────────────────────────────
 echo "Installing NixOS..."
-nixos-install --root /mnt --flake ".#$FLAKE_ATTR" --no-root-passwd
+sudo nixos-install --root /mnt --flake ".#$FLAKE_ATTR" --no-root-passwd
 
 # ── 9. Persist config on installed system ────────────────────────────────────
 # Copies the full repo (including machine-specific generated files) to
 # /etc/nixos so `nixos-rebuild switch --flake /etc/nixos#nixos` works after
 # first boot with no extra steps.
-cp -rT "$WORK_DIR" /mnt/etc/nixos
+sudo cp -rT "$WORK_DIR" /mnt/etc/nixos
 
 echo "Installation complete! Rebooting..."
-reboot
+sudo reboot
