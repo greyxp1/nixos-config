@@ -1,18 +1,19 @@
-{ config, pkgs, inputs, lib, ... }: {
+{ config, pkgs, inputs, lib, ... }:
 
-  let
-    isUEFI = builtins.pathExists "/sys/firmware/efi/efivars";
-  in {
-    boot.loader = lib.mkMerge [
-      (lib.mkIf isUEFI {
-        systemd-boot.enable      = true;
-        efi.canTouchEfiVariables = true;
-      })
-      (lib.mkIf (!isUEFI) {
-        grub.enable = true;
-      })
-    ];
+let
+  isUEFI = builtins.pathExists "/sys/firmware/efi/efivars";
+in {
+  boot.loader = lib.mkMerge [
+    (lib.mkIf isUEFI {
+      systemd-boot.enable      = true;
+      efi.canTouchEfiVariables = true;
+    })
+    (lib.mkIf (!isUEFI) {
+      grub.enable = true;
+    })
+  ];
 
+{
   time.timeZone          = "America/Montreal";
   networking.hostName    = "nixos";
   networking.networkmanager.enable       = true;
