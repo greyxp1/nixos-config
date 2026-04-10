@@ -15,9 +15,6 @@
 
       grub = {
         enable = !isUEFI;
-        # This dynamically finds the disk containing the 'nixos' partition
-        # ensuring we don't install to /dev/null or a hardcoded name.
-        device = "/dev/disk/by-partlabel/disk-nixos-boot";
         efiSupport = false;
       };
     };
