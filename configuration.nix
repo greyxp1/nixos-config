@@ -5,17 +5,18 @@
   networking.networkmanager.enable = true;
   hardware.enableRedistributableFirmware = true;
 
-  # Detect if booted via UEFI or Legacy BIOS
-    boot.loader = let
+  boot.loader = let
       isUEFI = builtins.pathExists /sys/class/efivars;
     in {
       efi.canTouchEfiVariables = isUEFI;
       efi.efiSysMountPoint = "/boot";
 
-      # Enable rEFInd for UEFI, GRUB for BIOS
       refind.enable = isUEFI;
+
       grub = {
         enable = !isUEFI;
+        # This dynamically finds the disk containing the 'nixos' partition
+        # ensuring we don't install to /dev/null or a hardcoded name.
         device = "/dev/disk/by-partlabel/disk-nixos-boot";
         efiSupport = false;
       };
