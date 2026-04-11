@@ -14,7 +14,7 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /etc/nixos 0755 grey users -"
+    "Z /etc/nixos - grey users - -"
   ];
 
   system.nixos.label = "${config.system.nixos.version}";
