@@ -1,7 +1,7 @@
 ### Installation: 
 
 ```bash
-curl -L https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh -o install.sh && bash install.sh
+bash <(curl -sL https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh)
 ```
 
 ### To rebuild the system:
