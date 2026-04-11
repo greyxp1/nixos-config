@@ -12,7 +12,12 @@ let
     inherit pkgs;
     v2-settings = true;
     settings = {
-      input.keyboard.xkb.layout = "us";
+      input.keyboard {
+        xkb.layout = "us";
+        repeat-delay = 250;
+        repeat-rate  = 50;
+        numlock
+      }
 
       binds = {
         "Mod+Return"  = { spawn-sh = "ghostty"; };
