@@ -25,8 +25,8 @@ mapfile -t DISK_NAMES < <(
 [[ ${#DISK_NAMES[@]} -eq 0 ]] && { echo "ERROR: No eligible disks found."; exit 1; }
 
 if [[ ${#DISK_NAMES[@]} -eq 1 ]]; then
-  CHOICE=0
-  echo "Disk: /dev/${DISK_NAMES[0]}  $(lsblk -dno SIZE "/dev/${DISK_NAMES[0]}")  $(lsblk -dno MODEL "/dev/${DISK_NAMES[0]}")"
+  DEV="/dev/${DISK_NAMES[0]}"
+  echo "Disk: $DEV  $(lsblk -dno SIZE "$DEV")  $(lsblk -dno MODEL "$DEV")"
 else
   echo "Available disks:"
   for i in "${!DISK_NAMES[@]}"; do
@@ -38,13 +38,10 @@ else
   exec < /dev/tty
   read -rp "Install to disk (number): " CHOICE
   [[ -z "${DISK_NAMES[$CHOICE]+x}" ]] && { echo "ERROR: Invalid choice."; exit 1; }
+  DEV="/dev/${DISK_NAMES[$CHOICE]}"
+  read -rp "DANGER: This will WIPE $DEV. Are you sure? (y/n): " CONFIRM
+  [[ "$CONFIRM" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
 fi
-
-DEV="/dev/${DISK_NAMES[$CHOICE]}"
-
-exec < /dev/tty
-read -rp "DANGER: This will WIPE $DEV. Are you sure? (y/n): " CONFIRM
-[[ "$CONFIRM" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
 
 # ── 3. Detect firmware ────────────────────────────────────────────────────────
 if [[ -d /sys/firmware/efi/efivars ]]; then UEFI=true; else UEFI=false; fi
