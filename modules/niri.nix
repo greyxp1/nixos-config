@@ -12,7 +12,7 @@ let
     inherit pkgs;
     v2-settings = true;
     settings = {
-      input.keyboard {
+      input.keyboard = {
         xkb.layout = "us";
         repeat-delay = 250;
         repeat-rate  = 50;
@@ -21,6 +21,7 @@ let
 
       binds = {
         "Mod+Return"  = { spawn-sh = "ghostty"; };
+        "Mod+B"       = { spawn-sh = "helium"; };
         "Mod+P"       = noctalia "sessionMenu toggle";
         "Mod+Q"       = { close-window = _: {}; };
         "Mod+H"       = { focus-column-left = _: {}; };
