@@ -1,4 +1,15 @@
-{ inputs, ... }:
+{ inputs, pkgs, lib, ... }:
+let
+  # The lock command used by the idle daemon
+  lockCommand = "/run/current-system/sw/bin/noctalia-shell ipc call lockScreen lock";
+
+  # The swayidle script configuration
+  sessionIdle = pkgs.writeShellScriptBin "session-idle" ''
+    exec ${lib.getExe pkgs.swayidle} -w \
+      timeout 600 ${lib.escapeShellArg lockCommand} \
+      before-sleep ${lib.escapeShellArg lockCommand}
+  '';
+in
 {
   imports = [
     (inputs.wrappers.lib.mkInstallModule {
@@ -118,6 +129,18 @@
       mOnTertiary      = "#1e1e2e";
       mOnError         = "#1e1e2e";
       mShadow          = "#000000";
+    };
+  };
+
+  # Background systemd service for idle management
+  systemd.user.services.session-idle = {
+    description = "Idle lock for Noctalia session";
+    after = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = lib.getExe sessionIdle;
+      Restart = "on-failure";
     };
   };
 }
