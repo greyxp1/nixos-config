@@ -86,13 +86,41 @@ sudo swapon          /mnt/.swapfile-install
 echo "Detecting hardware..."
 sudo nixos-generate-config --root /mnt --show-hardware-config > hardware-configuration.nix
 
-# ── 7. Append bootloader device to hardware configuration ─────────────────────
-if ! $UEFI; then
-    sed -i "s|^[[:space:]]*}[[:space:]]*$|  boot.loader.grub.device = \"$DEV\";\n}|" \
-      hardware-configuration.nix
+# ── 7. Generate bootloader configuration ──────────────────────────────────────
+if $UEFI; then
+  cat > bootloader.nix << 'NIXEOF'
+{ pkgs, lib, ... }: {
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.lanzaboote = {
+    enable    = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
+
+  system.activationScripts.sbctl-keys = {
+    text = ''
+      if [ ! -d /var/lib/sbctl ]; then
+        ${pkgs.sbctl}/bin/sbctl create-keys
+      fi
+    '';
+  };
+
+  environment.systemPackages = [ pkgs.sbctl ];
+}
+NIXEOF
+else
+  cat > bootloader.nix << NIXEOF
+{ ... }: {
+  boot.loader.grub = {
+    enable = true;
+    device = "$DEV";
+  };
+}
+NIXEOF
 fi
 
-git add -f hardware-configuration.nix
+git add -f hardware-configuration.nix bootloader.nix
 
 # ── 8. Install ────────────────────────────────────────────────────────────────
 echo "Installing NixOS..."
