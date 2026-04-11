@@ -31,9 +31,11 @@
     enable         = true;
     useTextGreeter = true;
     restart        = false;
-    settings.initial_session = {
-      command = "niri-session";
-      user    = "grey";
+    settings = {
+      default_session = {
+        command = "niri-session";
+        user    = "grey";
+      };
     };
   };
 
