@@ -16,8 +16,8 @@ let
         xkb.layout = "us";
         repeat-delay = 250;
         repeat-rate  = 50;
-        numlock
-      }
+        numlock      = true;
+      };
 
       binds = {
         "Mod+Return"  = { spawn-sh = "ghostty"; };
