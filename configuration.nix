@@ -27,20 +27,13 @@
     openFirewall = true;
   };
 
-  # programs.niri.enable is set in modules/niri.nix alongside the package.
   services.greetd = {
     enable         = true;
     useTextGreeter = true;
     restart        = false;
-    settings = {
-      initial_session = {
-        command = "niri-session";
-        user    = "grey";
-      };
-      default_session = {
-        command = "${pkgs.numlockx}/bin/numlockx on && ${lib.getExe pkgs.tuigreet} --time --cmd niri-session";
-        user    = "greeter";
-      };
+    settings.initial_session = {
+      command = "${pkgs.numlockx}/bin/numlockx on && niri-session";
+      user    = "grey";
     };
   };
 
