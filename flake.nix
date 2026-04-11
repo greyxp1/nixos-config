@@ -37,6 +37,7 @@
         ./modules/ghostty.nix
         ./modules/noctalia-shell.nix
         ./modules/helium.nix
+        ./modules/zed.nix
 
         ({ pkgs, ... }: {
           nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ];
