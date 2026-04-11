@@ -5,11 +5,22 @@ REPO="https://github.com/greyxp1/nixos-config.git"
 FLAKE_ATTR="nixos"
 WORK_DIR="/tmp/nixos-config"
 
+# Unmount everything on exit so the script can be rerun without rebooting.
+cleanup() {
+  sudo swapoff /mnt/.swapfile-install 2>/dev/null || true
+  sudo umount -R /mnt 2>/dev/null || true
+}
+trap cleanup EXIT
+
 # ── 1. Clone config ───────────────────────────────────────────────────────────
 echo "Fetching config..."
 rm -rf "$WORK_DIR"
 git clone -q "$REPO" "$WORK_DIR"
 cd "$WORK_DIR"
+
+# Ensure all interactive prompts read from the terminal even when
+# the script is run via process substitution or pipe.
+exec < /dev/tty
 
 # ── 2. Disk selection ─────────────────────────────────────────────────────────
 ISO_SOURCE=$(findmnt -n -o SOURCE /iso 2>/dev/null || true)
@@ -35,7 +46,6 @@ else
       "$(lsblk -dno SIZE  "/dev/${DISK_NAMES[$i]}")" \
       "$(lsblk -dno MODEL "/dev/${DISK_NAMES[$i]}")"
   done
-  exec < /dev/tty
   read -rp "Install to disk (number): " CHOICE
   [[ -z "${DISK_NAMES[$CHOICE]+x}" ]] && { echo "ERROR: Invalid choice."; exit 1; }
   DEV="/dev/${DISK_NAMES[$CHOICE]}"
@@ -58,15 +68,22 @@ if $UEFI; then
   sudo parted -s "$DEV" mkpart ESP  fat32  1MiB    1025MiB
   sudo parted -s "$DEV" mkpart root ext4   1025MiB 100%
   sudo parted -s "$DEV" set 1 esp on
+else
+  sudo parted -s "$DEV" mkpart bios_boot 1MiB  2MiB
+  sudo parted -s "$DEV" mkpart root ext4 2MiB  100%
+  sudo parted -s "$DEV" set 1 bios_grub on
+fi
+
+sudo partprobe "$DEV"
+sleep 1
+
+if $UEFI; then
   sudo mkfs.fat  -F 32 -n NIXBOOT "${PART}1" > /dev/null
   sudo mkfs.ext4 -F    -L nixos   "${PART}2" > /dev/null
   sudo mount /dev/disk/by-label/nixos   /mnt
   sudo mkdir -p /mnt/boot
   sudo mount /dev/disk/by-label/NIXBOOT /mnt/boot
 else
-  sudo parted -s "$DEV" mkpart bios_boot 1MiB  2MiB
-  sudo parted -s "$DEV" mkpart root ext4 2MiB  100%
-  sudo parted -s "$DEV" set 1 bios_grub on
   sudo mkfs.ext4 -F -L nixos "${PART}2" > /dev/null
   sudo mount /dev/disk/by-label/nixos /mnt
 fi
