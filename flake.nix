@@ -50,7 +50,7 @@
             ];
             trusted-public-keys = [
               "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-              "cache.garnix.io:CTfPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+              "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
             ];
           };
 

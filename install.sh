@@ -144,7 +144,7 @@ sudo nixos-install \
   --flake ".#$FLAKE_ATTR" \
   --no-root-passwd \
   --option substituters "https://cache.nixos.org https://attic.xuyh0120.win/lantian https://cache.garnix.io" \
-  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= cache.garnix.io:CTfPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
 
 # ── 9. Persist config on installed system ────────────────────────────────────
 sudo cp -rT "$WORK_DIR" /mnt/etc/nixos
