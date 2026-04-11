@@ -1,30 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
-
-let
-  isUEFI = builtins.pathExists "/sys/firmware/efi/efivars";
-in {
-  boot.loader = lib.mkMerge [
-    (lib.mkIf isUEFI {
-      systemd-boot.enable      = lib.mkForce false;
-      efi.canTouchEfiVariables = true;
-    })
-    (lib.mkIf (!isUEFI) {
-      grub.enable = true;
-    })
-  ];
-
-  boot.lanzaboote = lib.mkIf isUEFI {
-    enable    = true;
-    pkiBundle = "/var/lib/sbctl";
-  };
-
-  system.activationScripts.sbctl-keys = lib.mkIf isUEFI {
-    text = ''
-      if [ ! -d /var/lib/sbctl ]; then
-        ${pkgs.sbctl}/bin/sbctl create-keys
-      fi
-    '';
-  };
+{ config, pkgs, inputs, lib, ... }: {
 
   time.timeZone          = "America/Montreal";
   networking.hostName    = "nixos";
