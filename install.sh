@@ -132,10 +132,10 @@ else
 NIXEOF
 fi
 
+git add -f hardware-configuration.nix bootloader.nix
 git config user.email "installer@nixos"
 git config user.name "NixOS Installer"
 git commit -m "add generated hardware and bootloader config"
-git add -f hardware-configuration.nix bootloader.nix
 
 # ── 8. Install ────────────────────────────────────────────────────────────────
 echo "Installing NixOS..."
