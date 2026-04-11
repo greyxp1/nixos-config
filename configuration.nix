@@ -33,7 +33,7 @@
     restart        = false;
     settings = {
       default_session = {
-        command = "niri-session";
+        command = "${pkgs.numlockx}/bin/numlockx on && niri-session";
         user    = "grey";
       };
     };
