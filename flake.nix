@@ -2,9 +2,11 @@
   description = "Modular Wrapper Flake";
 
   inputs = {
-    nixpkgs.url             = "github:nixos/nixpkgs/nixos-unstable";
-    nix-cachyos-kernel.url  = "github:xddxdd/nix-cachyos-kernel/release";
-    wrappers.url            = "github:BirdeeHub/nix-wrapper-modules";
+    nixpkgs.url            = "github:nixos/nixpkgs/nixos-unstable";
+    flake-parts.url        = "github:hercules-ci/flake-parts";
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+
+    wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
     wrappers.inputs.nixpkgs.follows = "nixpkgs";
 
     ghosttyWrappers = {
@@ -23,48 +25,52 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-cachyos-kernel, lanzaboote, helium, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs self; };
-      modules = [
-        lanzaboote.nixosModules.lanzaboote
-        (if builtins.pathExists ./bootloader.nix then ./bootloader.nix else {})
-        ./hardware-configuration.nix
-        ./configuration.nix
-        ./modules/git.nix
-        ./modules/niri.nix
-        ./modules/ghostty.nix
-        ./modules/noctalia-shell.nix
-        ./modules/helium.nix
-        ./modules/zed.nix
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+    systems = [ "x86_64-linux" ];
 
-        ({ pkgs, ... }: {
-          nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ];
-          boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+    flake = {
+      nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; self = inputs.self; };
+        modules = [
+          inputs.lanzaboote.nixosModules.lanzaboote
+          (if builtins.pathExists ./bootloader.nix then ./bootloader.nix else {})
+          ./hardware-configuration.nix
+          ./configuration.nix
+          ./modules/git.nix
+          ./modules/niri.nix
+          ./modules/ghostty.nix
+          ./modules/noctalia-shell.nix
+          ./modules/helium.nix
+          ./modules/zed.nix
 
-          nix.settings = {
-            trusted-users = [ "root" "@wheel" ];
-            substituters = [
-              "https://attic.xuyh0120.win/lantian"
-              "https://cache.garnix.io"
+          ({ pkgs, ... }: {
+            nixpkgs.overlays = [ inputs.nix-cachyos-kernel.overlays.pinned ];
+            boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+
+            nix.settings = {
+              trusted-users = [ "root" "@wheel" ];
+              substituters = [
+                "https://attic.xuyh0120.win/lantian"
+                "https://cache.garnix.io"
+              ];
+              trusted-public-keys = [
+                "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+                "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+              ];
+            };
+
+            environment.systemPackages = with pkgs; [
+              vim
+              curl
+              tree
+              bat
+              sbctl
+              fastfetch
             ];
-            trusted-public-keys = [
-              "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
-              "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-            ];
-          };
-
-          environment.systemPackages = with pkgs; [
-            vim
-            curl
-            tree
-            bat
-            sbctl
-            fastfetch
-          ];
-        })
-      ];
+          })
+        ];
+      };
     };
   };
 }
