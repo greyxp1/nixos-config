@@ -1,7 +1,6 @@
 { config, pkgs, inputs, lib, ... }: {
 
-  console.earlySetup = true;
-  boot.kernelParams = [ "numlock=on" ];
+  services.numlockx.enable = true;
   time.timeZone          = "America/Montreal";
   networking.hostName    = "nixos";
   networking.networkmanager.enable       = true;
