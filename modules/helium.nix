@@ -1,6 +1,6 @@
 { inputs, pkgs, lib, ... }:
 let
-  helium = inputs.helium.packages.${pkgs.system}.default;
+  helium = inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   # Flags passed to Helium on every launch.
   # Add/remove as needed — these are standard Chromium flags.
