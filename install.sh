@@ -88,8 +88,8 @@ sudo nixos-generate-config --root /mnt --show-hardware-config > hardware-configu
 
 # ── 7. Append bootloader device to hardware configuration ─────────────────────
 if ! $UEFI; then
-  sed -i "s|^}$|  boot.loader.grub.device = \"$DEV\";\n}|" \
-    hardware-configuration.nix
+    sed -i "s|^[[:space:]]*}[[:space:]]*$|  boot.loader.grub.device = \"$DEV\";\n}|" \
+      hardware-configuration.nix
 fi
 
 git add -f hardware-configuration.nix
