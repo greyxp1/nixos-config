@@ -17,7 +17,7 @@
     "Z /etc/nixos - grey users - -"
   ];
 
-  system.nixos.label = builtins.formatTime "%Y-%m-%d" self.lastModified;
+  system.nixos.label = "r${toString inputs.self.lastModified}";
 
   services.openssh = {
     enable = true;
