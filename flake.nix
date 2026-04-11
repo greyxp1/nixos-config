@@ -54,7 +54,15 @@
             ];
           };
 
-          environment.systemPackages = with pkgs; [ vim curl tree bat sbctl fastfetch ];
+          environment.systemPackages = with pkgs; [
+            vim
+            curl
+            tree
+            bat
+            sbctl
+            fastfetch
+            numlockx
+          ];
         })
       ];
     };
