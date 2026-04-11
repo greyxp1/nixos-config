@@ -17,6 +17,8 @@
     "d /etc/nixos 0755 grey users -"
   ];
 
+  system.nixos.label = "${config.system.nixos.version}";
+
   services.openssh = {
     enable = true;
     settings = {
