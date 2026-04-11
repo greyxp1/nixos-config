@@ -32,7 +32,7 @@
     useTextGreeter = true;
     restart        = false;
     settings.initial_session = {
-      command = "${pkgs.numlockx}/bin/numlockx on && niri-session";
+      command = "niri-session";
       user    = "grey";
     };
   };
