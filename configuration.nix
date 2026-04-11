@@ -1,7 +1,7 @@
 { config, pkgs, inputs, lib, ... }: {
 
   time.timeZone          = "America/Montreal";
-  networking.hostName    = "nixos";
+  networking.hostName    = "greyxp1";
   networking.networkmanager.enable       = true;
   hardware.enableRedistributableFirmware = true;
 
