@@ -7,7 +7,7 @@
     wrappers.url            = "github:BirdeeHub/nix-wrapper-modules";
     wrappers.inputs.nixpkgs.follows = "nixpkgs";
 
-    ghostty = {
+    ghosttyWrappers = {
       url = "github:nouritsu/nix-wrapper-modules/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
