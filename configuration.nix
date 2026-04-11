@@ -13,6 +13,10 @@
     initialPassword = "123";
   };
 
+  systemd.tmpfiles.rules = [
+    "d /etc/nixos 0755 grey users -"
+  ];
+
   services.openssh = {
     enable = true;
     settings = {
