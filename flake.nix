@@ -6,12 +6,17 @@
     nix-cachyos-kernel.url  = "github:xddxdd/nix-cachyos-kernel/release";
     wrappers.url            = "github:BirdeeHub/nix-wrapper-modules";
     wrappers.inputs.nixpkgs.follows = "nixpkgs";
-    ghosttyWrappers.url     = "github:nouritsu/nix-wrapper-modules/ghostty";
-    ghosttyWrappers.inputs.nixpkgs.follows = "nixpkgs";
+
+    ghostty = {
+      url = "github:nouritsu/nix-wrapper-modules/ghostty";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     helium = {
       url = "github:AlvaroParker/helium-nix";
       inputs.nixpkgs.follows = "nixpkgs";
