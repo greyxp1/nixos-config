@@ -1,6 +1,5 @@
 { config, pkgs, inputs, lib, ... }: {
 
-  services.numlockx.enable = true;
   time.timeZone          = "America/Montreal";
   networking.hostName    = "nixos";
   networking.networkmanager.enable       = true;
@@ -39,7 +38,7 @@
         user    = "grey";
       };
       default_session = {
-        command = "${lib.getExe pkgs.tuigreet} --time --cmd niri-session";
+        command = "${pkgs.numlockx}/bin/numlockx on && ${lib.getExe pkgs.tuigreet} --time --cmd niri-session";
         user    = "greeter";
       };
     };
