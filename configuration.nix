@@ -17,7 +17,7 @@
     "Z /etc/nixos - grey users - -"
   ];
 
-  system.nixos.label = "";
+  system.nixos.label = "Grey";
 
   services.openssh = {
     enable = true;
