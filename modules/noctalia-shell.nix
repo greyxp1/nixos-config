@@ -11,6 +11,23 @@
     enable = true;
     outOfStoreConfig = "/home/grey/.config/noctalia";
 
+    plugins = {
+      sources = [
+        {
+          enabled = true;
+          name = "Official Noctalia Plugins";
+          url = "https://github.com/noctalia-dev/noctalia-plugins";
+        }
+      ];
+      states = {
+        polkit-agent = {
+          enabled = true;
+          sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+        };
+      };
+      version = 2;
+    };
+
     # Seed the initial settings — these get copied out to the mutable location
     # on first launch. After that, the GUI writes to the mutable location directly.
     settings = {
@@ -21,6 +38,65 @@
       };
       general = {
         animationSpeed = 1.0;
+        lockOnSuspend = true;
+        showSessionButtonsOnLockScreen = true;
+      };
+      sessionMenu = {
+        countdownDuration = 3000;
+        enableCountdown = true;
+        position = "center";
+        showHeader = true;
+        powerOptions = [
+          {
+            action = "lock";
+            command = "";
+            countdownEnabled = false;
+            enabled = true;
+            keybind = "Shift+L";
+          }
+          {
+            action = "logout";
+            command = "/run/current-system/sw/bin/niri msg action quit --skip-confirmation";
+            countdownEnabled = false;
+            enabled = true;
+            keybind = "L";
+          }
+          {
+            action = "reboot";
+            command = "";
+            countdownEnabled = true;
+            enabled = true;
+            keybind = "R";
+          }
+          {
+            action = "shutdown";
+            command = "";
+            countdownEnabled = true;
+            enabled = true;
+            keybind = "S";
+          }
+          {
+            action = "suspend";
+            command = "";
+            countdownEnabled = true;
+            enabled = true;
+            keybind = "Shift+S";
+          }
+          {
+            action = "hibernate";
+            command = "";
+            countdownEnabled = true;
+            enabled = false;
+            keybind = "";
+          }
+          {
+            action = "rebootToUefi";
+            command = "";
+            countdownEnabled = true;
+            enabled = true;
+            keybind = "";
+          }
+        ];
       };
       colorSchemes = {
         darkMode = true;

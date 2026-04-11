@@ -1,5 +1,13 @@
 { inputs, pkgs, lib, ... }:
 let
+  noctalia = cmd: {
+    spawn = [
+      "noctalia-shell"
+      "ipc"
+      "call"
+    ] ++ lib.splitString " " cmd;
+  };
+
   wrappedNiri = inputs.wrappers.wrappers.niri.wrap {
     inherit pkgs;
     v2-settings = true;
@@ -8,11 +16,13 @@ let
 
       binds = {
         "Mod+Return"  = { spawn-sh = "ghostty"; };
+        "Mod+P"       = noctalia "sessionMenu toggle";
         "Mod+Q"       = { close-window = _: {}; };
         "Mod+H"       = { focus-column-left = _: {}; };
         "Mod+L"       = { focus-column-right = _: {}; };
         "Mod+J"       = { focus-window-down = _: {}; };
         "Mod+K"       = { focus-window-up = _: {}; };
+        "Mod+Shift+L" = noctalia "lockScreen lock";
         "Mod+Shift+E" = { quit = _: { props.skip-confirmation = true; }; };
       };
 

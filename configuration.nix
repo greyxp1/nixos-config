@@ -24,14 +24,23 @@
   };
 
   # programs.niri.enable is set in modules/niri.nix alongside the package.
-  # greetd auto-logs in as grey and immediately launches niri-session.
   services.greetd = {
-    enable = true;
-    settings.default_session = {
-      command = "${pkgs.greetd}/bin/agreety --cmd niri-session";
-      user    = "grey";
+    enable         = true;
+    useTextGreeter = true;
+    restart        = false;
+    settings = {
+      initial_session = {
+        command = "niri-session";
+        user    = "grey";
+      };
+      default_session = {
+        command = "${lib.getExe pkgs.tuigreet} --time --cmd niri-session";
+        user    = "greeter";
+      };
     };
   };
+
+  security.polkit.enable = true;
 
   xdg.portal = {
     enable       = true;
