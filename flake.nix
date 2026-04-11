@@ -20,6 +20,7 @@
       specialArgs = { inherit inputs self; };
       modules = [
         lanzaboote.nixosModules.lanzaboote
+        (if builtins.pathExists ./bootloader.nix then ./bootloader.nix else {})
         ./hardware-configuration.nix
         ./configuration.nix
         ./modules/git.nix
