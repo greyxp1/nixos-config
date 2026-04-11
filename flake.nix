@@ -54,7 +54,7 @@
             ];
           };
 
-          environment.systemPackages = with pkgs; [ vim curl tree bat sbctl ];
+          environment.systemPackages = with pkgs; [ vim curl tree bat sbctl fastfetch ];
         })
       ];
     };
