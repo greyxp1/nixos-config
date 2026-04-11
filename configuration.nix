@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, ... }: {
+{ config, pkgs, inputs, lib, self, ... }: {
 
   time.timeZone          = "America/Montreal";
   networking.hostName    = "nixos";
@@ -17,7 +17,7 @@
     "Z /etc/nixos - grey users - -"
   ];
 
-  system.nixos.label = "Grey";
+  system.nixos.label = builtins.formatTime "%Y-%m-%d" self.lastModified;
 
   services.openssh = {
     enable = true;
