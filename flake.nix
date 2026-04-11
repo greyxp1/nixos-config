@@ -61,7 +61,6 @@
             bat
             sbctl
             fastfetch
-            numlockx
           ];
         })
       ];
