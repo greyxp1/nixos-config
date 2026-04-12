@@ -58,8 +58,8 @@
           ./modules/niri.nix
           ./modules/ghostty.nix
           ./modules/noctalia-shell.nix
-          config.flake.nixosModules.helium
-          config.flake.nixosModules.zed
+          inputs.self.nixosModules.helium
+          inputs.self.nixosModules.zed
         ];
       }
     );
