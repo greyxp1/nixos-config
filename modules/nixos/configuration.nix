@@ -29,6 +29,8 @@
     openFirewall = true;
   };
 
+  services.gnome.gnome-keyring.enable = false;
+
   services.greetd = {
     enable         = true;
     useTextGreeter = true;
