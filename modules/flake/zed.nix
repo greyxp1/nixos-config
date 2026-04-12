@@ -48,7 +48,6 @@
           ui_font_size     = 16;
           buffer_font_size = 15;
           theme = "Ayu Dark";
-          "use_system_prompts" = false;
         };
       };
     };
