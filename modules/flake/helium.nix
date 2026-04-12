@@ -8,8 +8,7 @@
         wrapProgram $out/bin/helium \
           --add-flags '--ozone-platform=wayland' \
           --add-flags '--enable-features=WaylandWindowDecorations' \
-          --add-flags '--disable-features=UseChromeOSDirectVideoDecoder' \
-          --add-flags '--password-store=basic'
+          --add-flags '--disable-features=UseChromeOSDirectVideoDecoder'
       '';
     };
   };
