@@ -38,35 +38,6 @@
     };
   };
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
-    systems = [ "x86_64-linux" ];
-
-    # Auto-import all flake-parts modules from modules/flake/.
-    imports = [ (inputs.import-tree ./modules/flake) ];
-
-    flake.nixosConfigurations.greyxp1 = withSystem "x86_64-linux" ({ config, ... }:
-      inputs.nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {
-          inherit inputs;
-          self          = inputs.self;
-          flakePackages = config.packages;
-        };
-        modules = [
-          inputs.lanzaboote.nixosModules.lanzaboote
-          inputs.home-manager.nixosModules.home-manager
-          (if builtins.pathExists ./bootloader.nix then ./bootloader.nix else {})
-          ./hardware-configuration.nix
-          ./modules/nixos/configuration.nix
-          ./modules/nixos/nixpkgs.nix
-          ./modules/nixos/git.nix
-          ./modules/nixos/niri.nix
-          ./modules/nixos/ghostty.nix
-          ./modules/nixos/noctalia-shell.nix
-          inputs.self.nixosModules.helium
-          inputs.self.nixosModules.zed
-        ];
-      }
-    );
-  });
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; }
+    (inputs.import-tree ./modules);
 }
