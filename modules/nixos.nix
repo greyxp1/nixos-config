@@ -15,8 +15,8 @@
       modules = [
         inputs.lanzaboote.nixosModules.lanzaboote
         inputs.home-manager.nixosModules.home-manager
-        (if builtins.pathExists ./bootloader.nix then ./bootloader.nix else {})
-        ./hardware-configuration.nix
+        (if builtins.pathExists ../bootloader.nix then ../bootloader.nix else {})
+        ../hardware-configuration.nix
       ] ++ builtins.attrValues inputs.self.nixosModules;
     }
   );
