@@ -49,14 +49,6 @@ JSONEOF
   "browser": {
     "has_seen_welcome_page": true
   },
-  "default_search_provider_data": {
-    "template_url_data": {
-      "keyword": "192.168.1.66",
-      "short_name": "degoog",
-      "url": "http://192.168.1.66:4444/search?q=%s",
-      "suggestions_url": "http://192.168.1.66:4444/api/suggest/opensearch?q=%s"
-    }
-  },
   "ntp": {
     "tab_hover_card_images": false
   }
