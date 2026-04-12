@@ -10,6 +10,13 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    import-tree.url = "github:vic/import-tree";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     wrappers = {
       url = "github:BirdeeHub/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,14 +38,11 @@
     };
   };
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, config, ... }: {
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } ({ withSystem, ... }: {
     systems = [ "x86_64-linux" ];
 
-    # App modules declare their own perSystem.packages and flake.nixosModules
-    imports = [
-      ./modules/helium.nix
-      ./modules/zed.nix
-    ];
+    # Auto-import all flake-parts modules from modules/flake/.
+    imports = [ (inputs.import-tree ./modules/flake) ];
 
     flake.nixosConfigurations.greyxp1 = withSystem "x86_64-linux" ({ config, ... }:
       inputs.nixpkgs.lib.nixosSystem {
@@ -50,14 +54,15 @@
         };
         modules = [
           inputs.lanzaboote.nixosModules.lanzaboote
+          inputs.home-manager.nixosModules.home-manager
           (if builtins.pathExists ./bootloader.nix then ./bootloader.nix else {})
           ./hardware-configuration.nix
-          ./configuration.nix
-          ./modules/nixpkgs.nix
-          ./modules/git.nix
-          ./modules/niri.nix
-          ./modules/ghostty.nix
-          ./modules/noctalia-shell.nix
+          ./modules/nixos/configuration.nix
+          ./modules/nixos/nixpkgs.nix
+          ./modules/nixos/git.nix
+          ./modules/nixos/niri.nix
+          ./modules/nixos/ghostty.nix
+          ./modules/nixos/noctalia-shell.nix
           inputs.self.nixosModules.helium
           inputs.self.nixosModules.zed
         ];
