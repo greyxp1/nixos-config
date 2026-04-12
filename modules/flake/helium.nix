@@ -51,10 +51,10 @@ JSONEOF
   },
   "default_search_provider_data": {
     "template_url_data": {
-      "keyword": "google.com",
-      "short_name": "Google",
-      "url": "https://www.google.com/search?q=%s",
-      "suggestions_url": "https://www.google.com/complete/search?client=chrome&q=%s"
+      "keyword": "192.168.1.66",
+      "short_name": "degoog",
+      "url": "http://192.168.1.66:4444/search?q=%s",
+      "suggestions_url": "http://192.168.1.66:4444/api/suggest/opensearch?q=%s"
     }
   },
   "ntp": {
