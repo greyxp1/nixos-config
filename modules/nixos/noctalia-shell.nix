@@ -9,6 +9,6 @@
 
   wrappers.noctalia-shell = {
     enable = true;
-    outOfStoreConfig = "/etc/modules/noctalia";
+    outOfStoreConfig = "/etc/nixos/modules/noctalia";
   };
 }
