@@ -28,20 +28,30 @@
         ];
 
         userSettings = {
-          theme = {
-            mode = "dark";
-            dark = "Ayu Dark";
+          project_panel = {
+            button = true;
           };
-          auto_update          = false;
-          confirm_quit         = false;
-          session_restore      = "none";
-          project_panel        = { default_width = 240; };
-          # Trust all projects without asking
-          git_status           = true;
-          load_direnv          = "shell_hook";
-
-          # Trust all projects by default — disables the trust prompt on open
-          trusted_workspaces = { level = "trusted"; };
+          bottom_dock_layout    = "contained";
+          collaboration_panel = {
+            dock = "left";
+          };
+          toolbar = {
+            quick_actions = true;
+          };
+          telemetry = {
+            diagnostics = false;
+            metrics     = false;
+          };
+          session = {
+            trust_all_worktrees = true;
+          };
+          ui_font_size     = 16;
+          buffer_font_size = 15;
+          theme = {
+            mode  = "system";
+            light = "Ayu Light";
+            dark  = "Ayu Dark";
+          };
         };
       };
     };
