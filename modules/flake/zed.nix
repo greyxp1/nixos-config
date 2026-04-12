@@ -47,11 +47,7 @@
           };
           ui_font_size     = 16;
           buffer_font_size = 15;
-          theme = {
-            mode  = "system";
-            light = "Ayu Light";
-            dark  = "Ayu Dark";
-          };
+          theme = "Ayu Dark";
         };
       };
     };
