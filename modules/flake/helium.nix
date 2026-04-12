@@ -1,21 +1,4 @@
-{ inputs, ... }:
-let
-  # Extension IDs from the Chrome Web Store
-  extensions = [
-    "mnjggcdmjocbbbhaepdhchncahnbgone" # Helium Vertical Tab Bar
-    "ldgfbffkinooeloadekpmfoklnobpien" # Raindrop.io
-    "ghmbeldphafepmbegfdlkpapadhbakde" # Proton Pass
-    "lodcanccmfbpjjpnngindkkmiehimile" # Control Panel for YouTube
-  ];
-
-  # Force-install policy JSON — Helium reads this on startup and installs
-  # any listed extensions that aren't already present.
-  policyJson = builtins.toJSON {
-    ExtensionInstallForcelist = map
-      (id: "${id};https://clients2.google.com/service/update2/crx")
-      extensions;
-  };
-in {
+{ inputs, ... }: {
   perSystem = { pkgs, inputs', ... }: {
     packages.helium = pkgs.symlinkJoin {
       name = "helium";
@@ -30,29 +13,17 @@ in {
     };
   };
 
-  flake.nixosModules.helium = { pkgs, flakePackages, ... }: {
-    # Write the extension force-install policy to the system policy directory.
-    # Helium checks /etc/net.imput.helium/policies/managed/ on startup.
-    environment.etc."net.imput.helium/policies/managed/extensions.json" = {
-      text   = policyJson;
-      mode   = "0644";
-    };
-
+  flake.nixosModules.helium = { flakePackages, ... }: {
     environment.systemPackages = [ flakePackages.helium ];
 
-    # Home Manager configuration for the grey user.
-    # Seeds Local State (flags) and Default/Preferences (settings) on first
-    # launch only — Helium owns these files after that and we don't overwrite.
-    home-manager.users.grey = { config, lib, ... }: {
+    home-manager.users.grey = { lib, ... }: {
       home.stateVersion = "23.11";
 
-      # Activation script seeds config files only if they don't exist yet,
-      # so Helium can continue to manage them after first launch.
       home.activation.heliumConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         HELIUM_DIR="$HOME/.config/net.imput.helium"
         mkdir -p "$HELIUM_DIR/Default"
 
-        # Seed Local State with flags if it doesn't exist yet
+        # Seed Local State (flags) only on first launch
         LOCAL_STATE="$HELIUM_DIR/Local State"
         if [ ! -f "$LOCAL_STATE" ]; then
           cat > "$LOCAL_STATE" << 'JSONEOF'
@@ -70,7 +41,7 @@ in {
 JSONEOF
         fi
 
-        # Seed Default/Preferences with settings if it doesn't exist yet
+        # Seed Default/Preferences only on first launch
         PREFS="$HELIUM_DIR/Default/Preferences"
         if [ ! -f "$PREFS" ]; then
           cat > "$PREFS" << 'JSONEOF'
@@ -78,19 +49,13 @@ JSONEOF
   "browser": {
     "has_seen_welcome_page": true
   },
-  "default_search_provider": {
-    "enabled": true
-  },
   "default_search_provider_data": {
     "template_url_data": {
       "keyword": "google.com",
       "short_name": "Google",
-      "url": "{google:baseURL}search?q={searchTerms}&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}&ie={inputEncoding}"
+      "url": "https://www.google.com/search?q=%s",
+      "suggestions_url": "https://www.google.com/complete/search?client=chrome&q=%s"
     }
-  },
-  "helium": {
-    "zen_mode": true,
-    "browser_layout": "vertical"
   },
   "ntp": {
     "tab_hover_card_images": false
