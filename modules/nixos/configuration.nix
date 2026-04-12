@@ -19,6 +19,9 @@
 
   system.nixos.label = config.networking.hostName;
 
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
+
   services.openssh = {
     enable = true;
     settings = {
