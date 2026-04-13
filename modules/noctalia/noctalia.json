@@ -116,11 +116,29 @@
           "showPowerProfiles": false
         },
         {
-          "displayMode": "onhover",
-          "iconColor": "none",
-          "id": "Volume",
-          "middleClickCommand": "pwvucontrol || pavucontrol",
-          "textColor": "none"
+          "defaultSettings": {
+            "audioCodec": "opus",
+            "audioSource": "default_output",
+            "colorRange": "full",
+            "copyToClipboard": false,
+            "customFrameRate": "60",
+            "customReplayDuration": "30",
+            "directory": "",
+            "filenamePattern": "recording_yyyyMMdd_HHmmss",
+            "frameRate": "60",
+            "hideInactive": true,
+            "iconColor": "none",
+            "quality": "very_high",
+            "replayDuration": "120",
+            "replayEnabled": true,
+            "replayStorage": "ram",
+            "resolution": "original",
+            "restorePortalSession": false,
+            "showCursor": true,
+            "videoCodec": "av1",
+            "videoSource": "portal"
+          },
+          "id": "plugin:screen-recorder"
         },
         {
           "colorizeDistroLogo": false,
@@ -130,31 +148,6 @@
           "icon": "noctalia",
           "id": "ControlCenter",
           "useDistroLogo": false
-        },
-        {
-          "defaultSettings": {
-            "hideInactive": true,
-            "iconColor": "none",
-            "directory": "",
-            "filenamePattern": "recording_yyyyMMdd_HHmmss",
-            "frameRate": "60",
-            "audioCodec": "opus",
-            "videoCodec": "av1",
-            "quality": "very_high",
-            "colorRange": "full",
-            "showCursor": true,
-            "copyToClipboard": false,
-            "audioSource": "default_output",
-            "videoSource": "portal",
-            "resolution": "original",
-            "replayEnabled": true,
-            "replayDuration": "120",
-            "customReplayDuration": "30",
-            "replayStorage": "ram",
-            "restorePortalSession": false,
-            "customFrameRate": "60"
-          },
-          "id": "plugin:screen-recorder"
         }
       ]
     },
@@ -282,15 +275,8 @@
     "wallpaperChangeMode": "random",
     "randomIntervalSec": 300,
     "transitionDuration": 1500,
-    "transitionType": [
-      "fade",
-      "disc",
-      "stripes",
-      "wipe",
-      "pixelate",
-      "honeycomb"
-    ],
-    "skipStartupTransition": true,
+    "transitionType": ["stripes", "honeycomb"],
+    "skipStartupTransition": false,
     "transitionEdgeSmoothness": 0.05,
     "panelPosition": "follow_bar",
     "hideWallpaperFilenames": false,
@@ -347,16 +333,56 @@
           "id": "Network"
         },
         {
-          "id": "WallpaperSelector"
+          "id": "Bluetooth"
         },
         {
-          "id": "NoctaliaPerformance"
+          "id": "AirplaneMode"
         },
         {
           "id": "Notifications"
+        },
+        {
+          "id": "NoctaliaPerformance"
         }
       ],
-      "right": []
+      "right": [
+        {
+          "defaultSettings": {
+            "audioCodec": "opus",
+            "audioSource": "default_output",
+            "colorRange": "limited",
+            "copyToClipboard": false,
+            "customReplayDuration": "30",
+            "directory": "",
+            "filenamePattern": "recording_yyyyMMdd_HHmmss",
+            "frameRate": "60",
+            "hideInactive": false,
+            "iconColor": "none",
+            "quality": "very_high",
+            "replayDuration": "30",
+            "replayEnabled": false,
+            "replayStorage": "ram",
+            "resolution": "original",
+            "restorePortalSession": false,
+            "showCursor": true,
+            "videoCodec": "h264",
+            "videoSource": "portal"
+          },
+          "id": "plugin:screen-recorder"
+        },
+        {
+          "id": "WallpaperSelector"
+        },
+        {
+          "id": "KeepAwake"
+        },
+        {
+          "id": "PowerProfile"
+        },
+        {
+          "id": "NightLight"
+        }
+      ]
     },
     "cards": [
       {
@@ -372,7 +398,7 @@
         "id": "audio-card"
       },
       {
-        "enabled": false,
+        "enabled": true,
         "id": "brightness-card"
       },
       {
@@ -447,7 +473,7 @@
     "bluetoothRssiPollingEnabled": false,
     "bluetoothRssiPollIntervalMs": 60000,
     "networkPanelView": "wifi",
-    "wifiDetailsViewMode": "grid",
+    "wifiDetailsViewMode": "list",
     "bluetoothDetailsViewMode": "grid",
     "bluetoothHideUnnamedDevices": false,
     "disableDiscoverability": false,
@@ -593,8 +619,8 @@
     "enableUserTheming": false
   },
   "nightLight": {
-    "enabled": true,
-    "forced": true,
+    "enabled": false,
+    "forced": false,
     "autoSchedule": true,
     "nightTemp": "4000",
     "dayTemp": "6500",

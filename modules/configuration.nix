@@ -30,6 +30,8 @@
         openFirewall = true;
       };
 
+      upower.enable = true;
+
       gnome.gnome-keyring.enable = false;
 
       greetd = {

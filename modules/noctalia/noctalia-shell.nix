@@ -33,6 +33,7 @@
           enabled   = true;
           sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
           src       = "${inputs.noctalia-plugins}/screen-recorder";
+          #settings  = (builtins.fromJSON (builtins.readFile ./screen-recorder.json));
         };
       };
     };

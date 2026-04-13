@@ -16,7 +16,7 @@
     };
 
     environment.systemPackages = with pkgs; [
-      vim curl tree bat sbctl fastfetch
+      neovim curl tree bat sbctl fastfetch btop
     ];
   };
 }
