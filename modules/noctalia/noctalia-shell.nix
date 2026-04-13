@@ -9,7 +9,7 @@
 
     wrappers.noctalia-shell = {
       enable = true;
-      settings = (builtins.fromJSON (builtins.readFile ./noctalia.json)).settings;
+      settings = (builtins.fromJSON (builtins.readFile ./noctalia.json);
     };
   };
 }
