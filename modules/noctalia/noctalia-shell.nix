@@ -1,13 +1,13 @@
 { ... }: {
-  flake.nixosModules.noctalia = { inputs, pkgs, ... }: {
+  flake.nixosModules.noctalia-shell = { inputs, pkgs, ... }: {
     imports = [
       (inputs.wrappers.lib.mkInstallModule {
-        name  = "noctalia";
-        value = inputs.wrappers.lib.wrapperModules.noctalia;
+        name  = "noctalia-shell";
+        value = inputs.wrappers.lib.wrapperModules.noctalia-shell;
       })
     ];
 
-    wrappers.noctalia = {
+    wrappers.noctalia-shell = {
       enable = true;
       settings =
         (builtins.fromJSON
