@@ -19,7 +19,7 @@
         binds = {
           "Mod+Return"  = { spawn-sh = "ghostty"; };
           "Mod+B"       = { spawn-sh = "helium"; };
-          "Mod+Z"       = { spawn-sh = "zed"; };
+          "Mod+Z"       = { spawn-sh = "zeditor"; };
 
           "Mod+P"       = noctalia "sessionMenu toggle";
           #"Mod"         = noctalia "controlPanel toggle";
@@ -53,18 +53,14 @@
           focus-ring.off = _: {};
         };
 
-#        window-rules {
-#          #Rounded corners for a modern look.
-#          geometry-corner-radius 20
-#
-#          #Clips window contents to the rounded corner boundaries.
-#          clip-to-geometry true
-#        };
-#
-#        debug {
-#          #Allows notification actions and window activation from Noctalia.
-#          honor-xdg-activation-with-invalid-serial
-#        };
+        window-rules [
+          {
+            geometry-corner-radius 20
+            clip-to-geometry true
+          }
+        ];
+
+        debug = { honor-xdg-activation-with-invalid-serial = true; };
 
         spawn-at-startup = [ "noctalia-shell" ];
       };
