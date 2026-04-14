@@ -20,15 +20,15 @@
           cursor-style = "block";
 
           font-family = "JetBrainsMono Nerd Font";
-
-          palette = [
-            "1=#cc6566"
-            "2=#b6bd68"
-            "4=#82a2be"
-            "7=#c4c8c6"
-            "10=#b9ca4b"
-          ];
         };
+
+        extraConfig = ''
+          palette = 1=#cc6566
+          palette = 2=#b6bd68
+          palette = 4=#82a2be
+          palette = 7=#c4c8c6
+          palette = 10=#b9ca4b
+        '';
       })
     ];
   };
