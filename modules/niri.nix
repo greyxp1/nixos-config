@@ -37,7 +37,7 @@
           "Mod+Shift+F" = { fullscreen-window = _: {}; };
           "Mod+T"       = { toggle-window-floating = _: {}; };
           "Mod+Tab"     = { toggle-overview = _: {}; };
-          "Print"       = { screenshot };
+          "Print"       = { screenshot = _: {}; };
           #"Mod+C"       = { center-column = _: {}; };
           #"Mod+Shift+E" = { quit = _: { props.skip-confirmation = true; }; };
 
