@@ -51,6 +51,7 @@
             inactive-color = "#313244";
           };
           focus-ring.off = _: {};
+          background-color = "transparent";
         };
 
         window-rules = [
@@ -59,6 +60,15 @@
             clip-to-geometry = true;
           }
         ];
+
+      layer-rule [
+        {
+          match namespace = "^noctalia-wallpaper*";
+          place-within-backdrop = true;
+        }
+      ];
+
+      overview [ { workspace-shadow.off = _: {}; } ];
 
         debug = { honor-xdg-activation-with-invalid-serial = true; };
 
