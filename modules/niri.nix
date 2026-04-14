@@ -19,9 +19,7 @@
             repeat-rate = 50;
             numlock = true;
           };
-          touchpad = {
-            natural-scroll = null;
-          };
+          touchpad = { };
         };
 
         binds = {
