@@ -22,8 +22,8 @@
           "Mod+Z"       = { spawn-sh = "zeditor"; };
 
           "Mod+P"       = noctalia "sessionMenu toggle";
-          #"Mod"         = noctalia "controlPanel toggle";
-          #"Mod+S"       = noctalia "launcher toggle";
+          "Mod+Tab"     = noctalia "controlPanel toggle";
+          "Mod+D"       = noctalia "launcher toggle";
 
           "Mod+Q"       = { close-window = _: {}; };
           "Mod+F"       = { maximize-column = _: {}; };
