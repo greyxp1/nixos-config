@@ -54,7 +54,7 @@
         layout = {
           gaps = 10;
           border = {
-            width          = 2;
+            width          = 3;
             active-color   = "#89b4fa";
             inactive-color = "#232634";
           };
