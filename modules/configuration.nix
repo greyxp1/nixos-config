@@ -48,34 +48,46 @@
 
     security.polkit.enable = true;
 
-    programs.dconf.enable = true;
-      programs.dconf.profiles.user.databases = [
-        {
-          settings = {
-            "org/gnome/desktop/interface" = {
-              color-scheme = "prefer-dark";
-              gtk-theme = "Adwaita-dark";
+    # 1. Enable dconf and set global overrides
+        programs.dconf.enable = true;
+        programs.dconf.profiles.user.databases = [
+          {
+            settings = {
+              "org/gnome/desktop/interface" = {
+                color-scheme = "prefer-dark";
+                gtk-theme = "Adwaita-dark";
+              };
             };
-          };
+          }
+        ];
+
+        # 2. Set environment variables to force dark mode in stubborn apps
+        environment.sessionVariables = {
+          GTK_THEME = "Adwaita:dark";
+          QT_QPA_PLATFORMTHEME = "gnome";
+          # Helps Helium/Chromium detect dark mode on Wayland
+          NIX_OZONE_WL = "1";
         };
-      ];
-    # 2. Set environment variables for apps that ignore dconf
-    environment.sessionVariables = {
-      GTK_THEME = "Adwaita:dark";
-      QT_QPA_PLATFORMTHEME = "gnome";
-    };
-    # 3. Required packages for themes to actually exist
-    environment.systemPackages = with pkgs; [
-      gnome-themes-extra
-      adwaita-qt
-      adwaita-qt6
-    ];
-    # 4. Ensure Portals are running to broadcast the setting
-    xdg.portal = {
-      enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      config.common.default = [ "gtk" ];
-    };
+
+        # 3. Essential packages (Removed glib, kept themes)
+        environment.systemPackages = with pkgs; [
+          gnome-themes-extra  # Required for Adwaita-dark assets
+          adwaita-qt
+          adwaita-qt6
+        ];
+
+        # 4. Portals & D-Bus signals (The "Broadcast" system)
+        # This allows Zed and Helium to "see" your dconf settings
+        services.dbus.packages = [ pkgs.gsettings-desktop-schemas ];
+
+        xdg.portal = {
+          enable = true;
+          extraPortals = [
+            pkgs.xdg-desktop-portal-gtk
+            pkgs.xdg-desktop-portal-gnome # Better support for the color-scheme signal
+          ];
+          config.common.default = [ "gtk" "gnome" ];
+        };
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     system.stateVersion = "23.11";
