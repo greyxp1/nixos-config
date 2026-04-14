@@ -20,7 +20,7 @@
             numlock = true;
           };
           touchpad = {
-            natural-scroll = null;
+            natural-scroll = false;
           };
         };
 
