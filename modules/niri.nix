@@ -22,8 +22,9 @@
           "Mod+Z"       = { spawn-sh = "zeditor"; };
 
           "Mod+P"       = noctalia "sessionMenu toggle";
-          "Mod+C"     = noctalia "controlPanel toggle";
-          "Mod+Space"       = noctalia "launcher toggle";
+          "Mod+C"       = noctalia "controlPanel toggle";
+          "Mod+Space"   = noctalia "launcher toggle";
+          "Mod+Shift+L" = noctalia "lockScreen lock";
 
           "Mod+Q"       = { close-window = _: {}; };
           "Mod+F"       = { maximize-column = _: {}; };
@@ -31,17 +32,16 @@
           "Mod+T"       = { toggle-window-floating = _: {}; };
           "Mod+Tab"     = { toggle-overview = _: {}; };
           #"Mod+C"       = { center-column = _: {}; };
+          #"Mod+Shift+E" = { quit = _: { props.skip-confirmation = true; }; };
 
           "Mod+H"       = { focus-column-left = _: {}; };
           "Mod+L"       = { focus-column-right = _: {}; };
           "Mod+J"       = { focus-window-down = _: {}; };
           "Mod+K"       = { focus-window-up = _: {}; };
-          "Mod+Ctrl+H".set-column-width = "-5%";
-          "Mod+Ctrl+L".set-column-width = "+5%";
-          "Mod+Ctrl+J".set-window-height = "-5%";
-          "Mod+Ctrl+K".set-window-height = "+5%";
-          "Mod+Shift+L" = noctalia "lockScreen lock";
-          "Mod+Shift+E" = { quit = _: { props.skip-confirmation = true; }; };
+          "Mod+Ctrl+H"  = { set-column-width = "-5%"; };
+          "Mod+Ctrl+L"  = { set-column-width = "+5%"; };
+          "Mod+Ctrl+J"  = { set-window-height = "-5%"; };
+          "Mod+Ctrl+K"  = { set-window-height = "+5%"; };
         };
 
         layout = {
