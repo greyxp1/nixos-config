@@ -64,7 +64,7 @@
 
         layer-rules = [
           {
-            match = { namespace = "^noctalia-wallpaper*"; };
+            matches = [ { namespace = "^noctalia-wallpaper*"; } ];
             place-within-backdrop = true;
           }
         ];
