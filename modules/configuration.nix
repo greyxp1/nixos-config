@@ -45,26 +45,15 @@
       };
     };
 
-    gtk = {
-      enable = true;
-      theme = {
-        name = "Adwaita-dark";
-        package = pkgs.gnome.gnome-themes-extra;
-      };
-    };
-
-    qt = {
-      enable = true;
-      platformTheme = "gnome";
-      style = "adwaita-dark";
-    };
-
     security.polkit.enable = true;
 
     xdg.portal = {
-      enable       = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
-      config.common.default = "*";
+      enable = true;
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gnome
+        pkgs.xdg-desktop-portal-gtk
+      ];
+      config.common.default = [ "gnome" "gtk" ];
     };
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
