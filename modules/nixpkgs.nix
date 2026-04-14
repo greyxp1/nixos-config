@@ -16,7 +16,7 @@
     };
 
     environment.systemPackages = with pkgs; [
-      neovim curl tree bat sbctl fastfetch btop equibop gnome-themes-extra
+      neovim curl tree bat sbctl fastfetch btop equibop
     ];
   };
 }
