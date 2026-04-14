@@ -32,6 +32,8 @@
 
       upower.enable = true;
 
+      dbus.enable = true;
+
       gnome.gnome-keyring.enable = false;
 
       greetd = {
@@ -45,7 +47,9 @@
       };
     };
 
-    qt.style = "adwaita-dark";
+    environment.sessionVariables = {
+      GTK_THEME = "Adwaita:dark";
+    };
 
     security.polkit.enable = true;
 
