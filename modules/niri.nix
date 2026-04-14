@@ -52,11 +52,11 @@
         };
 
         layout = {
-          gaps = 8;
+          gaps = 10;
           border = {
-            width          = 2;
-            active-color   = "#cba6f7";
-            inactive-color = "#313244";
+            width          = 3;
+            active-color   = "#89b4fa";
+            inactive-color = "#232634";
           };
           focus-ring.off = _: {};
           background-color = "transparent";
