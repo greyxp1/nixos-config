@@ -34,8 +34,6 @@
 
       gnome.gnome-keyring.enable = false;
 
-      qt.style = "adwaita-dark";
-
       greetd = {
         enable         = true;
         useTextGreeter = true;
@@ -46,6 +44,8 @@
         };
       };
     };
+
+    qt.style = "adwaita-dark";
 
     security.polkit.enable = true;
 
