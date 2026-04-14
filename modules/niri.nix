@@ -22,14 +22,15 @@
           "Mod+Z"       = { spawn-sh = "zeditor"; };
 
           "Mod+P"       = noctalia "sessionMenu toggle";
-          "Mod+Tab"     = noctalia "controlPanel toggle";
+          "Mod+C"     = noctalia "controlPanel toggle";
           "Mod+Space"       = noctalia "launcher toggle";
 
           "Mod+Q"       = { close-window = _: {}; };
           "Mod+F"       = { maximize-column = _: {}; };
           "Mod+Shift+F" = { fullscreen-window = _: {}; };
           "Mod+T"       = { toggle-window-floating = _: {}; };
-          "Mod+C"       = { center-column = _: {}; };
+          "Mod+Tab"     = { toggle-overview = _: {}; };
+          #"Mod+C"       = { center-column = _: {}; };
 
           "Mod+H"       = { focus-column-left = _: {}; };
           "Mod+L"       = { focus-column-right = _: {}; };
@@ -63,7 +64,7 @@
 
       layer-rule = [
         {
-          namespace = "^noctalia-wallpaper*";
+          match namespace = "^noctalia-wallpaper*";
           place-within-backdrop = true;
         }
       ];
