@@ -16,6 +16,8 @@
         };
         init.defaultBranch = "main";
         pull.rebase        = true;
+
+        credential.helper = "libsecret";
       };
     };
   };

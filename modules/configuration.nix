@@ -32,8 +32,10 @@
 
       upower.enable = true;
 
-      gnome.gnome-keyring.enable = false;
-
+#      gnome = {
+#        gnome-keyring.enable = false;
+#        gnome-settings-daemon.enable = true;
+#      };
 
       greetd = {
         enable         = true;
@@ -46,16 +48,25 @@
       };
     };
 
+#    # 1. Add icon themes to system packages
+#    environment.systemPackages = with pkgs; [
+#      adwaita-icon-theme
+#      hicolor-icon-theme
+#    ];
+#
+#    # 2. Enable dconf for GTK/Icon settings management
+#    programs.dconf.enable = true;
+
     security.polkit.enable = true;
 
-        xdg.portal = {
-          enable = true;
-          extraPortals = [
-            pkgs.xdg-desktop-portal-gtk
-            pkgs.xdg-desktop-portal-gnome
-          ];
-          config.common.default = [ "gtk" "gnome" ];
-        };
+    xdg.portal = {
+      enable = true;
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-gnome
+      ];
+      config.common.default = [ "gtk" "gnome" ];
+    };
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     system.stateVersion = "23.11";

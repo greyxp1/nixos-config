@@ -1,8 +1,8 @@
 {
   "settingsVersion": 59,
   "bar": {
-    "barType": "floating",
-    "position": "top",
+    "barType": "simple",
+    "position": "left",
     "monitors": [],
     "density": "default",
     "showOutline": false,
@@ -21,7 +21,7 @@
     "frameRadius": 12,
     "outerCorners": true,
     "hideOnOverview": true,
-    "displayMode": "auto_hide",
+    "displayMode": "always_visible",
     "autoHideDelay": 500,
     "autoShowDelay": 150,
     "showOnWorkspaceSwitch": true,
@@ -77,15 +77,25 @@
       ],
       "center": [
         {
+          "characterCount": 2,
           "colorizeIcons": false,
-          "hideMode": "hidden",
-          "id": "ActiveWindow",
-          "maxWidth": 145,
-          "scrollingMode": "hover",
-          "showIcon": true,
-          "showText": true,
-          "textColor": "none",
-          "useFixedWidth": false
+          "emptyColor": "secondary",
+          "enableScrollWheel": true,
+          "focusedColor": "primary",
+          "followFocusedScreen": false,
+          "fontWeight": "bold",
+          "groupedBorderOpacity": 0,
+          "hideUnoccupied": true,
+          "iconScale": 1,
+          "id": "Workspace",
+          "labelMode": "none",
+          "occupiedColor": "secondary",
+          "pillSize": 0.6,
+          "showApplications": true,
+          "showApplicationsHover": false,
+          "showBadge": true,
+          "showLabelsOnlyWhenOccupied": true,
+          "unfocusedIconsOpacity": 1
         }
       ],
       "right": [
@@ -93,7 +103,7 @@
           "blacklist": [],
           "chevronColor": "none",
           "colorizeIcons": false,
-          "drawerEnabled": true,
+          "drawerEnabled": false,
           "hidePassive": false,
           "id": "Tray",
           "pinned": []
@@ -139,15 +149,6 @@
             "videoSource": "portal"
           },
           "id": "plugin:screen-recorder"
-        },
-        {
-          "colorizeDistroLogo": false,
-          "colorizeSystemIcon": "none",
-          "customIconPath": "",
-          "enableColorization": false,
-          "icon": "noctalia",
-          "id": "ControlCenter",
-          "useDistroLogo": true
         }
       ]
     },
@@ -219,14 +220,14 @@
     "tooltipsEnabled": true,
     "scrollbarAlwaysVisible": true,
     "boxBorderEnabled": false,
-    "panelBackgroundOpacity": 0.93,
+    "panelBackgroundOpacity": 1,
     "translucentWidgets": false,
     "panelsAttachedToBar": true,
     "settingsPanelMode": "centered",
-    "settingsPanelSideBarCardStyle": false
+    "settingsPanelSideBarCardStyle": true
   },
   "location": {
-    "name": "Laval",
+    "name": "Montreal",
     "weatherEnabled": true,
     "weatherShowEffects": true,
     "weatherTaliaMascotAlways": false,
@@ -440,13 +441,13 @@
   },
   "dock": {
     "enabled": false,
-    "position": "bottom",
-    "displayMode": "auto_hide",
-    "dockType": "floating",
+    "position": "left",
+    "displayMode": "always_visible",
+    "dockType": "attached",
     "backgroundOpacity": 1,
     "floatingRatio": 1,
     "size": 1,
-    "onlySameOutput": true,
+    "onlySameOutput": false,
     "monitors": [],
     "pinnedApps": [],
     "colorizeIcons": false,
