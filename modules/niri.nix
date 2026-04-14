@@ -11,13 +11,16 @@
       settings = {
         input = {
           keyboard = {
-            xkb.layout   = "us";
-            repeat-delay  = 250;
-            repeat-rate   = 50;
-            numlock       = true;
+            xkb = {
+              layout = "us";
+              options = "caps:escape";
+            };
+            repeat-delay = 250;
+            repeat-rate = 50;
+            numlock = true;
           };
           touchpad = {
-            natural-scroll = false;
+            natural-scroll = null;
           };
         };
 
