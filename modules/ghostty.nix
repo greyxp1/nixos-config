@@ -6,7 +6,7 @@
         settings = {
 
           theme = "Ghostty Default Style Dark";
-          background-opacity = 0.5;
+          background-opacity = 0.75;
           window-decoration = false;
 
           clipboard-read = "allow";
