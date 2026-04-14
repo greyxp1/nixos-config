@@ -260,7 +260,7 @@
   "wallpaper": {
     "enabled": true,
     "overviewEnabled": false,
-    "directory": "/etc/nixos/assets/wallpapers/wheat.jpg",
+    "directory": "/etc/nixos/assets/wallpapers/",
     "monitorDirectories": [],
     "enableMultiMonitorDirectories": false,
     "showHiddenFiles": false,
