@@ -1,8 +1,8 @@
 {
   "settingsVersion": 59,
   "bar": {
-    "barType": "simple",
-    "position": "left",
+    "barType": "floating",
+    "position": "top",
     "monitors": [],
     "density": "default",
     "showOutline": false,
@@ -21,7 +21,7 @@
     "frameRadius": 12,
     "outerCorners": true,
     "hideOnOverview": true,
-    "displayMode": "always_visible",
+    "displayMode": "auto_hide",
     "autoHideDelay": 500,
     "autoShowDelay": 150,
     "showOnWorkspaceSwitch": true,
@@ -260,11 +260,11 @@
   "wallpaper": {
     "enabled": true,
     "overviewEnabled": false,
-    "directory": "/etc/nixos/assets/wallpapers",
+    "directory": "/etc/nixos/assets/wallpapers/wheat.jpg",
     "monitorDirectories": [],
     "enableMultiMonitorDirectories": false,
     "showHiddenFiles": false,
-    "viewMode": "browse",
+    "viewMode": "recursive",
     "setWallpaperOnAllMonitors": true,
     "linkLightAndDarkWallpapers": true,
     "fillMode": "crop",
