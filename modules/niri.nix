@@ -23,7 +23,7 @@
 
           "Mod+P"       = noctalia "sessionMenu toggle";
           "Mod+Tab"     = noctalia "controlPanel toggle";
-          "Mod+D"       = noctalia "launcher toggle";
+          "Mod+Space"       = noctalia "launcher toggle";
 
           "Mod+Q"       = { close-window = _: {}; };
           "Mod+F"       = { maximize-column = _: {}; };
