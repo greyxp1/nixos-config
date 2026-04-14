@@ -9,7 +9,6 @@
 
     wrappers.noctalia-shell = {
       enable          = true;
-      outOfStoreConfig = "/home/grey/.config/noctalia";
 
       settings = (builtins.fromJSON (builtins.readFile ./noctalia.json));
       colors   = (builtins.fromJSON (builtins.readFile ./colors.json));
