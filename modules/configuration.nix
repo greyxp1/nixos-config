@@ -34,6 +34,8 @@
 
       gnome.gnome-keyring.enable = false;
 
+      dbus.packages = [ pkgs.gsettings-desktop-schemas ];
+
       greetd = {
         enable         = true;
         useTextGreeter = true;
@@ -55,6 +57,8 @@
       ];
       config.common.default = [ "gnome" "gtk" ];
     };
+
+    programs.dconf.enable = true;
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     system.stateVersion = "23.11";
