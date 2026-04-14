@@ -34,6 +34,11 @@
 
       gnome.gnome-keyring.enable = false;
 
+      environment.sessionVariables = {
+        GTK_THEME = "Adwaita:dark";
+      };
+      services.dbus.enable = true;
+
       greetd = {
         enable         = true;
         useTextGreeter = true;
