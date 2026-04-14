@@ -48,43 +48,11 @@
 
     security.polkit.enable = true;
 
-    # 1. Enable dconf and set global overrides
-        programs.dconf.enable = true;
-        programs.dconf.profiles.user.databases = [
-          {
-            settings = {
-              "org/gnome/desktop/interface" = {
-                color-scheme = "prefer-dark";
-                gtk-theme = "Adwaita-dark";
-              };
-            };
-          }
-        ];
-
-        # 2. Set environment variables to force dark mode in stubborn apps
-        environment.sessionVariables = {
-          GTK_THEME = "Adwaita:dark";
-          QT_QPA_PLATFORMTHEME = "gnome";
-          # Helps Helium/Chromium detect dark mode on Wayland
-          NIX_OZONE_WL = "1";
-        };
-
-        # 3. Essential packages (Removed glib, kept themes)
-        environment.systemPackages = with pkgs; [
-          gnome-themes-extra  # Required for Adwaita-dark assets
-          adwaita-qt
-          adwaita-qt6
-        ];
-
-        # 4. Portals & D-Bus signals (The "Broadcast" system)
-        # This allows Zed and Helium to "see" your dconf settings
-        services.dbus.packages = [ pkgs.gsettings-desktop-schemas ];
-
         xdg.portal = {
           enable = true;
           extraPortals = [
             pkgs.xdg-desktop-portal-gtk
-            pkgs.xdg-desktop-portal-gnome # Better support for the color-scheme signal
+            pkgs.xdg-desktop-portal-gnome
           ];
           config.common.default = [ "gtk" "gnome" ];
         };
