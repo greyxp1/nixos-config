@@ -9,22 +9,27 @@
       inherit pkgs;
       v2-settings = true;
       settings = {
-        input.keyboard = {
-          xkb.layout   = "us";
-          repeat-delay  = 250;
-          repeat-rate   = 50;
-          numlock       = true;
+        input = {
+          keyboard = {
+            xkb.layout   = "us";
+            repeat-delay  = 250;
+            repeat-rate   = 50;
+            numlock       = true;
+          };
+          touchpad = {
+            natural-scroll = false;
+          };
         };
 
         binds = {
           "Mod+Return"  = { spawn-sh = "ghostty"; };
           "Mod+B"       = { spawn-sh = "helium"; };
           "Mod+Z"       = { spawn-sh = "zeditor"; };
+          "Mod+D"       = { spawn-sh = "equibop"; };
 
           "Mod+P"       = noctalia "sessionMenu toggle";
-          "Mod+C"       = noctalia "controlPanel toggle";
+          "Mod+C"       = noctalia "controlCenter toggle";
           "Mod+Space"   = noctalia "launcher toggle";
-          "Mod+Shift+L" = noctalia "lockScreen lock";
 
           "Mod+Q"       = { close-window = _: {}; };
           "Mod+F"       = { maximize-column = _: {}; };
@@ -59,6 +64,7 @@
           {
             geometry-corner-radius = 20;
             clip-to-geometry = true;
+            draw-border-with-background = false;
           }
         ];
 
@@ -70,6 +76,7 @@
         ];
 
         overview.workspace-shadow.off = _: {};
+        prefer-no-csd = true;
 
         debug = { honor-xdg-activation-with-invalid-serial = true; };
 
