@@ -45,20 +45,6 @@
       };
     };
 
-    gtk = {
-      enable = true;
-      theme = {
-        name = "Adwaita-dark";
-        package = pkgs.gnome.gnome-themes-extra;
-      };
-    };
-
-    qt = {
-      enable = true;
-      platformTheme = "gnome";
-      style = "adwaita-dark";
-    };
-
     security.polkit.enable = true;
 
     xdg.portal = {
