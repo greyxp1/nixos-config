@@ -21,14 +21,6 @@
 
           font-family = "JetBrainsMono Nerd Font";
         };
-
-        extraConfig = ''
-          palette = 1=#cc6566
-          palette = 2=#b6bd68
-          palette = 4=#82a2be
-          palette = 7=#c4c8c6
-          palette = 10=#b9ca4b
-        '';
       })
     ];
   };
