@@ -8,7 +8,7 @@
     ];
 
     wrappers.noctalia-shell = {
-      enable          = true;
+      enable = true;
 
       settings = (builtins.fromJSON (builtins.readFile ./noctalia.json));
       colors   = (builtins.fromJSON (builtins.readFile ./colors.json));

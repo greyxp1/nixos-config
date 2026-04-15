@@ -2,10 +2,45 @@
 set -euo pipefail
 
 REPO="https://github.com/greyxp1/nixos-config.git"
-FLAKE_ATTR="greyxp1"
 WORK_DIR="/tmp/nixos-config"
+HOST=""
 
-# Unmount everything on exit so the script can be rerun without rebooting.
+# ── Parse arguments ───────────────────────────────────────────────────────────
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --host)
+      [[ -z "${2-}" ]] && { echo "ERROR: --host requires a value."; exit 1; }
+      HOST="$2"; shift 2 ;;
+    -h|--help)
+      echo "Usage: bash <(curl -sL https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh) --host <main-pc|vm|generic>"
+      exit 0 ;;
+    *)
+      echo "ERROR: Unknown argument: $1"
+      echo "Usage: install.sh --host <main-pc|vm|generic>"
+      exit 1 ;;
+  esac
+done
+
+if [[ -z "$HOST" ]]; then
+  echo "ERROR: --host is required."
+  echo
+  echo "  main-pc  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
+  echo "  vm       — full desktop, QEMU/SPICE guest tools, standard kernel"
+  echo "  generic  — full desktop, portable hardware config, standard kernel"
+  echo
+  echo "Example:"
+  echo "  bash <(curl -sL https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh) --host vm"
+  exit 1
+fi
+
+case "$HOST" in
+  main-pc|vm|generic) ;;
+  *)
+    echo "ERROR: Unknown host '$HOST'. Choose: main-pc, vm, or generic."
+    exit 1 ;;
+esac
+
+# ── Cleanup on exit ───────────────────────────────────────────────────────────
 cleanup() {
   sudo swapoff /mnt/.swapfile-install 2>/dev/null || true
   sudo umount -R /mnt 2>/dev/null || true
@@ -13,16 +48,22 @@ cleanup() {
 trap cleanup EXIT
 
 # ── 1. Clone config ───────────────────────────────────────────────────────────
-echo "Fetching config..."
+echo "==> Fetching config ($HOST)..."
 rm -rf "$WORK_DIR"
 git clone -q "$REPO" "$WORK_DIR"
 cd "$WORK_DIR"
 
-# Ensure all interactive prompts read from the terminal even when
-# the script is run via process substitution or pipe.
+# Ensure interactive prompts can read from the terminal even when piped.
 exec < /dev/tty
 
-# ── 2. Disk selection ─────────────────────────────────────────────────────────
+# ── 2. Require UEFI ───────────────────────────────────────────────────────────
+if [[ ! -d /sys/firmware/efi/efivars ]]; then
+  echo "ERROR: All host configurations require UEFI firmware. BIOS/Legacy is not supported."
+  exit 1
+fi
+echo "==> Firmware: UEFI"
+
+# ── 3. Disk selection ─────────────────────────────────────────────────────────
 ISO_SOURCE=$(findmnt -n -o SOURCE /iso 2>/dev/null || true)
 ISO_DISK=""
 [[ -n "$ISO_SOURCE" ]] && ISO_DISK=$(lsblk -no PKNAME "$ISO_SOURCE" 2>/dev/null || true)
@@ -37,7 +78,9 @@ mapfile -t DISK_NAMES < <(
 
 if [[ ${#DISK_NAMES[@]} -eq 1 ]]; then
   DEV="/dev/${DISK_NAMES[0]}"
-  echo "Disk: $DEV  $(lsblk -dno SIZE "$DEV")  $(lsblk -dno MODEL "$DEV")"
+  echo "==> Disk: $DEV  $(lsblk -dno SIZE "$DEV")  $(lsblk -dno MODEL "$DEV")"
+  read -rp "DANGER: This will WIPE $DEV. Are you sure? (y/n): " CONFIRM
+  [[ "$CONFIRM" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
 else
   echo "Available disks:"
   for i in "${!DISK_NAMES[@]}"; do
@@ -53,101 +96,41 @@ else
   [[ "$CONFIRM" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
 fi
 
-# ── 3. Detect firmware ────────────────────────────────────────────────────────
-if [[ -d /sys/firmware/efi/efivars ]]; then UEFI=true; else UEFI=false; fi
-echo "Firmware: $($UEFI && echo UEFI || echo BIOS/Legacy)"
-
 # ── 4. Partition and format ───────────────────────────────────────────────────
 if [[ "$DEV" =~ (nvme|mmcblk) ]]; then PART="${DEV}p"; else PART="$DEV"; fi
 
-echo "Partitioning $DEV..."
+echo "==> Partitioning $DEV..."
 sudo wipefs -af "$DEV" > /dev/null
 sudo parted -s "$DEV" mklabel gpt
-
-if $UEFI; then
-  sudo parted -s "$DEV" mkpart ESP  fat32  1MiB    1025MiB
-  sudo parted -s "$DEV" mkpart root ext4   1025MiB 100%
-  sudo parted -s "$DEV" set 1 esp on
-else
-  sudo parted -s "$DEV" mkpart bios_boot 1MiB  2MiB
-  sudo parted -s "$DEV" mkpart root ext4 2MiB  100%
-  sudo parted -s "$DEV" set 1 bios_grub on
-fi
-
+sudo parted -s "$DEV" mkpart ESP  fat32  1MiB    1025MiB
+sudo parted -s "$DEV" mkpart root ext4   1025MiB 100%
+sudo parted -s "$DEV" set 1 esp on
 sudo partprobe "$DEV"
 sleep 1
 
-if $UEFI; then
-  sudo mkfs.fat  -F 32 -n NIXBOOT "${PART}1" > /dev/null
-  sudo mkfs.ext4 -F    -L nixos   "${PART}2" > /dev/null
-  sudo mount /dev/disk/by-label/nixos   /mnt
-  sudo mkdir -p /mnt/boot
-  sudo mount /dev/disk/by-label/NIXBOOT /mnt/boot
-else
-  sudo mkfs.ext4 -F -L nixos "${PART}2" > /dev/null
-  sudo mount /dev/disk/by-label/nixos /mnt
-fi
+sudo mkfs.fat  -F 32 -n NIXBOOT "${PART}1" > /dev/null
+sudo mkfs.ext4 -F    -L nixos   "${PART}2" > /dev/null
+sudo mount /dev/disk/by-label/nixos   /mnt
+sudo mkdir -p /mnt/boot
+sudo mount /dev/disk/by-label/NIXBOOT /mnt/boot
 
-# ── 5. Temporary swap (for the installer only) ────────────────────────────────
+# ── 5. Temporary swap (installer only) ───────────────────────────────────────
 sudo fallocate -l 4G /mnt/.swapfile-install
 sudo chmod 600       /mnt/.swapfile-install
 sudo mkswap          /mnt/.swapfile-install > /dev/null
 sudo swapon          /mnt/.swapfile-install
 
-# ── 6. Generate hardware configuration ───────────────────────────────────────
-echo "Detecting hardware..."
-sudo nixos-generate-config --root /mnt --show-hardware-config > hardware-configuration.nix
-
-# ── 7. Generate bootloader configuration ──────────────────────────────────────
-if $UEFI; then
-  cat > bootloader.nix << 'NIXEOF'
-{ pkgs, lib, ... }: {
-  boot.loader.systemd-boot.enable = lib.mkForce false;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.lanzaboote = {
-    enable    = true;
-    pkiBundle = "/var/lib/sbctl";
-  };
-
-  system.activationScripts.sbctl-keys = {
-    text = ''
-      if [ ! -d /var/lib/sbctl ]; then
-        ${pkgs.sbctl}/bin/sbctl create-keys
-      fi
-    '';
-  };
-
-  environment.systemPackages = [ pkgs.sbctl ];
-}
-NIXEOF
-else
-  cat > bootloader.nix << NIXEOF
-{ ... }: {
-  boot.loader.grub = {
-    enable = true;
-    device = "$DEV";
-  };
-}
-NIXEOF
-fi
-
-git add -f hardware-configuration.nix bootloader.nix
-git config user.email "installer@nixos"
-git config user.name "NixOS Installer"
-git commit -m "add generated hardware and bootloader config"
-
-# ── 8. Install ────────────────────────────────────────────────────────────────
-echo "Installing NixOS..."
+# ── 6. Install ────────────────────────────────────────────────────────────────
+echo "==> Installing NixOS ($HOST)..."
 sudo nixos-install \
   --root /mnt \
-  --flake ".#$FLAKE_ATTR" \
+  --flake ".#$HOST" \
   --no-root-passwd \
   --option substituters "https://cache.nixos.org https://attic.xuyh0120.win/lantian https://cache.garnix.io" \
   --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
 
-# ── 9. Persist config on installed system ────────────────────────────────────
+# ── 7. Persist config on installed system ─────────────────────────────────────
 sudo cp -rT "$WORK_DIR" /mnt/etc/nixos
 
-echo "Done! Rebooting..."
+echo "==> Done! Rebooting..."
 sudo reboot

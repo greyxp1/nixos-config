@@ -8,7 +8,7 @@
     ];
 
     wrappers.git = {
-      enable = true;
+      enable   = true;
       settings = {
         user = {
           name  = "greyxp1";

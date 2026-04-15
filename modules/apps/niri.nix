@@ -12,12 +12,12 @@
         input = {
           keyboard = {
             xkb = {
-              layout = "us";
+              layout  = "us";
               options = "caps:escape";
             };
             repeat-delay = 250;
-            repeat-rate = 50;
-            numlock = true;
+            repeat-rate  = 50;
+            numlock      = true;
           };
           touchpad.natural-scroll = _: {};
           mouse = {
@@ -26,9 +26,7 @@
           };
         };
 
-        gestures = {
-              hot-corners.off = _: {};
-            };
+        gestures.hot-corners.off = _: {};
 
         workspaces = {
           "1" = _: {};
@@ -42,49 +40,49 @@
           "Mod+Z"       = { spawn-sh = "zeditor"; };
           "Mod+D"       = { spawn-sh = "equibop"; };
 
-          "Mod+P"       = noctalia "sessionMenu toggle";
-          "Mod+C"       = noctalia "controlCenter toggle";
-          "Mod+Space"   = noctalia "launcher toggle";
+          "Mod+P"     = noctalia "sessionMenu toggle";
+          "Mod+C"     = noctalia "controlCenter toggle";
+          "Mod+Space" = noctalia "launcher toggle";
 
-          "Mod+Q"       = { close-window = _: {}; };
-          "Mod+F"       = { maximize-column = _: {}; };
-          "Mod+Shift+F" = { fullscreen-window = _: {}; };
-          "Mod+T"       = { toggle-window-floating = _: {}; };
-          "Mod+Tab"     = { toggle-overview = _: {}; };
-          "Print"       = { screenshot = _: {}; };
+          "Mod+Q"       = { close-window          = _: {}; };
+          "Mod+F"       = { maximize-column        = _: {}; };
+          "Mod+Shift+F" = { fullscreen-window       = _: {}; };
+          "Mod+T"       = { toggle-window-floating  = _: {}; };
+          "Mod+Tab"     = { toggle-overview          = _: {}; };
+          "Print"       = { screenshot               = _: {}; };
           "Mod+Shift+E" = { quit = _: { props.skip-confirmation = true; }; };
 
-          # Internal Workspace Movement
-          "Mod+H"       = { focus-column-left = _: {}; };
-          "Mod+L"       = { focus-column-right = _: {}; };
-          "Mod+J"       = { focus-window-down = _: {}; };
-          "Mod+K"       = { focus-window-up = _: {}; };
+          # Focus movement
+          "Mod+H" = { focus-column-left  = _: {}; };
+          "Mod+L" = { focus-column-right = _: {}; };
+          "Mod+J" = { focus-window-down  = _: {}; };
+          "Mod+K" = { focus-window-up    = _: {}; };
 
-          "Mod+Shift+H" = { move-column-left = _: {}; };
+          # Window movement
+          "Mod+Shift+H" = { move-column-left  = _: {}; };
           "Mod+Shift+L" = { move-column-right = _: {}; };
-          "Mod+Shift+J" = { move-window-down = _: {}; };
-          "Mod+Shift+K" = { move-window-up = _: {}; };
+          "Mod+Shift+J" = { move-window-down  = _: {}; };
+          "Mod+Shift+K" = { move-window-up    = _: {}; };
 
           # Resizing
-          "Mod+Ctrl+H"  = { set-column-width = "-5%"; };
-          "Mod+Ctrl+L"  = { set-column-width = "+5%"; };
-          "Mod+Ctrl+J"  = { set-window-height = "-5%"; };
-          "Mod+Ctrl+K"  = { set-window-height = "+5%"; };
+          "Mod+Ctrl+H" = { set-column-width  = "-5%"; };
+          "Mod+Ctrl+L" = { set-column-width  = "+5%"; };
+          "Mod+Ctrl+J" = { set-window-height = "-5%"; };
+          "Mod+Ctrl+K" = { set-window-height = "+5%"; };
 
-          # Workspace Navigation (Mod + Alt + J/K)
-          "Mod+Alt+J"   = { focus-workspace-down = _: {}; };
-          "Mod+Alt+K"   = { focus-workspace-up = _: {}; };
+          # Workspace navigation
+          "Mod+Alt+J" = { focus-workspace-down = _: {}; };
+          "Mod+Alt+K" = { focus-workspace-up   = _: {}; };
 
-          # Move Columns Across Workspaces (Mod + Alt + Shift + J/K)
+          # Move column across workspaces
           "Mod+Alt+Shift+J" = { move-column-to-workspace-down = _: {}; };
-          "Mod+Alt+Shift+K" = { move-column-to-workspace-up = _: {}; };
+          "Mod+Alt+Shift+K" = { move-column-to-workspace-up   = _: {}; };
 
-          # Mod + Scroll = Workspace Up/Down
-          "Mod+WheelScrollUp"   = { focus-workspace-up = _: {}; };
+          # Scroll to navigate
+          "Mod+WheelScrollUp"   = { focus-workspace-up   = _: {}; };
           "Mod+WheelScrollDown" = { focus-workspace-down = _: {}; };
 
-          # Mod + Shift + Scroll = Column Left/Right
-          "Mod+Shift+WheelScrollUp"   = { focus-column-left = _: {}; };
+          "Mod+Shift+WheelScrollUp"   = { focus-column-left  = _: {}; };
           "Mod+Shift+WheelScrollDown" = { focus-column-right = _: {}; };
         };
 
@@ -100,26 +98,24 @@
 
         window-rules = [
           {
-            geometry-corner-radius = 20;
-            clip-to-geometry = true;
+            geometry-corner-radius      = 20;
+            clip-to-geometry            = true;
             draw-border-with-background = false;
           }
           {
-            # Maximize column mode for targets
-            # command to check app ip: niri msg windows
             matches = [
-              { app-id = "(?i)helium"; }
-              { app-id = "(?i)zed"; }
+              { app-id = "(?i)helium";   }
+              { app-id = "(?i)zed";      }
               { app-id = "(?i)electron"; }
             ];
             open-maximized = true;
           }
           {
-            matches = [ { app-id = "(?i)helium"; } ];
+            matches           = [ { app-id = "(?i)helium"; } ];
             open-on-workspace = "1";
           }
           {
-            matches = [ { app-id = "(?i)electron"; } ];
+            matches           = [ { app-id = "(?i)electron"; } ];
             open-on-workspace = "3";
           }
         ];
@@ -134,9 +130,8 @@
         overview.workspace-shadow.off = _: {};
         prefer-no-csd = true;
 
-        debug = { honor-xdg-activation-with-invalid-serial = true; };
+        debug.honor-xdg-activation-with-invalid-serial = true;
 
-        # Corrected: spawn-at-startup expects [ "cmd" ] or [ [ "cmd" "arg" ] ]
         spawn-at-startup = [
           [ "noctalia-shell" ]
           [ "niri" "msg" "action" "focus-workspace" "2" ]

@@ -1,10 +1,10 @@
 { ... }: {
   perSystem = { pkgs, ... }: {
     packages.zed = pkgs.symlinkJoin {
-      name = "zed-editor";
-      paths = [ pkgs.zed-editor ];
+      name       = "zed-editor";
+      paths      = [ pkgs.zed-editor ];
       buildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
+      postBuild  = ''
         wrapProgram $out/bin/zeditor \
           --set WAYLAND_DISPLAY "$WAYLAND_DISPLAY" \
           --set XDG_SESSION_TYPE "wayland"
@@ -28,26 +28,21 @@
         ];
 
         userSettings = {
-          project_panel = {
-            button = true;
-          };
-          bottom_dock_layout    = "contained";
-          collaboration_panel = {
-            dock = "left";
-          };
-          toolbar = {
-            quick_actions = true;
-          };
+          project_panel.button    = true;
+          bottom_dock_layout      = "contained";
+          collaboration_panel.dock = "left";
+          toolbar.quick_actions   = true;
+
           telemetry = {
             diagnostics = false;
             metrics     = false;
           };
-          session = {
-            trust_all_worktrees = true;
-          };
+
+          session.trust_all_worktrees = true;
+
           ui_font_size     = 16;
           buffer_font_size = 15;
-          theme = "Ayu Dark";
+          theme             = "Ayu Dark";
         };
       };
     };
