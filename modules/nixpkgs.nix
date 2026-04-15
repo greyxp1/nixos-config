@@ -16,7 +16,16 @@
     };
 
     environment.systemPackages = with pkgs; [
-      neovim curl tree bat sbctl fastfetch btop equibop
+      neovim
+      curl
+      tree
+      bat
+      sbctl
+      fastfetch
+      btop
+      equibop
+      zip
+      inputs.helium.packages.${system}.default
     ];
   };
 }
