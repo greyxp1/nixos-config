@@ -31,11 +31,7 @@
       {
         "browser": {
           "enabled_labs_experiments": [
-            "helium-zen-mode@1",
-            "smooth-scrolling@1",
-            "enable-gpu-rasterization@1",
-            "enable-zero-copy@1",
-            "enable-parallel-downloading@1"
+            "helium-zen-mode@1"
           ]
         }
       }

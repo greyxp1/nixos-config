@@ -32,6 +32,8 @@
 
       upower.enable = true;
 
+      xserver.videoDrivers = [ "nvidia" ];
+
 #      gnome = {
 #        gnome-keyring.enable = false;
 #        gnome-settings-daemon.enable = true;
@@ -66,6 +68,16 @@
         pkgs.xdg-desktop-portal-gnome
       ];
       config.common.default = [ "gtk" "gnome" ];
+    };
+
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+
+    hardware.nvidia = {
+      open = true;
+      modesetting.enable = true;
     };
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];

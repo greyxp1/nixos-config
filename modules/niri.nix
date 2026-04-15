@@ -20,7 +20,15 @@
             numlock = true;
           };
           touchpad.natural-scroll = _: {};
+          mouse = {
+            scroll-method = "on-button-down";
+            scroll-button = 274;
+          };
         };
+
+        gestures = {
+              hot-corners.off = _: {};
+            };
 
         workspaces = {
           "1" = _: {};
@@ -70,6 +78,14 @@
           # Move Columns Across Workspaces (Mod + Alt + Shift + J/K)
           "Mod+Alt+Shift+J" = { move-column-to-workspace-down = _: {}; };
           "Mod+Alt+Shift+K" = { move-column-to-workspace-up = _: {}; };
+
+          # Mod + Scroll = Workspace Up/Down
+          "Mod+WheelScrollUp"   = { focus-workspace-up = _: {}; };
+          "Mod+WheelScrollDown" = { focus-workspace-down = _: {}; };
+
+          # Mod + Shift + Scroll = Column Left/Right
+          "Mod+Shift+WheelScrollUp"   = { focus-column-left = _: {}; };
+          "Mod+Shift+WheelScrollDown" = { focus-column-right = _: {}; };
         };
 
         layout = {
