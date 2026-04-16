@@ -1,5 +1,5 @@
 { ... }: {
-  flake.nixosModules.core = { config, ... }: {
+  flake.nixosModules.core = { config, pkgs, ... }: {
     time.timeZone                          = "America/Montreal";
     networking.networkmanager.enable       = true;
     hardware.enableRedistributableFirmware = true;
@@ -16,6 +16,17 @@
     nix.settings = {
       trusted-users         = [ "root" "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ];
+    };
+
+    xdg.portal = {
+      enable       = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      config.common.default = [ "gtk" ];
+    };
+
+    hardware.graphics = {
+      enable      = true;
+      enable32Bit = true;
     };
 
     system.nixos.label     = config.networking.hostName;

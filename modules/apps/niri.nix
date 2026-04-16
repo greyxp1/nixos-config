@@ -29,6 +29,8 @@
         gestures.hot-corners.off = _: {};
 
         workspaces = {
+          disable-workspace-extension = _: {};
+
           "1" = _: {};
           "2" = _: {};
           "3" = _: {};
@@ -88,7 +90,7 @@
 
         layout = {
           gaps = 10;
-          focus-ring = {
+          border = {
             width          = 3;
             active-color   = "#89b4fa";
             inactive-color = "#232634";
@@ -122,7 +124,7 @@
 
         layer-rules = [
           {
-            matches = [ { namespace = "^noctalia-overview*"; } ];
+            matches = [ { namespace = "^noctalia-wallpaper*"; } ];
             place-within-backdrop = true;
           }
         ];
@@ -134,6 +136,7 @@
 
         spawn-at-startup = [
           [ "noctalia-shell" ]
+          [ "equibop" ]
           [ "niri" "msg" "action" "focus-workspace" "2" ]
         ];
       };

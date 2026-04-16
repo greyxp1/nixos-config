@@ -1,7 +1,7 @@
 {
   "settingsVersion": 59,
   "bar": {
-    "barType": "simple",
+    "barType": "floating",
     "position": "left",
     "monitors": [],
     "density": "default",
@@ -19,7 +19,7 @@
     "marginHorizontal": 4,
     "frameThickness": 8,
     "frameRadius": 12,
-    "outerCorners": true,
+    "outerCorners": false,
     "hideOnOverview": true,
     "displayMode": "always_visible",
     "autoHideDelay": 500,
@@ -166,7 +166,7 @@
   "general": {
     "avatarImage": "~/nixos-config/assets/user.jpg",
     "dimmerOpacity": 0.2,
-    "showScreenCorners": true,
+    "showScreenCorners": false,
     "forceBlackScreenCorners": true,
     "scaleRatio": 1,
     "radiusRatio": 1,
@@ -220,7 +220,7 @@
     "tooltipsEnabled": true,
     "scrollbarAlwaysVisible": true,
     "boxBorderEnabled": false,
-    "panelBackgroundOpacity": 1,
+    "panelBackgroundOpacity": 0,
     "translucentWidgets": false,
     "panelsAttachedToBar": true,
     "settingsPanelMode": "centered",
@@ -260,7 +260,7 @@
   },
   "wallpaper": {
     "enabled": true,
-    "overviewEnabled": true,
+    "overviewEnabled": false,
     "directory": "~/nixos-config/assets/wallpapers/",
     "monitorDirectories": [],
     "enableMultiMonitorDirectories": false,
