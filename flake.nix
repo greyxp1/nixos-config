@@ -43,17 +43,8 @@
     };
   };
 
-  # import-tree is only used for modules/ — all .nix files there are
-  # flake-parts modules.  hosts/*.nix are listed explicitly so that
-  # import-tree never accidentally tries to evaluate the plain NixOS
-  # modules living in hosts/main-pc/, hosts/vm/, etc.
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-    imports = [
-      (inputs.import-tree ./modules)
-      ./hosts/main-pc.nix
-      ./hosts/vm.nix
-      ./hosts/generic.nix
-    ];
+    imports = [ (inputs.import-tree ./modules) ];
     systems = [ "x86_64-linux" ];
   };
 }
