@@ -20,10 +20,10 @@
             numlock      = true;
           };
           touchpad.natural-scroll = _: {};
-          mouse = {
-            scroll-method = "on-button-down";
-            scroll-button = 274;
-          };
+          #mouse = {
+          #  scroll-method = "on-button-down";
+          #  scroll-button = 274;
+          #};
         };
 
         gestures.hot-corners.off = _: {};
@@ -122,7 +122,7 @@
 
         layer-rules = [
           {
-            matches = [ { namespace = "^noctalia-wallpaper*"; } ];
+            matches = [ { namespace = "^noctalia-overview*"; } ];
             place-within-backdrop = true;
           }
         ];

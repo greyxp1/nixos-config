@@ -164,7 +164,7 @@
     "screenOverrides": []
   },
   "general": {
-    "avatarImage": "/etc/nixos/assets/user.jpg",
+    "avatarImage": "~/nixos-config/assets/user.jpg",
     "dimmerOpacity": 0.2,
     "showScreenCorners": true,
     "forceBlackScreenCorners": true,
@@ -260,8 +260,8 @@
   },
   "wallpaper": {
     "enabled": true,
-    "overviewEnabled": false,
-    "directory": "/etc/nixos/assets/wallpapers/",
+    "overviewEnabled": true,
+    "directory": "~/nixos-config/assets/wallpapers/",
     "monitorDirectories": [],
     "enableMultiMonitorDirectories": false,
     "showHiddenFiles": false,

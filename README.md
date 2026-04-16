@@ -1,7 +1,7 @@
 ### Installation: 
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh)
+bash <(curl -sL https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh) --host main-pc
 ```
 
 ### To rebuild the system:
@@ -11,7 +11,7 @@ cd ~/nixos-config/ && git pull
 ```
 
 ```bash
-sudo nixos-rebuild switch --flake ~/nixos-config/
+sudo nixos-rebuild switch --flake ~/nixos-config#main-pc
 ```
 
 ### To update the system:
