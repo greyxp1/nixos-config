@@ -25,6 +25,7 @@
           "html"
           "git-firefly"
           "nix"
+          "kdl"
         ];
 
         userSettings = {

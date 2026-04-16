@@ -1,0 +1,79 @@
+input {
+    keyboard {
+        xkb {
+            layout "us"
+            options "caps:escape"
+        }
+        repeat-delay 250
+        repeat-rate 50
+        track-numlock-state
+    }
+    touchpad {
+        natural-scroll
+    }
+}
+
+binds {
+    // Terminal and Apps
+    Mod+Return { spawn "ghostty"; }
+    Mod+B { spawn "helium"; }
+    Mod+Z { spawn "zeditor"; }
+    Mod+D { spawn "equibop"; }
+
+    // Noctalia Shell Controls
+    Mod+P { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
+    Mod+C { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
+    Mod+Space { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
+
+    // Window Management
+    Mod+Q { close-window; }
+    Mod+F { maximize-column; }
+    Mod+Shift+F { fullscreen-window; }
+    Mod+T { toggle-window-floating; }
+    Mod+Tab { toggle-overview; }
+
+    Print { screenshot; }
+    Mod+Shift+E { quit skip-confirmation=true; }
+
+    // Navigation
+    Mod+H { focus-column-left; }
+    Mod+L { focus-column-right; }
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+
+    // Resizing
+    Mod+Ctrl+H { set-column-width "-5%"; }
+    Mod+Ctrl+L { set-column-width "+5%"; }
+}
+
+layout {
+    gaps 10
+    focus-ring {
+        width 3
+        active-color "#89b4fa"
+        inactive-color "#232634"
+    }
+}
+
+// Window Rules
+window-rule {
+    geometry-corner-radius 20
+    clip-to-geometry true
+    draw-border-with-background false
+    background-effects {
+        blur
+        xray false
+    }
+}
+
+window-rule {
+    match app-id="(?i)helium"
+    match app-id="(?i)zed"
+    match app-id="(?i)electron"
+    open-maximized true
+}
+
+// Startup
+spawn-at-startup "noctalia-shell"
+spawn-at-startup "equibop"
+spawn-at-startup "niri" "msg" "action" "focus-workspace" "2"

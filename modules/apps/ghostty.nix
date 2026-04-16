@@ -5,7 +5,8 @@
         inherit pkgs;
         settings = {
           theme              = "Ghostty Default Style Dark";
-          background-opacity = 0.75;
+          background-opacity = 0;
+          background-blur    = true;
           window-decoration  = false;
 
           clipboard-read          = "allow";

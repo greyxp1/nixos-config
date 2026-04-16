@@ -223,7 +223,7 @@
     "panelBackgroundOpacity": 0,
     "translucentWidgets": false,
     "panelsAttachedToBar": true,
-    "settingsPanelMode": "centered",
+    "settingsPanelMode": "window",
     "settingsPanelSideBarCardStyle": true
   },
   "location": {
