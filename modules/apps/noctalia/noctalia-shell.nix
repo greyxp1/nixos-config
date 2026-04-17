@@ -1,9 +1,9 @@
 { ... }: {
   flake.nixosModules.noctalia-shell = { inputs, pkgs, ... }: {
     imports = [
-      (inputs.wrappers.lib.mkInstallModule {
+      (inputs.wrapper-modules.lib.mkInstallModule {
         name  = "noctalia-shell";
-        value = inputs.wrappers.lib.wrapperModules.noctalia-shell;
+        value = inputs.wrapper-modules.lib.wrapperModules.noctalia-shell;
       })
     ];
 

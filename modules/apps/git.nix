@@ -1,9 +1,9 @@
 { ... }: {
   flake.nixosModules.git = { inputs, ... }: {
     imports = [
-      (inputs.wrappers.lib.mkInstallModule {
+      (inputs.wrapper-modules.lib.mkInstallModule {
         name  = "git";
-        value = inputs.wrappers.lib.wrapperModules.git;
+        value = inputs.wrapper-modules.lib.wrapperModules.git;
       })
     ];
 

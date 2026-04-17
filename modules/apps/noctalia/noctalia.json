@@ -85,7 +85,7 @@
           "followFocusedScreen": false,
           "fontWeight": "bold",
           "groupedBorderOpacity": 0,
-          "hideUnoccupied": true,
+          "hideUnoccupied": false,
           "iconScale": 1,
           "id": "Workspace",
           "labelMode": "none",
@@ -616,7 +616,32 @@
     "syncGsettings": true
   },
   "templates": {
-    "activeTemplates": [],
+    "activeTemplates": [
+      {
+        "enabled": true,
+        "id": "niri"
+      },
+      {
+        "enabled": true,
+        "id": "zed"
+      },
+      {
+        "enabled": true,
+        "id": "gtk"
+      },
+      {
+        "enabled": true,
+        "id": "qt"
+      },
+      {
+        "enabled": true,
+        "id": "btop"
+      },
+      {
+        "enabled": true,
+        "id": "kcolorscheme"
+      }
+    ],
     "enableUserTheming": false
   },
   "nightLight": {
@@ -645,7 +670,7 @@
     "notifyUpdates": true
   },
   "idle": {
-    "enabled": true,
+    "enabled": false,
     "screenOffTimeout": 600,
     "lockTimeout": 660,
     "suspendTimeout": 1800,

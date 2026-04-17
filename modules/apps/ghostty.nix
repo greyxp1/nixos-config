@@ -5,7 +5,7 @@
         inherit pkgs;
         settings = {
           theme              = "Ghostty Default Style Dark";
-          background-opacity = 0;
+          background-opacity = 70;
           background-blur    = true;
           window-decoration  = false;
 
@@ -20,6 +20,7 @@
           cursor-style = "block";
 
           font-family = "JetBrainsMono Nerd Font";
+          #font-features = "-liga";
         };
       })
     ];
