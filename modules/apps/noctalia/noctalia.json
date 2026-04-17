@@ -1,7 +1,7 @@
 {
   "settingsVersion": 59,
   "bar": {
-    "barType": "floating",
+    "barType": "simple",
     "position": "left",
     "monitors": [],
     "density": "default",
@@ -91,7 +91,7 @@
           "labelMode": "none",
           "occupiedColor": "secondary",
           "pillSize": 0.6,
-          "showApplications": true,
+          "showApplications": false,
           "showApplicationsHover": true,
           "showBadge": true,
           "showLabelsOnlyWhenOccupied": true,
@@ -165,7 +165,7 @@
   },
   "general": {
     "avatarImage": "~/nixos-config/assets/user.jpg",
-    "dimmerOpacity": 0.2,
+    "dimmerOpacity": 0,
     "showScreenCorners": false,
     "forceBlackScreenCorners": true,
     "scaleRatio": 1,
@@ -218,13 +218,13 @@
     "fontDefaultScale": 1,
     "fontFixedScale": 1,
     "tooltipsEnabled": true,
-    "scrollbarAlwaysVisible": true,
+    "scrollbarAlwaysVisible": false,
     "boxBorderEnabled": false,
-    "panelBackgroundOpacity": 0,
-    "translucentWidgets": false,
+    "panelBackgroundOpacity": 0.81,
+    "translucentWidgets": true,
     "panelsAttachedToBar": true,
-    "settingsPanelMode": "window",
-    "settingsPanelSideBarCardStyle": true
+    "settingsPanelMode": "centered",
+    "settingsPanelSideBarCardStyle": false
   },
   "location": {
     "name": "Laval",
@@ -440,7 +440,7 @@
     "disableDesktopWidgets": true
   },
   "dock": {
-    "enabled": false,
+    "enabled": true,
     "position": "left",
     "displayMode": "always_visible",
     "dockType": "attached",

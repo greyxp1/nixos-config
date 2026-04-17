@@ -28,9 +28,9 @@
         gestures.hot-corners.off = _: {};
 
         workspaces = {
-          "browser" = _: {};
-          "main" = _: {};
-          "chat" = _: {};
+          "1" = _: {};
+          "2" = _: {};
+          "3" = _: {};
         };
 
         binds = {
@@ -111,11 +111,17 @@
           }
           {
             matches           = [ { app-id = "(?i)helium"; } ];
-            open-on-workspace = "browser";
+            open-on-workspace = "1";
           }
           {
             matches           = [ { app-id = "(?i)electron"; } ];
-            open-on-workspace = "chat";
+            open-on-workspace = "3";
+          }
+          {
+            background-effect = {
+              blur = true;
+              xray = false;
+            };
           }
         ];
 
@@ -124,10 +130,6 @@
             matches = [ { namespace = "^noctalia-wallpaper*"; } ];
             place-within-backdrop = true;
           }
-#          {
-#            matches = [ { namespace = "^noctalia-(background|launcher-overlay|dock)-.*$"; } ];
-#            background-effect = { xray = false; };
-#          }
         ];
 
         hotkey-overlay = [
@@ -145,7 +147,7 @@
         spawn-at-startup = [
           [ "noctalia-shell" ]
           [ "equibop" ]
-          [ "niri" "msg" "action" "focus-workspace" "main" ]
+          [ "niri" "msg" "action" "focus-workspace" "2" ]
         ];
       };
     };
