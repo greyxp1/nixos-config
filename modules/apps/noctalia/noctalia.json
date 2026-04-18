@@ -440,7 +440,7 @@
     "disableDesktopWidgets": true
   },
   "dock": {
-    "enabled": true,
+    "enabled": false,
     "position": "left",
     "displayMode": "always_visible",
     "dockType": "attached",

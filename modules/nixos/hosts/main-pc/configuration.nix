@@ -33,12 +33,20 @@
             modesetting.enable = true;
           };
 
-          boot.loader.systemd-boot.enable      = lib.mkForce false;
-          boot.loader.efi.canTouchEfiVariables = true;
-
-          boot.lanzaboote = {
-            enable    = true;
-            pkiBundle = "/var/lib/sbctl";
+          boot = {
+            loader = {
+              systemd-boot.enable      = lib.mkForce false;
+              efi.canTouchEfiVariables = true;
+            };
+            lanzaboote = {
+              autoGenerateKeys.enable = true;
+              enable    = true;
+              pkiBundle = "/var/lib/sbctl";
+              autoEnrollKeys = {
+                enable = true;
+                autoReboot = true;
+              };
+            };
           };
 
           system.activationScripts.sbctl-keys = {

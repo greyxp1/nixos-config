@@ -7,9 +7,7 @@
       bat
       fastfetch
       btop
-      equibop
       zip
-      inputs.helium.packages.${pkgs.system}.default
     ];
   };
 }

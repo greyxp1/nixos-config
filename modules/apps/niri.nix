@@ -1,15 +1,19 @@
-{ ... }: {
-  flake.nixosModules.niri = { inputs, pkgs, lib, ... }:
-  let
+{ self, inputs, ... }: {
+  flake.nixosModules.niri = { pkgs, lib, ... }: {
+    programs.niri = {
+      enable  = true;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.wrappedNiri;
+    };
+  };
+
+  perSystem = { pkgs, lib, ... }: let
     noctalia = cmd: {
       spawn = [ "noctalia-shell" "ipc" "call" ] ++ lib.splitString " " cmd;
     };
-
-    niriPkg = inputs.niri.packages.${pkgs.system}.niri;
-
-    wrappedNiri = inputs.wrapper-modules.wrappers.niri.wrap {
+  in {
+    packages.wrappedNiri = inputs.wrapper-modules.wrappers.niri.wrap {
       inherit pkgs;
-      package = niriPkg;
+      package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
       v2-settings = true;
       settings = {
         input = {
@@ -34,14 +38,19 @@
         };
 
         binds = {
-          "Mod+Return"  = { spawn-sh = "ghostty"; };
-          "Mod+B"       = { spawn-sh = "helium"; };
-          "Mod+Z"       = { spawn-sh = "zeditor"; };
-          "Mod+D"       = { spawn-sh = "equibop"; };
+          "Mod+Return".spawn-sh = "ghostty";
+          "Mod+B".spawn-sh = lib.getExe inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default;
+          "Mod+Z".spawn-sh = "zeditor";
+          "Mod+D".spawn-sh = lib.getExe pkgs.equibop;
 
           "Mod+P"     = noctalia "sessionMenu toggle";
           "Mod+C"     = noctalia "controlCenter toggle";
           "Mod+Space" = noctalia "launcher toggle";
+          "Mod+O"     = noctalia "bar toggle";
+
+          XF86AudioRaiseVolume = noctalia "volume increase";
+          XF86AudioLowerVolume = noctalia "volume decrease";
+          XF86AudioMute        = noctalia "volume muteOutput";
 
           "Mod+Q"       = { close-window          = _: {}; };
           "Mod+F"       = { maximize-column        = _: {}; };
@@ -149,11 +158,6 @@
           [ "niri" "msg" "action" "focus-workspace" "2" ]
         ];
       };
-    };
-  in {
-    programs.niri = {
-      enable  = true;
-      package = wrappedNiri;
     };
   };
 }

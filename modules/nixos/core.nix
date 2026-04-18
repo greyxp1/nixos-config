@@ -16,7 +16,14 @@
     nix.settings = {
       trusted-users         = [ "root" "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ];
+
+      substituters = [ "https://niri.cachix.org" ];
+      trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7SwKTPnCQST63SSTtmdclW2K89XSTmB5V9sMo=" ];
     };
+
+#    environment.variables = {
+#      QT_QPA_PLATFORMTHEME = "gtk3";
+#    };
 
     xdg.portal = {
       enable       = true;
