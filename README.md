@@ -17,11 +17,11 @@ sudo nixos-rebuild switch --flake ~/nixos-config#main-pc
 ### To update the system:
 
 ```bash
-nix flake update --flake ~/nixos-config/
+nix flake update --flake ~/nixos-config
 ```
 
 ```bash
-sudo nixos-rebuild switch --flake ~/nixos-config/
+sudo nixos-rebuild switch --flake ~/nixos-config#main-pc
 ```
 
 ### To build the flake.lock file in wsl:

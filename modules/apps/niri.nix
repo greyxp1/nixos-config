@@ -49,7 +49,6 @@
           "Mod+T"       = { toggle-window-floating  = _: {}; };
           "Mod+Tab"     = { toggle-overview          = _: {}; };
           "Print"       = { screenshot               = _: {}; };
-          "Mod+Shift+E" = { quit = _: { props.skip-confirmation = true; }; };
 
           # Focus movement
           "Mod+H" = { focus-column-left  = _: {}; };
