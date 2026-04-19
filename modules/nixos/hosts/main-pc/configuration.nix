@@ -61,6 +61,7 @@
         })
         inputs.lanzaboote.nixosModules.lanzaboote
         inputs.home-manager.nixosModules.home-manager
+        inputs.catppuccin.nixosModules.catppuccin
         ./_hardware-configuration.nix
       ] ++ builtins.attrValues inputs.self.nixosModules;
     }

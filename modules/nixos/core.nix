@@ -21,11 +21,18 @@
       trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7SwKTPnCQST63SSTtmdclW2K89XSTmB5V9sMo=" ];
     };
 
-    environment.variables = {
-      QT_QPA_PLATFORMTHEME = "gtk3";
-      XCURSOR_SIZE         = "32";
-      XCURSOR_THEME        = "Adwaita";
+    catppuccin = {
+      flavor = "mocha";
+      accent = "mauve";
     };
+
+    catppuccin.cursors = {
+      enable = true;
+      flavor = "mocha";
+      accent = "mauve";
+    };
+
+    environment.variables.XCURSOR_SIZE = "16";
 
     programs.dconf.enable = true;
 

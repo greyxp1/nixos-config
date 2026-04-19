@@ -22,6 +22,8 @@
         };
         openFirewall = true;
       };
+
+      flatpak.enable = true;
     };
   };
 }

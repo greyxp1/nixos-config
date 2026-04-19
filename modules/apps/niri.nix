@@ -36,8 +36,8 @@
         };
 
         cursor = {
-          xcursor-theme = "Adwaita";
-          xcursor-size  = 32;
+          xcursor-theme = "catppuccin-mocha-mauve-cursors";
+          xcursor-size  = 16;
         };
 
         gestures.hot-corners.off = _: {};
