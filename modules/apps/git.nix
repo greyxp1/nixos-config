@@ -15,7 +15,7 @@
           email = "greyxp999@gmail.com";
         };
         init.defaultBranch = "main";
-        pull.rebase        = true;
+        pull.rebase = true;
       };
     };
   };

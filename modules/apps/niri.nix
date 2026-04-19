@@ -2,16 +2,16 @@
   flake.nixosModules.niri = { pkgs, lib, ... }: {
     programs.niri = {
       enable  = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.wrappedNiri;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.niri;
     };
   };
 
-  perSystem = { pkgs, lib, ... }: let
+  perSystem = { pkgs, lib, self', ... }: let
     noctalia = cmd: {
-      spawn = [ "noctalia-shell" "ipc" "call" ] ++ lib.splitString " " cmd;
+      spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" ] ++ lib.splitString " " cmd;
     };
   in {
-    packages.wrappedNiri = inputs.wrapper-modules.wrappers.niri.wrap {
+    packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
       inherit pkgs;
       package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
       v2-settings = true;
@@ -29,6 +29,17 @@
           touchpad.natural-scroll = _: {};
         };
 
+        outputs = {
+          "Acer Technologies XV320QU LV 13110DBDC4200" = {
+            mode = "2560x1440@170.071";
+          };
+        };
+
+        cursor = {
+          xcursor-theme = "Adwaita";
+          xcursor-size  = 32;
+        };
+
         gestures.hot-corners.off = _: {};
 
         workspaces = {
@@ -40,8 +51,8 @@
         binds = {
           "Mod+Return".spawn-sh = "ghostty";
           "Mod+B".spawn-sh = lib.getExe inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default;
-          "Mod+Z".spawn-sh = "zeditor";
           "Mod+D".spawn-sh = lib.getExe pkgs.equibop;
+          "Mod+Z".spawn-sh = "zeditor";
 
           "Mod+P"     = noctalia "sessionMenu toggle";
           "Mod+C"     = noctalia "controlCenter toggle";
@@ -153,7 +164,7 @@
         debug.honor-xdg-activation-with-invalid-serial = true;
 
         spawn-at-startup = [
-          [ "noctalia-shell" ]
+          (lib.getExe self'.packages.noctalia)
           [ "equibop" ]
           [ "niri" "msg" "action" "focus-workspace" "2" ]
         ];

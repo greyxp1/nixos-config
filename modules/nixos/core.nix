@@ -21,9 +21,13 @@
       trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7SwKTPnCQST63SSTtmdclW2K89XSTmB5V9sMo=" ];
     };
 
-#    environment.variables = {
-#      QT_QPA_PLATFORMTHEME = "gtk3";
-#    };
+    environment.variables = {
+      QT_QPA_PLATFORMTHEME = "gtk3";
+      XCURSOR_SIZE         = "32";
+      XCURSOR_THEME        = "Adwaita";
+    };
+
+    programs.dconf.enable = true;
 
     xdg.portal = {
       enable       = true;

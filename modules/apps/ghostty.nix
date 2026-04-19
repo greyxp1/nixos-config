@@ -4,7 +4,7 @@
       (inputs.ghosttyWrappers.wrappers.ghostty.wrap {
         inherit pkgs;
         settings = {
-          theme              = "Catppuccin Mocha";
+          theme = "Catppuccin Mocha";
           background-opacity = 0.81;
         };
       })

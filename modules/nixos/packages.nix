@@ -8,6 +8,8 @@
       fastfetch
       btop
       zip
+      adwaita-icon-theme
+      hicolor-icon-theme
     ];
   };
 }
