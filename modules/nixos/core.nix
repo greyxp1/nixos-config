@@ -5,7 +5,10 @@
     hardware.enableRedistributableFirmware = true;
     nixpkgs.config.allowUnfree = true;
 
-    swapDevices = [ { device = "/var/lib/swapfile"; size = 4096; } ];
+    zramSwap = {
+      enable    = true;
+      algorithm = "zstd";
+    };
 
     users.users.grey = {
       isNormalUser    = true;

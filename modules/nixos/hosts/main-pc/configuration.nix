@@ -33,22 +33,37 @@
             modesetting.enable = true;
           };
 
+          # ── Boot ───────────────────────────────────────────────────────────────
           boot = {
             loader = {
-              systemd-boot.enable      = lib.mkForce false;
               efi.canTouchEfiVariables = true;
+              timeout = 0;
+              systemd-boot = {
+                enable = lib.mkForce false;
+                configurationLimit = 10;
+              };
             };
+
             lanzaboote = {
               autoGenerateKeys.enable = true;
               enable    = true;
               pkiBundle = "/var/lib/sbctl";
               autoEnrollKeys = {
-                enable = true;
+                enable     = true;
                 autoReboot = true;
               };
             };
+
+            initrd.systemd = {
+              enable = true;
+              network.wait-online.enable = false;
+            };
           };
 
+          # Don't block on network at boot
+          systemd.network.wait-online.enable = false;
+
+          # ── Secure boot keys ───────────────────────────────────────────────────
           system.activationScripts.sbctl-keys = {
             text = ''
               if [ ! -d /var/lib/sbctl ]; then
