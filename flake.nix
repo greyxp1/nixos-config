@@ -48,6 +48,11 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
+
+    disko = {
+      url                    = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } {

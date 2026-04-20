@@ -9,6 +9,17 @@
 
       modules = [
         ({ pkgs, lib, ... }: {
+          networking.hostName = "main-pc";
+
+          # ── Disk ───────────────────────────────────────────────────────────────
+          # Only needed for manual disko re-runs. Install script overrides this.
+          custom.disk.device = "/dev/disk/by-id/nvme-KINGSTON_SNV2S1000G_50026B778557B959";
+
+          # ── Hardware ───────────────────────────────────────────────────────────
+          boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
+          boot.kernelModules                 = [ "kvm-amd" ];
+          hardware.cpu.amd.updateMicrocode   = true;
+
           # ── CachyOS kernel ─────────────────────────────────────────────────────
           nixpkgs.overlays    = [ inputs.nix-cachyos-kernel.overlays.pinned ];
           boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
@@ -35,11 +46,14 @@
 
           # ── Boot ───────────────────────────────────────────────────────────────
           boot = {
+            supportedFilesystems        = [ "btrfs" ];
+            initrd.supportedFilesystems = [ "btrfs" ];
+
             loader = {
               efi.canTouchEfiVariables = true;
-              timeout = 0;
+              timeout                  = 0;
               systemd-boot = {
-                enable = lib.mkForce false;
+                enable             = lib.mkForce false;
                 configurationLimit = 10;
               };
             };
@@ -55,12 +69,14 @@
             };
 
             initrd.systemd = {
-              enable = true;
+              enable                     = true;
               network.wait-online.enable = false;
             };
+
+            consoleLogLevel = 0;
+            kernelParams    = [ "quiet" "udev.log_level=0" "rd.systemd.show_status=false" "rd.udev.log_level=0" ];
           };
 
-          # Don't block on network at boot
           systemd.network.wait-online.enable = false;
 
           # ── Secure boot keys ───────────────────────────────────────────────────
@@ -77,7 +93,7 @@
         inputs.lanzaboote.nixosModules.lanzaboote
         inputs.home-manager.nixosModules.home-manager
         inputs.catppuccin.nixosModules.catppuccin
-        ./_hardware-configuration.nix
+        inputs.disko.nixosModules.disko
       ] ++ builtins.attrValues inputs.self.nixosModules;
     }
   );

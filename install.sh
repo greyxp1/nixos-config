@@ -3,34 +3,16 @@ set -euo pipefail
 
 REPO="https://github.com/greyxp1/nixos-config.git"
 WORK_DIR="/tmp/nixos-config"
-HOST=""
+HOST="${1:-}"
 
-# ── Parse arguments ───────────────────────────────────────────────────────────
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --host)
-      [[ -z "${2-}" ]] && { echo "ERROR: --host requires a value."; exit 1; }
-      HOST="$2"; shift 2 ;;
-    -h|--help)
-      echo "Usage: bash <(curl -sL https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh) --host <main-pc|vm|generic>"
-      exit 0 ;;
-    *)
-      echo "ERROR: Unknown argument: $1"
-      echo "Usage: install.sh --host <main-pc|vm|generic>"
-      exit 1 ;;
-  esac
-done
-
-if [[ -z "$HOST" ]]; then
-  echo "ERROR: --host is required."
+# ── Usage ─────────────────────────────────────────────────────────────────────
+if [[ -z "$HOST" || "$HOST" == "--help" || "$HOST" == "-h" ]]; then
+  echo "Usage: bash <(curl -sL https://raw.github.com/greyxp1/nixos-config/main/install.sh) <host>"
   echo
   echo "  main-pc  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
   echo "  vm       — full desktop, QEMU/SPICE guest tools, standard kernel"
   echo "  generic  — full desktop, portable hardware config, standard kernel"
-  echo
-  echo "Example:"
-  echo "  bash <(curl -sL https://raw.githubusercontent.com/greyxp1/nixos-config/main/install.sh) --host vm"
-  exit 1
+  exit "${1:+1}"  # exit 1 if bad arg, 0 if --help
 fi
 
 case "$HOST" in
@@ -41,10 +23,7 @@ case "$HOST" in
 esac
 
 # ── Cleanup on exit ───────────────────────────────────────────────────────────
-cleanup() {
-  sudo swapoff /mnt/.swapfile-install 2>/dev/null || true
-  sudo umount -R /mnt 2>/dev/null || true
-}
+cleanup() { sudo umount -R /mnt 2>/dev/null || true; }
 trap cleanup EXIT
 
 # ── 1. Clone config ───────────────────────────────────────────────────────────
@@ -53,20 +32,17 @@ rm -rf "$WORK_DIR"
 git clone -q "$REPO" "$WORK_DIR"
 cd "$WORK_DIR"
 
-# Ensure interactive prompts can read from the terminal even when piped.
 exec < /dev/tty
 
 # ── 2. Require UEFI ───────────────────────────────────────────────────────────
 if [[ ! -d /sys/firmware/efi/efivars ]]; then
-  echo "ERROR: All host configurations require UEFI firmware. BIOS/Legacy is not supported."
+  echo "ERROR: UEFI firmware required. BIOS/Legacy is not supported."
   exit 1
 fi
 echo "==> Firmware: UEFI"
 
 # ── 3. Disk selection ─────────────────────────────────────────────────────────
-ISO_SOURCE=$(findmnt -n -o SOURCE /iso 2>/dev/null || true)
-ISO_DISK=""
-[[ -n "$ISO_SOURCE" ]] && ISO_DISK=$(lsblk -no PKNAME "$ISO_SOURCE" 2>/dev/null || true)
+ISO_DISK=$(findmnt -n -o SOURCE /iso 2>/dev/null | xargs -r lsblk -no PKNAME 2>/dev/null || true)
 
 mapfile -t DISK_NAMES < <(
   lsblk -dn -o NAME,TYPE -e 7 \
@@ -96,40 +72,69 @@ else
   [[ "$CONFIRM" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
 fi
 
-# ── 4. Partition and format ───────────────────────────────────────────────────
-if [[ "$DEV" =~ (nvme|mmcblk) ]]; then PART="${DEV}p"; else PART="$DEV"; fi
+# ── 4. Partition and format with disko ────────────────────────────────────────
+# We generate a standalone disko config with the selected device baked in.
+# This uses the same labels (nixos, NIXBOOT) that disk.nix's fileSystems expect,
+# so the installed system mounts by label and works on any hardware.
+echo "==> Partitioning and formatting $DEV..."
 
-echo "==> Partitioning $DEV..."
-sudo wipefs -af "$DEV" > /dev/null
-sudo parted -s "$DEV" mklabel gpt
-sudo parted -s "$DEV" mkpart ESP  fat32  1MiB    1025MiB
-sudo parted -s "$DEV" mkpart root ext4   1025MiB 100%
-sudo parted -s "$DEV" set 1 esp on
-sudo partprobe "$DEV"
-sleep 1
+DISKO_CONFIG=$(mktemp /tmp/disko-XXXXXX.nix)
+cat > "$DISKO_CONFIG" << NIXEOF
+{
+  disko.devices.disk.main = {
+    type   = "disk";
+    device = "$DEV";
+    content = {
+      type = "gpt";
+      partitions = {
+        ESP = {
+          size = "512M";
+          type = "EF00";
+          content = {
+            type         = "filesystem";
+            format       = "vfat";
+            mountpoint   = "/boot";
+            extraArgs    = [ "-F" "32" "-n" "NIXBOOT" ];
+            mountOptions = [ "umask=0077" ];
+          };
+        };
+        root = {
+          size    = "100%";
+          content = {
+            type      = "btrfs";
+            extraArgs = [ "-f" "--label" "nixos" ];
+            subvolumes = {
+              "@"          = { mountpoint = "/";           mountOptions = [ "compress=zstd" "noatime" ]; };
+              "@nix"       = { mountpoint = "/nix";        mountOptions = [ "compress=zstd" "noatime" ]; };
+              "@home"      = { mountpoint = "/home";       mountOptions = [ "compress=zstd" "noatime" ]; };
+              "@log"       = { mountpoint = "/var/log";    mountOptions = [ "compress=zstd" "noatime" ]; };
+              "@snapshots" = { mountpoint = "/.snapshots"; mountOptions = [ "compress=zstd" "noatime" ]; };
+            };
+          };
+        };
+      };
+    };
+  };
+}
+NIXEOF
 
-sudo mkfs.fat  -F 32 -n NIXBOOT "${PART}1" > /dev/null
-sudo mkfs.ext4 -F    -L nixos   "${PART}2" > /dev/null
-sudo mount /dev/disk/by-label/nixos   /mnt
-sudo mkdir -p /mnt/boot
-sudo mount /dev/disk/by-label/NIXBOOT /mnt/boot
+sudo nix --extra-experimental-features "nix-command flakes" \
+  run 'github:nix-community/disko/latest' -- \
+  --mode destroy,format,mount \
+  "$DISKO_CONFIG"
 
-# ── 5. Temporary swap (installer only) ───────────────────────────────────────
-sudo fallocate -l 4G /mnt/.swapfile-install
-sudo chmod 600       /mnt/.swapfile-install
-sudo mkswap          /mnt/.swapfile-install > /dev/null
-sudo swapon          /mnt/.swapfile-install
+rm -f "$DISKO_CONFIG"
 
-# ── 6. Install ────────────────────────────────────────────────────────────────
+# ── 5. Install ────────────────────────────────────────────────────────────────
 echo "==> Installing NixOS ($HOST)..."
 sudo nixos-install \
   --root /mnt \
-  --flake ".#$HOST" \
+  --flake "$WORK_DIR#$HOST" \
   --no-root-passwd \
-  --option substituters "https://cache.nixos.org https://attic.xuyh0120.win/lantian https://cache.garnix.io" \
-  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+  --option substituters         "https://cache.nixos.org https://attic.xuyh0120.win/lantian https://cache.garnix.io" \
+  --option trusted-public-keys  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
 
-# ── 7. Persist config on installed system ─────────────────────────────────────
+# ── 6. Persist config on installed system ─────────────────────────────────────
 sudo cp -rT "$WORK_DIR" /mnt/etc/nixos
 
 echo "==> Done! Rebooting..."

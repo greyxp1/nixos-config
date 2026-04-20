@@ -3,7 +3,7 @@
     time.timeZone                          = "America/Montreal";
     networking.networkmanager.enable       = true;
     hardware.enableRedistributableFirmware = true;
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfree            = true;
 
     zramSwap = {
       enable    = true;
@@ -20,7 +20,7 @@
       trusted-users         = [ "root" "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ];
 
-      substituters = [ "https://niri.cachix.org" ];
+      substituters        = [ "https://niri.cachix.org" ];
       trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7SwKTPnCQST63SSTtmdclW2K89XSTmB5V9sMo=" ];
     };
 
@@ -40,8 +40,8 @@
     programs.dconf.enable = true;
 
     xdg.portal = {
-      enable       = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      enable        = true;
+      extraPortals  = [ pkgs.xdg-desktop-portal-gtk ];
       config.common.default = [ "gtk" ];
     };
 
