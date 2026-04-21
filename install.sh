@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="https://github.com/greyxp1/nixos-config.git"
-WORK_DIR="/tmp/nixos-config"
+REPO="https://github.com/greyxp1/nixconf.git"
+WORK_DIR="/tmp/nixconf"
 HOST="${1:-}"
 
 # ── Usage ─────────────────────────────────────────────────────────────────────
 if [[ -z "$HOST" || "$HOST" == "--help" || "$HOST" == "-h" ]]; then
-  echo "Usage: bash <(curl -sL https://raw.github.com/greyxp1/nixos-config/main/install.sh) <host>"
+  echo "Usage: bash <(curl -sL https://raw.github.com/greyxp1/nixconf/main/install.sh) <host>"
   echo
   echo "  main-pc  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
   echo "  vm       — full desktop, QEMU/SPICE guest tools, standard kernel"
@@ -135,7 +135,7 @@ sudo nixos-install \
   --option trusted-public-keys  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc= cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
 
 # ── 6. Persist config on installed system ─────────────────────────────────────
-sudo cp -rT "$WORK_DIR" /mnt/etc/nixos
+sudo cp -rT "$WORK_DIR" ~/nixconf
 
 echo "==> Done! Rebooting..."
 sudo reboot

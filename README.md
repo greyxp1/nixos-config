@@ -1,35 +1,25 @@
 ### Installation: 
 
 ```bash
-bash <(curl -sL https://raw.github.com/greyxp1/nixos-config/main/install.sh) main-pc
+bash <(curl -sL greyxp1.github.io/nixconf/install.sh) main-pc
 ```
 
 ### To rebuild the system:
 
 ```bash
-cd ~/nixos-config/ && git pull
+cd ~/nixconf/ && git pull
 ```
 
 ```bash
-sudo nixos-rebuild switch --flake ~/nixos-config#main-pc
+sudo nixos-rebuild switch --flake ~/nixconf#main-pc
 ```
 
 ### To update the system:
 
 ```bash
-nix flake update --flake ~/nixos-config
+nix flake update --flake ~/nixconf
 ```
 
 ```bash
-sudo nixos-rebuild switch --flake ~/nixos-config#main-pc
-```
-
-### To build the flake.lock file in wsl:
-
-```bash
-wsl -d NixOS
-```
-
-```bash
-nix-shell -p git --run "nix --extra-experimental-features 'nix-command flakes' flake lock"
+sudo nixos-rebuild switch --flake ~/nixconf#main-pc
 ```
