@@ -12,7 +12,7 @@ if [[ -z "$HOST" || "$HOST" == "--help" || "$HOST" == "-h" ]]; then
   echo "  main-pc  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
   echo "  vm       — full desktop, QEMU/SPICE guest tools, standard kernel"
   echo "  generic  — full desktop, portable hardware config, standard kernel"
-  exit "${1:+1}"  # exit 1 if bad arg, 0 if --help
+  exit "${1:+1}"
 fi
 
 case "$HOST" in
@@ -55,8 +55,6 @@ mapfile -t DISK_NAMES < <(
 if [[ ${#DISK_NAMES[@]} -eq 1 ]]; then
   DEV="/dev/${DISK_NAMES[0]}"
   echo "==> Disk: $DEV  $(lsblk -dno SIZE "$DEV")  $(lsblk -dno MODEL "$DEV")"
-  read -rp "DANGER: This will WIPE $DEV. Are you sure? (y/n): " CONFIRM
-  [[ "$CONFIRM" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
 else
   echo "Available disks:"
   for i in "${!DISK_NAMES[@]}"; do
@@ -65,17 +63,12 @@ else
       "$(lsblk -dno SIZE  "/dev/${DISK_NAMES[$i]}")" \
       "$(lsblk -dno MODEL "/dev/${DISK_NAMES[$i]}")"
   done
-  read -rp "Install to disk (number): " CHOICE
+  read -rp "DANGER: This will WIPE the selected disk. Choose (number): " CHOICE
   [[ -z "${DISK_NAMES[$CHOICE]+x}" ]] && { echo "ERROR: Invalid choice."; exit 1; }
   DEV="/dev/${DISK_NAMES[$CHOICE]}"
-  read -rp "DANGER: This will WIPE $DEV. Are you sure? (y/n): " CONFIRM
-  [[ "$CONFIRM" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 1; }
 fi
 
 # ── 4. Partition and format with disko ────────────────────────────────────────
-# We generate a standalone disko config with the selected device baked in.
-# This uses the same labels (nixos, NIXBOOT) that disk.nix's fileSystems expect,
-# so the installed system mounts by label and works on any hardware.
 echo "==> Partitioning and formatting $DEV..."
 
 DISKO_CONFIG=$(mktemp /tmp/disko-XXXXXX.nix)
