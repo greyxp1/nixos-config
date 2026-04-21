@@ -5,14 +5,19 @@ REPO="https://github.com/greyxp1/nixconf.git"
 WORK_DIR="/tmp/nixconf"
 HOST="${1:-}"
 
-# ── Usage ─────────────────────────────────────────────────────────────────────
+# ── Host selection ────────────────────────────────────────────────────────────
 if [[ -z "$HOST" || "$HOST" == "--help" || "$HOST" == "-h" ]]; then
-  echo "Usage: bash <(curl -sL https://raw.github.com/greyxp1/nixconf/main/install.sh) <host>"
-  echo
-  echo "  main-pc  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
-  echo "  vm       — full desktop, QEMU/SPICE guest tools, standard kernel"
-  echo "  generic  — full desktop, portable hardware config, standard kernel"
-  exit "${1:+1}"
+  echo "Select a host to install:"
+  echo "  [0] main-pc  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
+  echo "  [1] vm       — full desktop, QEMU/SPICE guest tools, standard kernel"
+  echo "  [2] generic  — full desktop, portable hardware config, standard kernel"
+  read -rp "Choice (number): " HOST_CHOICE
+  case "$HOST_CHOICE" in
+    0) HOST="main-pc" ;;
+    1) HOST="vm"      ;;
+    2) HOST="generic" ;;
+    *) echo "ERROR: Invalid choice."; exit 1 ;;
+  esac
 fi
 
 case "$HOST" in
@@ -114,7 +119,8 @@ NIXEOF
 sudo nix --extra-experimental-features "nix-command flakes" \
   run 'github:nix-community/disko/latest' -- \
   --mode destroy,format,mount \
-  "$DISKO_CONFIG"
+  --yes-wipe-all-disks \
+  "$DISKO_CONFIG" 2>&1 | grep -v "^copying path\|^building\|^fetching\|^downloading" || true
 
 rm -f "$DISKO_CONFIG"
 
