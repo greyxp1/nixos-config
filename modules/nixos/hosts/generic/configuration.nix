@@ -26,8 +26,14 @@
             supportedFilesystems        = [ "btrfs" ];
             initrd.supportedFilesystems = [ "btrfs" ];
 
-            loader.systemd-boot.enable      = true;
-            loader.efi.canTouchEfiVariables  = true;
+            loader = {
+              efi.canTouchEfiVariables = true;
+              timeout = 0;
+              systemd-boot = {
+                enable = true;
+                configurationLimit = 10;
+              };
+            };
           };
         })
         inputs.home-manager.nixosModules.home-manager
