@@ -164,7 +164,7 @@
     "screenOverrides": []
   },
   "general": {
-    "avatarImage": "/etc/nixos/assets/user.jpg",
+    "avatarImage": "~/nixconf/assets/user.jpg",
     "dimmerOpacity": 0,
     "showScreenCorners": false,
     "forceBlackScreenCorners": true,
@@ -261,7 +261,7 @@
   "wallpaper": {
     "enabled": true,
     "overviewEnabled": false,
-    "directory": "/etc/nixos/assets/wallpapers/",
+    "directory": "~/nixconf/assets/wallpapers/",
     "monitorDirectories": [],
     "enableMultiMonitorDirectories": false,
     "showHiddenFiles": false,
@@ -296,7 +296,17 @@
     "wallhavenResolutionWidth": "",
     "wallhavenResolutionHeight": "",
     "sortOrder": "name",
-    "favorites": []
+    "favorites": [
+      {
+        "appearance": "dark",
+        "colorScheme": "Catppuccin",
+        "darkMode": true,
+        "generationMethod": "tonal-spot",
+        "paletteColors": ["#cba6f7", "#fab387", "#94e2d5", "#f38ba8"],
+        "path": "/home/grey/nixconf/assets/wallpapers/wheat.jpg",
+        "useWallpaperColors": false
+      }
+    ]
   },
   "appLauncher": {
     "enableClipboardHistory": true,

@@ -37,6 +37,9 @@
 
     environment.variables.XCURSOR_SIZE = "16";
 
+    home-manager.useGlobalPkgs   = true;
+    home-manager.useUserPackages = true;
+
     programs.dconf.enable = true;
 
     xdg.portal = {
@@ -45,13 +48,35 @@
       config.common.default = [ "gtk" ];
     };
 
+    xdg.mime.defaultApplications = {
+      "x-scheme-handler/http"  = "helium.desktop";
+      "x-scheme-handler/https" = "helium.desktop";
+      "text/html"              = "helium.desktop";
+    };
+
     hardware.graphics = {
       enable      = true;
       enable32Bit = true;
     };
 
+    services = {
+      upower.enable = true;
+
+      greetd = {
+        enable   = true;
+        settings = {
+          default_session = {
+            command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
+            user    = "greeter";
+          };
+        };
+      };
+
+      flatpak.enable = true;
+    };
+
     system.nixos.label     = config.networking.hostName;
     security.polkit.enable = true;
-    system.stateVersion    = "23.11";
+    system.stateVersion    = "25.11";
   };
 }

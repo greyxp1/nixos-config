@@ -189,27 +189,6 @@
         "type": "github"
       }
     },
-    "ghosttyWrappers": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1774872224,
-        "narHash": "sha256-1rAqJ3mmgWX+jnE0jzDxxIJbsymGTTrx0WO7OU8TlqQ=",
-        "owner": "nouritsu",
-        "repo": "nix-wrapper-modules",
-        "rev": "a560b3158aee3386d9330103a8bd14137f72d875",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nouritsu",
-        "ref": "ghostty",
-        "repo": "nix-wrapper-modules",
-        "type": "github"
-      }
-    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -517,7 +496,6 @@
         "catppuccin": "catppuccin",
         "disko": "disko",
         "flake-parts": "flake-parts",
-        "ghosttyWrappers": "ghosttyWrappers",
         "helium": "helium",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
