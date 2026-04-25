@@ -626,32 +626,7 @@
     "syncGsettings": true
   },
   "templates": {
-    "activeTemplates": [
-      {
-        "enabled": true,
-        "id": "niri"
-      },
-      {
-        "enabled": true,
-        "id": "zed"
-      },
-      {
-        "enabled": true,
-        "id": "gtk"
-      },
-      {
-        "enabled": true,
-        "id": "qt"
-      },
-      {
-        "enabled": true,
-        "id": "btop"
-      },
-      {
-        "enabled": true,
-        "id": "kcolorscheme"
-      }
-    ],
+    "activeTemplates": [],
     "enableUserTheming": false
   },
   "nightLight": {

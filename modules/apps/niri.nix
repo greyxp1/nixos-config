@@ -6,11 +6,7 @@
     };
   };
 
-  perSystem = { pkgs, lib, self', ... }: let
-    noctalia = cmd: {
-      spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" ] ++ lib.splitString " " cmd;
-    };
-  in {
+  perSystem = { pkgs, lib, self', ... }: {
     packages.niri = inputs.wrapper-modules.wrappers.niri.wrap {
       inherit pkgs;
       package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
@@ -50,18 +46,18 @@
 
         binds = {
           "Mod+Return".spawn-sh = "ghostty";
-          "Mod+B".spawn-sh = lib.getExe inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default;
-          "Mod+D".spawn-sh = lib.getExe pkgs.equibop;
+          "Mod+B".spawn-sh = "helium";
+          "Mod+D".spawn-sh = "equibop";
           "Mod+Z".spawn-sh = "zeditor";
 
-          "Mod+P"     = noctalia "sessionMenu toggle";
-          "Mod+C"     = noctalia "controlCenter toggle";
-          "Mod+Space" = noctalia "launcher toggle";
-          "Mod+O"     = noctalia "bar toggle";
+          "Mod+P"     = { spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" "sessionMenu" "toggle" ]; };
+          "Mod+C"     = { spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" "controlCenter" "toggle" ]; };
+          "Mod+Space" = { spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" "launcher" "toggle" ]; };
+          "Mod+O"     = { spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" "bar" "toggle" ]; };
 
-          XF86AudioRaiseVolume = noctalia "volume increase";
-          XF86AudioLowerVolume = noctalia "volume decrease";
-          XF86AudioMute        = noctalia "volume muteOutput";
+          XF86AudioRaiseVolume = { spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" "volume" "increase" ]; };
+          XF86AudioLowerVolume = { spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" "volume" "decrease" ]; };
+          XF86AudioMute        = { spawn = [ (lib.getExe self'.packages.noctalia) "ipc" "call" "volume" "muteOutput" ]; };
 
           "Mod+Q"       = { close-window          = _: {}; };
           "Mod+F"       = { maximize-column        = _: {}; };
@@ -109,21 +105,20 @@
           focus-ring = {
             width          = 3;
             active-color   = "#89b4fa";
-            #inactive-color = "#232634";
           };
           background-color = "transparent";
         };
 
         window-rules = [
           {
-            geometry-corner-radius      = 20;
+            geometry-corner-radius      = 10;
             clip-to-geometry            = true;
             draw-border-with-background = false;
           }
           {
             matches = [
-              { app-id = "(?i)helium";   }
-              { app-id = "(?i)zed";      }
+              { app-id = "(?i)helium"; }
+              { app-id = "(?i)zed"; }
               { app-id = "(?i)electron"; }
             ];
             open-maximized = true;
@@ -160,10 +155,11 @@
 
         overview.workspace-shadow.off = _: {};
         prefer-no-csd = true;
-
         debug.honor-xdg-activation-with-invalid-serial = true;
 
         spawn-at-startup = [
+          [ "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri" ]
+          [ "sh" "-c" "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; pkill -f xdg-desktop-portal-gnome" ]
           (lib.getExe self'.packages.noctalia)
           [ "equibop" ]
           [ "niri" "msg" "action" "focus-workspace" "2" ]

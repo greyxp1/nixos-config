@@ -1,5 +1,5 @@
 { ... }: {
-  flake.nixosModules.core = { config, pkgs, ... }: {
+  flake.nixosModules.core = { config, pkgs, lib, ... }: {
     time.timeZone                          = "America/Montreal";
     networking.networkmanager.enable       = true;
     hardware.enableRedistributableFirmware = true;
@@ -12,7 +12,7 @@
 
     users.users.grey = {
       isNormalUser    = true;
-      extraGroups     = [ "networkmanager" "wheel" "video" "input" ];
+      extraGroups     = [ "networkmanager" "wheel" "video" "input" "libvirtd" ];
       initialPassword = "123";
     };
 
@@ -25,33 +25,38 @@
     };
 
     catppuccin = {
-      flavor = "mocha";
-      accent = "mauve";
-    };
-
-    catppuccin.cursors = {
       enable = true;
       flavor = "mocha";
       accent = "mauve";
+      cursors.enable = true;
     };
-
-    environment.variables.XCURSOR_SIZE = "16";
 
     home-manager.useGlobalPkgs   = true;
     home-manager.useUserPackages = true;
+    environment.pathsToLink = [ "/share/applications" ];
 
-    programs.dconf.enable = true;
+    xdg = {
+      portal = {
+        enable = true;
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gnome
+          xdg-desktop-portal-gtk
+        ];
+        config.niri.default = lib.mkForce "gnome;gtk";
+      };
 
-    xdg.portal = {
-      enable        = true;
-      extraPortals  = [ pkgs.xdg-desktop-portal-gtk ];
-      config.common.default = [ "gtk" ];
+      mime.defaultApplications = {
+        "x-scheme-handler/http"  = "helium.desktop";
+        "x-scheme-handler/https" = "helium.desktop";
+        "text/html"              = "helium.desktop";
+      };
     };
 
-    xdg.mime.defaultApplications = {
-      "x-scheme-handler/http"  = "helium.desktop";
-      "x-scheme-handler/https" = "helium.desktop";
-      "text/html"              = "helium.desktop";
+    environment.sessionVariables = {
+      NIXOS_OZONE_WL              = "1";
+      ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+      MOZ_ENABLE_WAYLAND          = "1";
+      XDG_CURRENT_DESKTOP         = "niri";
     };
 
     hardware.graphics = {
@@ -60,19 +65,32 @@
     };
 
     services = {
-      upower.enable = true;
+      upower.enable                = true;
+      power-profiles-daemon.enable = true;
 
       greetd = {
         enable   = true;
-        settings = {
-          default_session = {
-            command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
-            user    = "greeter";
-          };
+        settings.default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
+          user    = "greeter";
         };
       };
 
+      pipewire = {
+        enable       = true;
+        alsa.enable  = true;
+        pulse.enable = true;
+      };
+
       flatpak.enable = true;
+    };
+
+    virtualisation = {
+      libvirtd = {
+        enable           = true;
+        qemu.swtpm.enable = true;
+      };
+      spiceUSBRedirection.enable = true;
     };
 
     system.nixos.label     = config.networking.hostName;
