@@ -33,7 +33,7 @@
 
         cursor = {
           xcursor-theme = "catppuccin-mocha-mauve-cursors";
-          xcursor-size  = 16;
+          xcursor-size  = 24;
         };
 
         gestures.hot-corners.off = _: {};
