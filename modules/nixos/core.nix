@@ -53,8 +53,8 @@
     };
 
     environment.sessionVariables = {
-      GCM_CREDENTIAL_STORE = "secretservice";
-      GIT_TERMINAL_PROMPT = "1";
+      #GCM_CREDENTIAL_STORE = "secretservice";
+      #GIT_TERMINAL_PROMPT = "1";
       NIXOS_OZONE_WL              = "1";
       ELECTRON_OZONE_PLATFORM_HINT = "wayland";
       MOZ_ENABLE_WAYLAND          = "1";
@@ -88,10 +88,7 @@
       dbus.enable = true;
     };
 
-    security.pam.services = {
-      greetd.enableGnomeKeyring = true;
-      login.enableGnomeKeyring = true;
-    };
+    security.pam.services.greetd.enableGnomeKeyring = true;
 
     virtualisation = {
       libvirtd = {

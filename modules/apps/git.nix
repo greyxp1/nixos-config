@@ -12,7 +12,6 @@
         settings = {
           credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
           credential.credentialStore = "secretservice";
-          "credential.https://github.com".authtype = "oauth";
           init.defaultBranch    = "main";
           help.autocorrect      = 1;
           column.ui             = "auto";
