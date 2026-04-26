@@ -13,24 +13,29 @@
             voiceMessages.enable = true;
             blockKrisp.enable = true;
             alwaysTrust.enable = true;
+            equibopStreamFixes.enable = true;
           };
         };
 
         equibop = {
           enable  = true;
+          autoscroll.enable = true;
           package = pkgs.equibop.overrideAttrs (old: {
             nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.makeWrapper ];
             postFixup = (old.postFixup or "") + ''
               wrapProgram $out/bin/equibop \
                 --add-flags "--force_high_performance_gpu" \
                 --add-flags "--enable-features=VaapiVideoDecodeLinuxGL" \
-                --add-flags "--start-minimized"
+                #--add-flags "--start-minimized"
             '';
           });
           settings = {
-            hardwareAcceleration      = true;
+            hardwareAcceleration = true;
             videoHardwareAcceleration = true;
-            minimizeToTray            = true;
+            enableSplashScreen = false;
+            splashTheming = false;
+            middleClickAutoscroll = true;
+            minimizeToTray = false;
           };
         };
 
@@ -38,7 +43,7 @@
           enable   = true;
           settings = {
             hardwareAcceleration = true;
-            minimizeToTray       = true;
+            minimizeToTray = true;
           };
         };
       };

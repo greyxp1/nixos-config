@@ -1,5 +1,11 @@
-{ ... }: {
+{ inputs, ... }: {
   flake.nixosModules.core = { config, pkgs, lib, ... }: {
+    imports = [
+      inputs.home-manager.nixosModules.home-manager
+      inputs.catppuccin.nixosModules.catppuccin
+      inputs.disko.nixosModules.disko
+    ];
+
     time.timeZone                          = "America/Montreal";
     networking.networkmanager.enable       = true;
     hardware.enableRedistributableFirmware = true;
@@ -20,8 +26,8 @@
       trusted-users         = [ "root" "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ];
 
-      substituters        = [ "https://niri.cachix.org" ];
-      trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7SwKTPnCQST63SSTtmdclW2K89XSTmB5V9sMo=" ];
+      substituters        = [ "https://noctalia.cachix.org" ];
+      trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
     };
 
     catppuccin = {
@@ -31,30 +37,44 @@
       cursors.enable = true;
     };
 
-    home-manager.useGlobalPkgs   = true;
-    home-manager.useUserPackages = true;
+    home-manager = {
+      useGlobalPkgs   = true;
+      useUserPackages = true;
+      backupFileExtension = "backup";
+      users.grey = { ... }: {
+        home = {
+          username      = "grey";
+          homeDirectory = "/home/grey";
+          stateVersion  = "25.11";
+        };
+      };
+    };
+
     environment.pathsToLink = [ "/share/applications" ];
 
     xdg = {
       portal = {
         enable = true;
         extraPortals = with pkgs; [
-          xdg-desktop-portal-gnome
+          xdg-desktop-portal-wlr
           xdg-desktop-portal-gtk
         ];
-        config.niri.default = lib.mkForce "gnome;gtk";
+        config = {
+          common.default = [ "gtk" ];
+          niri.default = [ "wlr" "gtk" ];
+        };
       };
 
       mime.defaultApplications = {
         "x-scheme-handler/http"  = "helium.desktop";
         "x-scheme-handler/https" = "helium.desktop";
         "text/html"              = "helium.desktop";
+        "inode/directory"        = "thunar.desktop";
+        "x-scheme-handler/file"  = "thunar.desktop";
       };
     };
 
     environment.sessionVariables = {
-      #GCM_CREDENTIAL_STORE = "secretservice";
-      #GIT_TERMINAL_PROMPT = "1";
       NIXOS_OZONE_WL              = "1";
       ELECTRON_OZONE_PLATFORM_HINT = "wayland";
       MOZ_ENABLE_WAYLAND          = "1";
@@ -68,10 +88,12 @@
 
     services = {
       greetd = {
-        enable   = true;
+        enable = true;
+        useTextGreeter = true;
+        restart = false;
         settings.default_session = {
-          command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
-          user    = "greeter";
+          command = "niri-session";
+          user = "grey";
         };
       };
 

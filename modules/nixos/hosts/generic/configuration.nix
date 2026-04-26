@@ -36,9 +36,6 @@
             };
           };
         })
-        inputs.home-manager.nixosModules.home-manager
-        inputs.catppuccin.nixosModules.catppuccin
-        inputs.disko.nixosModules.disko
       ] ++ builtins.attrValues inputs.self.nixosModules;
     }
   );

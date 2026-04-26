@@ -10,6 +10,8 @@
         fastfetch
         btop
         zip
+        unzip
+        wget
 
         # ── Theming ────────────────────────────────────────────────────────────
         adwaita-icon-theme
@@ -28,6 +30,8 @@
         inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
         gpu-screen-recorder
         obsidian
+        mpv
+        thunar
       ];
     };
   };

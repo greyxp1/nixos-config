@@ -17,14 +17,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    wrapper-modules = {
-      url                    = "github:BirdeeHub/nix-wrapper-modules";
+    noctalia = {
+      url                    = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    noctalia-plugins = {
-      url   = "github:noctalia-dev/noctalia-plugins";
-      flake = false;
     };
 
     lanzaboote = {
@@ -46,6 +41,11 @@
 
     disko = {
       url                    = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nirimod = {
+      url                    = "github:greyxp1/nirimod";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
