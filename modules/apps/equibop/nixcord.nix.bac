@@ -1,13 +1,15 @@
 { inputs, ... }: {
-  flake.nixosModules.discord = { ... }: {
+  flake.nixosModules.equibop = { ... }: {
     home-manager.users.grey = { pkgs, ... }: {
       imports = [ inputs.nixcord.homeModules.nixcord ];
 
       programs.nixcord = {
         enable = true;
-
+        quickCss = builtins.readFile ./quickCss.css;
         config = {
           useQuickCss = true;
+          frameless = true;
+          transparent = true;
           plugins = {
             webScreenShareFixes.enable = true;
             voiceMessages.enable = true;
@@ -19,7 +21,6 @@
 
         equibop = {
           enable  = true;
-          autoscroll.enable = true;
           package = pkgs.equibop.overrideAttrs (old: {
             nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.makeWrapper ];
             postFixup = (old.postFixup or "") + ''
@@ -29,21 +30,18 @@
                 #--add-flags "--start-minimized"
             '';
           });
+          autoscroll.enable = true;
+          state = {
+            firstlaunch = false;
+          };
+
           settings = {
             hardwareAcceleration = true;
-            videoHardwareAcceleration = true;
+            hardwareVideoAcceleration = true;
             enableSplashScreen = false;
             splashTheming = false;
             middleClickAutoscroll = true;
             minimizeToTray = false;
-          };
-        };
-
-        vesktop = {
-          enable   = true;
-          settings = {
-            hardwareAcceleration = true;
-            minimizeToTray = true;
           };
         };
       };
