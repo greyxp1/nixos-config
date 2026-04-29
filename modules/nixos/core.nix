@@ -26,8 +26,8 @@
       trusted-users         = [ "root" "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ];
 
-      substituters        = [ "https://noctalia.cachix.org" ];
-      trusted-public-keys = [ "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4=" ];
+      substituters        = [ "https://niri.cachix.org" ];
+      trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
     };
 
     catppuccin = {
@@ -53,17 +53,17 @@
     environment.pathsToLink = [ "/share/applications" ];
 
     xdg = {
-      portal = {
-        enable = true;
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-wlr
-          xdg-desktop-portal-gtk
-        ];
-        config = {
-          common.default = [ "gtk" ];
-          niri.default = [ "wlr" "gtk" ];
-        };
-      };
+#      portal = {
+#        enable = true;
+#        extraPortals = with pkgs; [
+#          xdg-desktop-portal-wlr
+#          xdg-desktop-portal-gtk
+#        ];
+#        config = {
+#          common.default = [ "gtk" ];
+#          niri.default = [ "wlr" "gtk" ];
+#        };
+#      };
 
       mime.defaultApplications = {
         "x-scheme-handler/http"  = "helium.desktop";

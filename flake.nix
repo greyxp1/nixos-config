@@ -2,33 +2,33 @@
   description = "Modular NixOS Configuration";
 
   inputs = {
-    nixpkgs.url            = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     flake-parts = {
-      url                        = "github:hercules-ci/flake-parts";
+      url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
     import-tree.url = "github:vic/import-tree";
 
     home-manager = {
-      url                    = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     noctalia = {
-      url                    = "github:noctalia-dev/noctalia-shell";
+      url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     lanzaboote = {
-      url                    = "github:nix-community/lanzaboote/v1.0.0";
+      url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     helium = {
-      url                    = "github:AlvaroParker/helium-nix";
+      url = "github:AlvaroParker/helium-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -40,12 +40,12 @@
     catppuccin.url = "github:catppuccin/nix";
 
     disko = {
-      url                    = "github:nix-community/disko";
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nirimod = {
-      url                    = "github:greyxp1/nirimod";
+      url = "github:srinivasr/nirimod";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
