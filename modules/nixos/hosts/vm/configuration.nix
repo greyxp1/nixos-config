@@ -32,7 +32,10 @@
           # ── VM guest tools ─────────────────────────────────────────────────────
           services.spice-vdagentd.enable = true;
           services.qemuGuest.enable      = true;
-          environment.systemPackages     = [ pkgs.spice-vdagent ];
+          environment.systemPackages     = [
+            pkgs.spice-vdagent
+            pkgs.open-vm-tools
+          ];
         })
       ] ++ builtins.attrValues inputs.self.nixosModules;
     }

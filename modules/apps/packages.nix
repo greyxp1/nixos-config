@@ -5,7 +5,7 @@
         # ── CLI tools ──────────────────────────────────────────────────────────
         neovim
         curl
-        tree
+        lstr
         bat
         fastfetch
         btop
@@ -32,6 +32,7 @@
         obsidian
         mpv
         thunar
+        codex
       ];
     };
   };

@@ -73,8 +73,8 @@
               network.wait-online.enable = false;
             };
 
-            consoleLogLevel = 0;
-            kernelParams    = [ "quiet" "udev.log_level=0" "rd.systemd.show_status=false" "rd.udev.log_level=0" ];
+            #consoleLogLevel = 0;
+            #kernelParams    = [ "quiet" "udev.log_level=0" "rd.systemd.show_status=false" "rd.udev.log_level=0" ];
           };
 
           systemd.network.wait-online.enable = false;

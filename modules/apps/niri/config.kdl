@@ -146,7 +146,6 @@ binds {
 }
 
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
-spawn-at-startup "sh" "-c" "while ! busctl --user status org.gnome.Mutter.ScreenCast >/dev/null 2>&1; do sleep 0.2; done; pkill -f xdg-desktop-portal-gnome"
 spawn-at-startup "noctalia-shell"
 spawn-at-startup "equibop"
 spawn-at-startup "niri" "msg" "action" "focus-workspace" "2"
