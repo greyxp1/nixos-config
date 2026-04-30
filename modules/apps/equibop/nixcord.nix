@@ -11,11 +11,28 @@
           frameless = true;
           transparent = true;
           plugins = {
-            webScreenShareFixes.enable = true;
-            voiceMessages.enable = true;
-            blockKrisp.enable = true;
             alwaysTrust.enable = true;
+            autoZipper.enable = true;
+            betterSettings.enable = true;
+            betterUploadButton.enable = true;
+            blockKrisp.enable = true;
+            callTimer.enable = true;
+            ClearURLs.enable = true;
+            declutter.enable = true;
             equibopStreamFixes.enable = true;
+            fixFileExtensions.enable = true;
+            fixImagesQuality.enable = true;
+            followVoiceUser.enable = true;
+            fullSearchContext.enable = true;
+            FullVCPFP.enable = true;
+            imageZoom.enable = true;
+            messageLogger = {
+              enable = true;
+              ignoreSelf = true;
+            };
+            micLoopbackTester.enable = true;
+            voiceMessages.enable = true;
+            webScreenShareFixes.enable = true;
           };
         };
 
@@ -32,7 +49,7 @@
           });
           autoscroll.enable = true;
           state = {
-            firstlaunch = false;
+            firstLaunch = false;
           };
 
           settings = {
@@ -42,6 +59,7 @@
             splashTheming = false;
             middleClickAutoscroll = true;
             minimizeToTray = false;
+            tray = false;
           };
         };
       };

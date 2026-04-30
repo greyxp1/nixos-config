@@ -6,28 +6,38 @@
       inputs.disko.nixosModules.disko
     ];
 
-    time.timeZone                          = "America/Montreal";
-    networking.networkmanager.enable       = true;
+    time.timeZone = "America/Montreal";
+    networking.networkmanager.enable = true;
     hardware.enableRedistributableFirmware = true;
-    nixpkgs.config.allowUnfree            = true;
+    nixpkgs.config.allowUnfree = true;
 
     zramSwap = {
-      enable    = true;
+      enable = true;
       algorithm = "zstd";
     };
 
     users.users.grey = {
-      isNormalUser    = true;
-      extraGroups     = [ "networkmanager" "wheel" "video" "input" "libvirtd" ];
+      isNormalUser = true;
+      extraGroups = [ "networkmanager" "wheel" "video" "input" "libvirtd" ];
       initialPassword = "123";
     };
 
     nix.settings = {
-      trusted-users         = [ "root" "@wheel" ];
+      trusted-users = [ "root" "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ];
 
-      substituters        = [ "https://niri.cachix.org" ];
-      trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+        "https://niri.cachix.org"
+        "https://catppuccin.cachix.org"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+        "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
+      ];
     };
 
     catppuccin = {
@@ -43,7 +53,7 @@
       backupFileExtension = "backup";
       users.grey = { ... }: {
         home = {
-          username      = "grey";
+          username = "grey";
           homeDirectory = "/home/grey";
           stateVersion  = "25.11";
         };
@@ -74,14 +84,14 @@
     };
 
     environment.sessionVariables = {
-      #NIXOS_OZONE_WL              = "1";
-      #ELECTRON_OZONE_PLATFORM_HINT = "wayland";
-      #MOZ_ENABLE_WAYLAND          = "1";
-      #XDG_CURRENT_DESKTOP         = "niri";
+      NIXOS_OZONE_WL = "1";
+      ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+      MOZ_ENABLE_WAYLAND = "1"; #Firefox and Thunderbird
+      XDG_CURRENT_DESKTOP = "niri";
     };
 
     hardware.graphics = {
-      enable      = true;
+      enable = true;
       enable32Bit = true;
     };
 
@@ -97,7 +107,7 @@
       };
 
       pipewire = {
-        enable       = true;
+        enable = true;
         alsa.enable  = true;
         pulse.enable = true;
       };
@@ -113,14 +123,14 @@
 
     virtualisation = {
       libvirtd = {
-        enable           = true;
+        enable = true;
         qemu.swtpm.enable = true;
       };
       spiceUSBRedirection.enable = true;
     };
 
-    system.nixos.label     = config.networking.hostName;
+    system.nixos.label = config.networking.hostName;
     security.polkit.enable = true;
-    system.stateVersion    = "25.11";
+    system.stateVersion = "25.11";
   };
 }
