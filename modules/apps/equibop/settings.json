@@ -1,13 +1,13 @@
 {
-    "discordBranch": "stable",
-    "minimizeToTray": false,
-    "arRPC": false,
-    "splashColor": "rgb(239, 239, 241)",
-    "splashBackground": "rgb(18, 18, 20)",
-    "hardwareVideoAcceleration": true,
-    "enableSplashScreen": false,
-    "splashTheming": false,
-    "tray": false,
-    "appBadge": false,
-    "middleClickAutoscroll": true
+  "discordBranch": "stable",
+  "minimizeToTray": false,
+  "arRPC": false,
+  "splashColor": "rgb(163, 173, 194)",
+  "splashBackground": "rgba(22, 24, 29, 0.81)",
+  "hardwareVideoAcceleration": true,
+  "enableSplashScreen": false,
+  "splashTheming": false,
+  "tray": false,
+  "appBadge": false,
+  "middleClickAutoscroll": true
 }

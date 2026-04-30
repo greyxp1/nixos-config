@@ -31,7 +31,7 @@
         gpu-screen-recorder
         obsidian
         mpv
-        thunar
+        #thunar
         codex
       ];
     };

@@ -126,6 +126,15 @@
         enable = true;
         qemu.swtpm.enable = true;
       };
+
+      vmVariant = {
+        virtualisation.qemu.options = [
+          "-device virtio-vga-gl"
+          "-display gtk,gl=on"
+          "-cpu host"
+        ];
+      };
+
       spiceUSBRedirection.enable = true;
     };
 
