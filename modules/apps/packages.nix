@@ -12,6 +12,8 @@
         zip
         unzip
         wget
+        codex
+        alsa-utils
 
         # ── Theming ────────────────────────────────────────────────────────────
         adwaita-icon-theme
@@ -27,12 +29,12 @@
         virtio-win
         win-spice
 
+        # ── Other ──────────────────────────────────────────────────────────────
         inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
         gpu-screen-recorder
         obsidian
         mpv
-        #thunar
-        codex
+        thunar
       ];
     };
   };
