@@ -89,6 +89,41 @@
           };
 
           environment.systemPackages = [ pkgs.sbctl ];
+
+          # ── Audio (Specific to main-pc) ──────────────────────────────────────────
+          services.pipewire = {
+            enable = true;
+            alsa.enable  = true;
+            pulse.enable = true;
+            wireplumber.extraConfig = lib.mkForce {
+              "10-disable-hw-volume" = {
+                "monitor.alsa.rules" = [
+                  {
+                    matches = [{ "device.name" = "~alsa_card.*"; }];
+                    actions = {
+                      update-props = { "api.alsa.soft-mixer" = true; };
+                    };
+                  }
+                ];
+              };
+            };
+          };
+
+          systemd.services.set-alsa-levels = {
+            description = "Set AT2005USB hardware mixer levels";
+            after = [ "sound.target" "pipewire.service" ];
+            wantedBy = [ "multi-user.target" ];
+            serviceConfig = {
+              Type = "oneshot";
+              ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
+              ExecStart = [
+                "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Speaker 100%"
+                "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Mic playback 0%"
+                "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Mic capture 100%"
+              ];
+              RemainAfterExit = true;
+            };
+          };
         })
         inputs.lanzaboote.nixosModules.lanzaboote
       ] ++ builtins.attrValues inputs.self.nixosModules;
