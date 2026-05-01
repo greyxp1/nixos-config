@@ -106,12 +106,6 @@
         };
       };
 
-      pipewire = {
-        enable = true;
-        alsa.enable  = true;
-        pulse.enable = true;
-      };
-
       flatpak.enable = true;
       upower.enable = true;
       power-profiles-daemon.enable = true;
