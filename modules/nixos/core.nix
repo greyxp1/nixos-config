@@ -25,19 +25,6 @@
     nix.settings = {
       trusted-users = [ "root" "@wheel" ];
       experimental-features = [ "nix-command" "flakes" ];
-
-      substituters = [
-        "https://cache.nixos.org"
-        "https://nix-community.cachix.org"
-        "https://niri.cachix.org"
-        "https://catppuccin.cachix.org"
-      ];
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
-        "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
-      ];
     };
 
     catppuccin = {
@@ -48,14 +35,14 @@
     };
 
     home-manager = {
-      useGlobalPkgs   = true;
+      useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "backup";
       users.grey = { ... }: {
         home = {
           username = "grey";
           homeDirectory = "/home/grey";
-          stateVersion  = "25.11";
+          stateVersion = "25.11";
         };
       };
     };
@@ -94,26 +81,6 @@
       enable = true;
       enable32Bit = true;
     };
-
-    services = {
-      greetd = {
-        enable = true;
-        useTextGreeter = true;
-        restart = false;
-        settings.default_session = {
-          command = "niri-session";
-          user = "grey";
-        };
-      };
-
-      flatpak.enable = true;
-      upower.enable = true;
-      power-profiles-daemon.enable = true;
-      #gnome.gnome-keyring.enable = true;
-      dbus.enable = true;
-    };
-
-    #security.pam.services.greetd.enableGnomeKeyring = true;
 
     virtualisation = {
       libvirtd = {
