@@ -743,9 +743,9 @@
       "enabled": true
     },
     "HideChatButtons": {
-      "Color": false,
-      "Open": false,
-      "enabled": false
+      "enabled": false,
+      "open": false,
+      "color": false
     },
     "HideMedia": {
       "enabled": false
@@ -999,7 +999,7 @@
       "ignoreBots": false,
       "ignoreChannels": "",
       "ignoreGuilds": "",
-      "ignoreSelf": true,
+      "ignoreSelf": false,
       "ignoreSelfEdits": true,
       "ignoreUsers": "",
       "inlineEdits": true,
@@ -1010,33 +1010,35 @@
     },
     "MessageLoggerEnhanced": {
       "ShowLogsButton": true,
-      "ShowWhereMessageIsFrom": false,
+      "ShowWhereMessageIsFrom": true,
       "alwaysLogCurrentChannel": true,
       "alwaysLogDirectMessages": true,
       "attachmentFileExtensions": "png,jpg,jpeg,gif,webp,mp4,webm,mp3,ogg,wav",
       "attachmentSizeLimitInMegabytes": 12,
       "blacklistedIds": "",
       "cacheLimit": 1000,
-      "cacheMessagesFromServers": false,
+      "cacheMessagesFromServers": true,
       "clearLogsOnRestart": false,
-      "enabled": false,
+      "enabled": true,
       "hideMessageFromMessageLoggers": false,
       "hideMessageFromMessageLoggersDeletedMessage": "redacted eh",
       "ignoreBots": false,
       "ignoreMutedCategories": false,
       "ignoreMutedChannels": false,
       "ignoreMutedGuilds": false,
-      "ignoreSelf": false,
+      "ignoreSelf": true,
       "ignoreWebhooks": false,
       "messageLimit": 200,
       "messagesToDisplayAtOnceInLogs": 100,
       "permanentlyRemoveLogByDefault": false,
       "preserveCurrentChannel": true,
-      "saveImages": false,
+      "saveImages": true,
       "saveMessages": true,
       "sortNewest": true,
       "timeBasedCleanupMinutes": 0,
-      "whitelistedIds": ""
+      "whitelistedIds": "",
+      "imageCacheDir": "/home/grey/.config/equibop/MessageLoggerData/savedImages",
+      "logsDir": "/home/grey/.config/equibop/MessageLoggerData"
     },
     "MessageNotifier": {
       "enabled": false,
@@ -1384,7 +1386,7 @@
         "play": [],
         "achievement": []
       },
-      "triggerQuestsRerender": false,
+      "triggerQuestsRerender": true,
       "unclaimedSubsort": "Expiring ASC",
       "unclaimedUnignoredQuests": 0
     },
@@ -2290,6 +2292,9 @@
     },
     "ZipPreview": {
       "enabled": true
+    },
+    "ConcatenatedModules": {
+      "enabled": true
     }
   },
   "themeLinks": [],
@@ -2321,7 +2326,7 @@
     "authenticated": false,
     "url": "https://cloud.equicord.org/",
     "settingsSync": false,
-    "settingsSyncVersion": 1777588242743
+    "settingsSyncVersion": 1777665382280
   },
   "ignoreResetWarning": false,
   "userCssVars": {}
