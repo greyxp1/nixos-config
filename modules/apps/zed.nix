@@ -17,24 +17,21 @@
             ];
 
             userSettings = {
-              project_panel = {
-                dock = "left";
-                button = true;
-              };
-              bottom_dock_layout = "contained";
-              collaboration_panel.dock = "left";
-              toolbar.quick_actions = true;
+              theme = "Noctalia Dark Transparent";
+              session.trust_all_worktrees = true;
+              collaboration_panel.button = false;
+              project_panel.dock = "left";
+              git_panel.dock = "left";
 
               telemetry = {
                 diagnostics = false;
                 metrics = false;
               };
 
-              session.trust_all_worktrees = true;
-
-              ui_font_size = 16;
-              buffer_font_size = 15;
-              theme = "Noctalia Dark Transparent";
+              agent = {
+                sidebar_side = "right";
+                dock = "right";
+              };
             };
           };
         };
