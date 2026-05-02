@@ -1362,7 +1362,7 @@
       "notifyOnQuestComplete": true,
       "onQuestsPage": false,
       "questButtonBadgeColor": 2842239,
-      "questButtonDisplay": "always",
+      "questButtonDisplay": "unclaimed",
       "questButtonLeftClickAction": "open-quests",
       "questButtonMiddleClickAction": "plugin-settings",
       "questButtonRightClickAction": "context-menu",
@@ -2326,7 +2326,7 @@
     "authenticated": false,
     "url": "https://cloud.equicord.org/",
     "settingsSync": false,
-    "settingsSyncVersion": 1777665382280
+    "settingsSyncVersion": 1777702654452
   },
   "ignoreResetWarning": false,
   "userCssVars": {}

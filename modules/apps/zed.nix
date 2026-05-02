@@ -1,29 +1,42 @@
-{ ... }: {
-  flake.nixosModules.zed = { ... }: {
-    home-manager.users.grey = { ... }: {
-      programs.zed-editor = {
-        enable = true;
+{ ... }:
+{
+  flake.nixosModules.zed =
+    { ... }:
+    {
+      home-manager.users.grey =
+        { ... }:
+        {
+          programs.zed-editor = {
+            enable = true;
 
-        extensions = [ "html" "git-firefly" "nix" "kdl" ];
+            extensions = [
+              "html"
+              "git-firefly"
+              "nix"
+              "kdl"
+            ];
 
-        userSettings = {
-          project_panel.button     = true;
-          bottom_dock_layout       = "contained";
-          collaboration_panel.dock = "left";
-          toolbar.quick_actions    = true;
+            userSettings = {
+              project_panel = {
+                dock = "left";
+                button = true;
+              };
+              bottom_dock_layout = "contained";
+              collaboration_panel.dock = "left";
+              toolbar.quick_actions = true;
 
-          telemetry = {
-            diagnostics = false;
-            metrics     = false;
+              telemetry = {
+                diagnostics = false;
+                metrics = false;
+              };
+
+              session.trust_all_worktrees = true;
+
+              ui_font_size = 16;
+              buffer_font_size = 15;
+              theme = "Noctalia Dark Transparent";
+            };
           };
-
-          session.trust_all_worktrees = true;
-
-          ui_font_size     = 16;
-          buffer_font_size = 15;
-          theme            = "Noctalia Dark Transparent";
         };
-      };
     };
-  };
 }
