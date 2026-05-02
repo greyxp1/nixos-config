@@ -20,8 +20,8 @@
             enable = true;
             enableCompletion = true;
             shellAliases = {
-              rebuild = "sudo nixos-rebuild switch --flake ~/nixconf#main-pc && sudo systemctl restart home-manager-grey.service";
-              update = "nix flake update --flake ~/nixconf";
+              rebuild = "nh os switch && sudo systemctl restart home-manager-grey.service";
+              update = "nh os switch --update && sudo systemctl restart home-manager-grey.service";
             };
           };
         };
