@@ -29,10 +29,20 @@
               "virtio_gpu"
             ];
 
-            services.spice-vdagentd.enable = true;
-            services.qemuGuest.enable = true;
+            services = {
+              spice-vdagentd.enable = true;
+              qemuGuest.enable = true;
+            };
+
             environment = {
-              sessionVariables.LIBSEAT_BACKEND = "noop";
+              sessionVariables = {
+                LIBSEAT_BACKEND = "noop";
+                GBM_BACKEND = "virtio_gpu";
+                MESA_LOADER_DRIVER_OVERRIDE = "virtio_gpu";
+                MESA_GL_VERSION_OVERRIDE = "4.3";
+                MESA_GLSL_VERSION_OVERRIDE = "430";
+                WLR_NO_HARDWARE_CURSORS = "1";
+              };
               systemPackages = [
                 pkgs.spice-vdagent
                 pkgs.open-vm-tools
