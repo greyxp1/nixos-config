@@ -123,7 +123,7 @@ sudo nix --extra-experimental-features "nix-command flakes" \
   run 'github:nix-community/disko/latest' -- \
   --mode destroy,format,mount \
   --yes-wipe-all-disks \
-  "$DISKO_CONFIG" 2>&1 | grep -v "^copying path\|^building\|^fetching\|^downloading" || true
+  "$DISKO_CONFIG" 2>&1 | grep -E "^(error|Error|warning|Warning|==>)" || true
 
 rm -f "$DISKO_CONFIG"
 
