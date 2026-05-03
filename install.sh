@@ -29,7 +29,7 @@ esac
 
 # ── Cleanup on exit ───────────────────────────────────────────────────────────
 cleanup() {
-  swapoff /dev/zram0 2>/dev/null || true
+  sudo swapoff /mnt/.swap/swapfile 2>/dev/null || true
   sudo umount -R /mnt 2>/dev/null || true
 }
 trap cleanup EXIT
@@ -127,20 +127,16 @@ sudo nix --extra-experimental-features "nix-command flakes" \
 
 rm -f "$DISKO_CONFIG"
 
-# ── 4.5 Enable zram swap (prevents OOM during flake evaluation/build) ─────────
-echo "==> Enabling zram swap (4G)..."
-if modprobe zram 2>/dev/null; then
-  # Prefer lz4 for speed; fall back silently if unavailable
-  echo lz4 > /sys/block/zram0/comp_algorithm 2>/dev/null \
-    || echo zstd > /sys/block/zram0/comp_algorithm 2>/dev/null \
-    || true
-  echo 4G > /sys/block/zram0/disksize
-  mkswap /dev/zram0
-  swapon /dev/zram0
-  echo "==> zram swap active ($(free -h | awk '/Swap/{print $2}') total swap)"
-else
-  echo "WARNING: Could not load zram module — install may OOM on low-RAM systems."
-fi
+# ── 4.5 Enable swap file (prevents OOM during flake evaluation/build) ────────
+echo "==> Creating swap file on /mnt (4G)..."
+# btrfs requires the file to have nocow set before writing
+sudo mkdir -p /mnt/.swap
+sudo chattr +C /mnt/.swap 2>/dev/null || true
+sudo dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=4096 status=none
+sudo chmod 600 /mnt/.swap/swapfile
+sudo mkswap /mnt/.swap/swapfile
+sudo swapon /mnt/.swap/swapfile
+echo "==> Swap active ($(free -h | awk '/Swap/{print $2}') total)"
 
 # ── 5. Install ────────────────────────────────────────────────────────────────
 echo "==> Installing NixOS ($HOST)..."
