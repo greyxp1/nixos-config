@@ -32,6 +32,7 @@
           "video"
           "input"
           "libvirtd"
+          "seat"
         ];
         initialPassword = "123";
       };
