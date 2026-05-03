@@ -477,11 +477,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777816968,
-        "narHash": "sha256-jbBGrCJfJjC7bsvdTfa+qhVFdbLS0q95E/gqQeQBgwA=",
+        "lastModified": 1777831665,
+        "narHash": "sha256-9oEsoR5jTFq1AJVXvbxpRhVXIf/EfBXSKAImGw2RtqE=",
         "owner": "srinivasr",
         "repo": "nirimod",
-        "rev": "62f0e5155983ead7c7b4e5172517da2ce5b29317",
+        "rev": "a03f045ee23cfb1def9652b3c0fa7ed9cc4678c6",
         "type": "github"
       },
       "original": {
