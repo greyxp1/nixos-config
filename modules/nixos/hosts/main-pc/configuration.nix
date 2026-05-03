@@ -94,22 +94,24 @@
               };
             };
 
-            systemd.services.set-alsa-levels = {
-              description = "Set AT2005USB hardware mixer levels";
-              after = [
-                "sound.target"
-                "pipewire.service"
-              ];
-              wantedBy = [ "multi-user.target" ];
-              serviceConfig = {
-                Type = "oneshot";
-                ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
-                ExecStart = [
-                  "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Speaker 100%"
-                  "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Mic playback 0%"
-                  "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Mic capture 100%"
+            systemd.services = {
+              set-alsa-levels = {
+                description = "Set AT2005USB hardware mixer levels";
+                after = [
+                  "sound.target"
+                  "pipewire.service"
                 ];
-                RemainAfterExit = true;
+                wantedBy = [ "multi-user.target" ];
+                serviceConfig = {
+                  Type = "oneshot";
+                  ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
+                  ExecStart = [
+                    "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Speaker 100%"
+                    "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Mic playback 0%"
+                    "${pkgs.alsa-utils}/bin/amixer -c AT2005USB sset Mic capture 100%"
+                  ];
+                  RemainAfterExit = true;
+                };
               };
             };
           }
