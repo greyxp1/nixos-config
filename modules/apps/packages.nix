@@ -8,6 +8,7 @@
         {
           home.packages = with pkgs; [
             # CLI tools
+            ghostty
             neovim
             curl
             lstr

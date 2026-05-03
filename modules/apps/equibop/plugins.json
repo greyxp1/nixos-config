@@ -163,7 +163,7 @@
       "enabled": false
     },
     "BetterSettings": {
-      "disableFade": true,
+      "disableFade": false,
       "eagerLoad": true,
       "enabled": true,
       "organizeMenu": true
@@ -2326,7 +2326,7 @@
     "authenticated": false,
     "url": "https://cloud.equicord.org/",
     "settingsSync": false,
-    "settingsSyncVersion": 1777702654452
+    "settingsSyncVersion": 1777784965576
   },
   "ignoreResetWarning": false,
   "userCssVars": {}

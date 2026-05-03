@@ -5,7 +5,7 @@
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        inputs.catppuccin.nixosModules.catppuccin
+        inputs.stylix.nixosModules.stylix
         inputs.disko.nixosModules.disko
       ];
 
@@ -47,11 +47,18 @@
         ];
       };
 
-      catppuccin = {
+      stylix = {
         enable = true;
-        flavor = "mocha";
-        accent = "mauve";
-        cursors.enable = true;
+        autoEnable = true;
+        polarity = "dark";
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+        image = inputs.self + "/assets/wallpapers/wheat.jpg";
+
+        cursor = {
+          package = pkgs.catppuccin-cursors.mochaMauve;
+          name = "catppuccin-mocha-mauve-cursors";
+          size = 24;
+        };
       };
 
       home-manager = {
@@ -61,6 +68,7 @@
         users.grey =
           { ... }:
           {
+            gtk.gtk4.theme = null;
             home = {
               username = "grey";
               homeDirectory = "/home/grey";

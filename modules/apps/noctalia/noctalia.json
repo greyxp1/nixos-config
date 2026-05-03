@@ -13,7 +13,7 @@
     "contentPadding": 2,
     "fontScale": 1,
     "enableExclusionZoneInset": true,
-    "backgroundOpacity": 0.95,
+    "backgroundOpacity": 0.93,
     "useSeparateOpacity": false,
     "marginVertical": 4,
     "marginHorizontal": 4,
@@ -124,31 +124,6 @@
           "id": "Battery",
           "showNoctaliaPerformance": false,
           "showPowerProfiles": false
-        },
-        {
-          "defaultSettings": {
-            "audioCodec": "opus",
-            "audioSource": "default_output",
-            "colorRange": "full",
-            "copyToClipboard": false,
-            "customFrameRate": "60",
-            "customReplayDuration": "30",
-            "directory": "",
-            "filenamePattern": "recording_yyyyMMdd_HHmmss",
-            "frameRate": "60",
-            "hideInactive": true,
-            "iconColor": "none",
-            "quality": "very_high",
-            "replayDuration": "120",
-            "replayEnabled": true,
-            "replayStorage": "ram",
-            "resolution": "original",
-            "restorePortalSession": false,
-            "showCursor": true,
-            "videoCodec": "av1",
-            "videoSource": "portal"
-          },
-          "id": "plugin:screen-recorder"
         }
       ]
     },
@@ -169,7 +144,7 @@
     "showScreenCorners": false,
     "forceBlackScreenCorners": true,
     "scaleRatio": 1,
-    "radiusRatio": 1,
+    "radiusRatio": 0.5,
     "iRadiusRatio": 1,
     "boxRadiusRatio": 1,
     "screenRadiusRatio": 1,
@@ -213,8 +188,8 @@
     "smoothScrollEnabled": true
   },
   "ui": {
-    "fontDefault": "Sans Serif",
-    "fontFixed": "monospace",
+    "fontDefault": "DejaVu Sans",
+    "fontFixed": "DejaVu Sans Mono",
     "fontDefaultScale": 1,
     "fontFixedScale": 1,
     "tooltipsEnabled": true,
@@ -223,7 +198,7 @@
     "panelBackgroundOpacity": 0.81,
     "translucentWidgets": true,
     "panelsAttachedToBar": true,
-    "settingsPanelMode": "centered",
+    "settingsPanelMode": "window",
     "settingsPanelSideBarCardStyle": false
   },
   "location": {
@@ -450,7 +425,7 @@
     "disableDesktopWidgets": true
   },
   "dock": {
-    "enabled": false,
+    "enabled": true,
     "position": "left",
     "displayMode": "always_visible",
     "dockType": "attached",
