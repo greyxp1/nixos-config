@@ -21,10 +21,12 @@
               "virtio_scsi"
               "ahci"
               "sd_mod"
+              "virtio_gpu"
             ];
             boot.kernelModules = [
               "kvm-amd"
               "kvm-intel"
+              "virtio_gpu"
             ];
 
             services.spice-vdagentd.enable = true;
