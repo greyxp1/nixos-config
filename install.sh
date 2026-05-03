@@ -28,7 +28,10 @@ case "$HOST" in
 esac
 
 # ── Cleanup on exit ───────────────────────────────────────────────────────────
-cleanup() { sudo umount -R /mnt 2>/dev/null || true; }
+cleanup() {
+  swapoff /dev/zram0 2>/dev/null || true
+  sudo umount -R /mnt 2>/dev/null || true
+}
 trap cleanup EXIT
 
 # ── 1. Clone config ───────────────────────────────────────────────────────────
@@ -124,7 +127,21 @@ sudo nix --extra-experimental-features "nix-command flakes" \
 
 rm -f "$DISKO_CONFIG"
 
-# ── 5. Install ────────────────────────────────────────────────────────────────
+# ── 4.5 Enable zram swap (prevents OOM during flake evaluation/build) ─────────
+echo "==> Enabling zram swap (4G)..."
+if modprobe zram 2>/dev/null; then
+  # Prefer lz4 for speed; fall back silently if unavailable
+  echo lz4 > /sys/block/zram0/comp_algorithm 2>/dev/null \
+    || echo zstd > /sys/block/zram0/comp_algorithm 2>/dev/null \
+    || true
+  echo 4G > /sys/block/zram0/disksize
+  mkswap /dev/zram0
+  swapon /dev/zram0
+  echo "==> zram swap active ($(free -h | awk '/Swap/{print $2}') total swap)"
+else
+  echo "WARNING: Could not load zram module — install may OOM on low-RAM systems."
+fi
+
 # ── 5. Install ────────────────────────────────────────────────────────────────
 echo "==> Installing NixOS ($HOST)..."
 sudo nixos-install \
