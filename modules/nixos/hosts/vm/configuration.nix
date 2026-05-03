@@ -31,10 +31,13 @@
 
             services.spice-vdagentd.enable = true;
             services.qemuGuest.enable = true;
-            environment.systemPackages = [
-              pkgs.spice-vdagent
-              pkgs.open-vm-tools
-            ];
+            environment = {
+              sessionVariables.LIBSEAT_BACKEND = "noop";
+              systemPackages = [
+                pkgs.spice-vdagent
+                pkgs.open-vm-tools
+              ];
+            };
           }
         )
       ]
