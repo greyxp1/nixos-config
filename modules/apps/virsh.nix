@@ -2,7 +2,6 @@
 {
   flake.nixosModules.virsh =
     {
-      pkgs,
       lib,
       config,
       ...
@@ -10,7 +9,7 @@
     {
       config = lib.mkIf (config.networking.hostName == "main-pc") {
         home-manager.users.grey =
-          { lib, pkgs, ... }:
+          { pkgs, ... }:
           {
             systemd.user.services.define-nixos-vm = {
               Unit = {
@@ -37,7 +36,7 @@
                                     ISO_URL="https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso"
                                     if [ ! -f "$ISO" ]; then
                                       echo "Downloading NixOS ISO..."
-                                      ${pkgs.curl}/bin/curl -L -o "$ISO" "$ISO_URL"
+                                      ${pkgs.curl}/bin/curl -L --fail -o "$ISO.tmp" "$ISO_URL" && mv "$ISO.tmp" "$ISO"
                                     fi
 
                                     if [ ! -f "$DISK" ]; then
@@ -94,7 +93,9 @@
                       <graphics type='spice'>
                         <listen type='none'/>
                         <image compression='off'/>
-                        <gl enable='yes' rendernode='/dev/dri/renderD128'/>
+                      </graphics>
+                      <graphics type='egl-headless'>
+                        <gl rendernode='/dev/dri/renderD128'/>
                       </graphics>
                       <sound model='ich9'/>
                       <audio id='1' type='spice'/>
