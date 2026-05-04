@@ -38,10 +38,6 @@
 
             environment = {
               sessionVariables = {
-                LIBSEAT_BACKEND = "noop";
-                MESA_LOADER_DRIVER_OVERRIDE = "virtio_gpu";
-                MESA_GL_VERSION_OVERRIDE = "4.3";
-                MESA_GLSL_VERSION_OVERRIDE = "430";
                 WLR_NO_HARDWARE_CURSORS = "1";
               };
               systemPackages = [
