@@ -2,6 +2,7 @@
 {
   flake.nixosModules.virsh =
     {
+      pkgs,
       lib,
       config,
       ...
@@ -9,7 +10,7 @@
     {
       config = lib.mkIf (config.networking.hostName == "main-pc") {
         home-manager.users.grey =
-          { pkgs, ... }:
+          { lib, pkgs, ... }:
           {
             systemd.user.services.define-nixos-vm = {
               Unit = {
@@ -25,6 +26,12 @@
                                     DISK="$VM_DIR/nixos-vm.qcow2"
 
                                     mkdir -p "$VM_DIR"
+                                    mkdir -p "$HOME/.local/share/libvirt/qemu/nvram"
+                                    NVRAM="$HOME/.local/share/libvirt/qemu/nvram/nixos-vm_VARS.fd"
+                                    if [ ! -f "$NVRAM" ]; then
+                                      cp /run/libvirt/nix-ovmf/OVMF_VARS.fd "$NVRAM"
+                                      chmod 600 "$NVRAM"
+                                    fi
 
                                     if [ ! -f "$DISK" ]; then
                                       ${pkgs.qemu}/bin/qemu-img create -f qcow2 "$DISK" 40G
@@ -39,7 +46,7 @@
                     <os>
                       <type arch='x86_64' machine='q35'>hvm</type>
                       <loader readonly='yes' type='pflash'>/run/libvirt/nix-ovmf/OVMF_CODE.fd</loader>
-                      <nvram template='/run/libvirt/nix-ovmf/OVMF_VARS.fd'/>
+                      <nvram template='/run/libvirt/nix-ovmf/OVMF_VARS.fd'>$HOME/.local/share/libvirt/qemu/nvram/nixos-vm_VARS.fd</nvram>
                       <boot dev='cdrom'/>
                       <boot dev='hd'/>
                     </os>
