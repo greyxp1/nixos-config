@@ -131,7 +131,8 @@ rm -f "$DISKO_CONFIG"
 echo "==> Creating swap file on /mnt (4G)..."
 # btrfs requires the file to have nocow set before writing
 sudo mkdir -p /mnt/.swap
-sudo chattr +C /mnt/.swap 2>/dev/null || true
+sudo touch /mnt/.swap/swapfile
+sudo chattr +C /mnt/.swap/swapfile
 sudo dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=4096 status=none
 sudo chmod 600 /mnt/.swap/swapfile
 sudo mkswap /mnt/.swap/swapfile
