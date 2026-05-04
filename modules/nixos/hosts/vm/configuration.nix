@@ -29,6 +29,8 @@
               "virtio_gpu"
             ];
 
+            hardware.graphics.extraPackages = with pkgs; [ mesa ];
+
             services = {
               spice-vdagentd.enable = true;
               qemuGuest.enable = true;
@@ -37,7 +39,6 @@
             environment = {
               sessionVariables = {
                 LIBSEAT_BACKEND = "noop";
-                GBM_BACKEND = "virtio_gpu";
                 MESA_LOADER_DRIVER_OVERRIDE = "virtio_gpu";
                 MESA_GL_VERSION_OVERRIDE = "4.3";
                 MESA_GLSL_VERSION_OVERRIDE = "430";
