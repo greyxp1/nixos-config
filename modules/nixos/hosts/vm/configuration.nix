@@ -11,10 +11,11 @@
 
       modules = [
         (
-          { pkgs, ... }:
+          { pkgs, lib, ... }:
           {
             networking.hostName = "vm";
             custom.disk.device = "/dev/vda";
+
             boot.initrd.availableKernelModules = [
               "virtio_pci"
               "virtio_blk"
@@ -29,6 +30,21 @@
               "virtio_gpu"
             ];
 
+            # seatd handles DRM device ownership — required for niri TTY backend in VM
+            services.seatd = {
+              enable = true;
+              group = "seat";
+            };
+
+            # greetd must run niri-session after seatd is up
+            systemd.services.greetd = {
+              after = lib.mkForce [
+                "multi-user.target"
+                "seatd.service"
+              ];
+              wants = [ "seatd.service" ];
+            };
+
             hardware.graphics.extraPackages = with pkgs; [ mesa ];
 
             services = {
@@ -39,10 +55,12 @@
             environment = {
               sessionVariables = {
                 WLR_NO_HARDWARE_CURSORS = "1";
+                # tell libseat to use seatd explicitly
+                LIBSEAT_BACKEND = "seatd";
               };
-              systemPackages = [
-                pkgs.spice-vdagent
-                pkgs.open-vm-tools
+              systemPackages = with pkgs; [
+                spice-vdagent
+                mesa-demos # glxinfo/eglinfo for debugging
               ];
             };
           }

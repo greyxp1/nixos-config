@@ -117,6 +117,7 @@
           }
         )
         inputs.lanzaboote.nixosModules.lanzaboote
+        (import ./vm.nix)
       ]
       ++ builtins.attrValues inputs.self.nixosModules;
     }
