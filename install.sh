@@ -129,13 +129,8 @@ rm -f "$DISKO_CONFIG"
 
 # ── 4.5 Enable swap file (prevents OOM during flake evaluation/build) ────────
 echo "==> Creating swap file on /mnt (4G)..."
-# btrfs requires the file to have nocow set before writing
 sudo mkdir -p /mnt/.swap
-sudo touch /mnt/.swap/swapfile
-sudo chattr +C /mnt/.swap/swapfile
-sudo dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=4096 status=none
-sudo chmod 600 /mnt/.swap/swapfile
-sudo mkswap /mnt/.swap/swapfile
+sudo btrfs filesystem mkswapfile --size 4g /mnt/.swap/swapfile
 sudo swapon /mnt/.swap/swapfile
 echo "==> Swap active ($(free -h | awk '/Swap/{print $2}') total)"
 
