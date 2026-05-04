@@ -33,6 +33,13 @@
                                       chmod 600 "$NVRAM"
                                     fi
 
+                                    ISO="$VM_DIR/nixos-installer.iso"
+                                    ISO_URL="https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso"
+                                    if [ ! -f "$ISO" ]; then
+                                      echo "Downloading NixOS ISO..."
+                                      ${pkgs.curl}/bin/curl -L -o "$ISO" "$ISO_URL"
+                                    fi
+
                                     if [ ! -f "$DISK" ]; then
                                       ${pkgs.qemu}/bin/qemu-img create -f qcow2 "$DISK" 40G
                                     fi
@@ -98,7 +105,7 @@
                       </video>
                       <disk type='file' device='cdrom'>
                         <driver name='qemu' type='raw'/>
-                        <source file='/home/grey/Downloads/nixos-25.11.iso'/>
+                        <source file='$ISO'/>
                         <target dev='sda' bus='sata'/>
                         <readonly/>
                       </disk>
@@ -118,8 +125,9 @@
                   </domain>
                   XMLEOF
 
-                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session undefine nixos-vm 2>/dev/null || true
-                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session define "$VM_XML"
+                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session destroy nixos-vm 2>/dev/null || true
+                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session undefine --nvram nixos-vm 2>/dev/null || true
+                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session define "$VM_XML" || true
                 '';
               };
               Install.WantedBy = [ "default.target" ];
