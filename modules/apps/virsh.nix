@@ -29,7 +29,7 @@
                                     mkdir -p "$HOME/.local/share/libvirt/qemu/nvram"
                                     NVRAM="$HOME/.local/share/libvirt/qemu/nvram/nixos-vm_VARS.fd"
                                     if [ ! -f "$NVRAM" ]; then
-                                      cp /run/libvirt/nix-ovmf/OVMF_VARS.fd "$NVRAM"
+                                      cp /run/libvirt/nix-ovmf/edk2-i386-vars.fd "$NVRAM"
                                       chmod 600 "$NVRAM"
                                     fi
 
@@ -45,8 +45,8 @@
                     <vcpu placement='static'>4</vcpu>
                     <os>
                       <type arch='x86_64' machine='q35'>hvm</type>
-                      <loader readonly='yes' type='pflash'>/run/libvirt/nix-ovmf/OVMF_CODE.fd</loader>
-                      <nvram template='/run/libvirt/nix-ovmf/OVMF_VARS.fd'>$HOME/.local/share/libvirt/qemu/nvram/nixos-vm_VARS.fd</nvram>
+                      <loader readonly='yes' type='pflash'>/run/libvirt/nix-ovmf/edk2-x86_64-code.fd</loader>
+                      <nvram template='/run/libvirt/nix-ovmf/edk2-i386-vars.fd'>$HOME/.local/share/libvirt/qemu/nvram/nixos-vm_VARS.fd</nvram>
                       <boot dev='cdrom'/>
                       <boot dev='hd'/>
                     </os>
