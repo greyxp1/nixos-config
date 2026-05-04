@@ -149,6 +149,7 @@ sudo nixos-install \
 
 # ── 6. Persist config on installed system ─────────────────────────────────────
 sudo cp -rT "$WORK_DIR" /mnt/home/grey/nixconf
+sudo chown -R 1000:1000 /mnt/home/grey/nixconf
 
 echo "==> Done! Rebooting..."
 sudo reboot
