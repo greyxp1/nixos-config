@@ -467,7 +467,7 @@
     "Dragify": {
       "allowChatBodyDrop": false,
       "channelOutput": "mention",
-      "enabled": true,
+      "enabled": false,
       "inviteExpireAfter": 0,
       "inviteMaxUses": 0,
       "inviteTemporaryMembership": false,
@@ -1386,7 +1386,7 @@
         "play": [],
         "achievement": []
       },
-      "triggerQuestsRerender": true,
+      "triggerQuestsRerender": false,
       "unclaimedSubsort": "Expiring ASC",
       "unclaimedUnignoredQuests": 0
     },
@@ -2326,7 +2326,7 @@
     "authenticated": false,
     "url": "https://cloud.equicord.org/",
     "settingsSync": false,
-    "settingsSyncVersion": 1777784965576
+    "settingsSyncVersion": 1777859516194
   },
   "ignoreResetWarning": false,
   "userCssVars": {}
