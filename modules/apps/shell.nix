@@ -22,6 +22,7 @@
             shellAliases = {
               rebuild = "nh os switch && sudo systemctl restart home-manager-grey.service";
               update = "nh os switch --update && sudo systemctl restart home-manager-grey.service";
+              cl = "clear";
             };
           };
         };
