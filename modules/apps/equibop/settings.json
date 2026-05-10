@@ -9,5 +9,6 @@
   "splashTheming": false,
   "tray": false,
   "appBadge": false,
-  "middleClickAutoscroll": true
+  "middleClickAutoscroll": true,
+  "staticTitle": true
 }
