@@ -78,30 +78,6 @@
           };
       };
 
-      xdg = {
-        portal = {
-          enable = true;
-          extraPortals = with pkgs; [
-            xdg-desktop-portal-gtk
-          ];
-          config.niri = {
-            default = [
-              "gnome"
-              "gtk"
-            ];
-            "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-          };
-        };
-
-        mime.defaultApplications = {
-          #"x-scheme-handler/http"  = "helium.desktop";
-          #"x-scheme-handler/https" = "helium.desktop";
-          #"text/html"              = "helium.desktop";
-          #"inode/directory"        = "thunar.desktop";
-          #"x-scheme-handler/file"  = "thunar.desktop";
-        };
-      };
-
       environment = {
         pathsToLink = [ "/share/applications" ];
         sessionVariables = {
