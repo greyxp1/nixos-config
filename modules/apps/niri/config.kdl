@@ -11,10 +11,11 @@ input {
     touchpad {
         natural-scroll
     }
-    mouse
+    focus-follows-mouse max-scroll-amount="10%"
 }
 
-output "Acer Technologies XV320QU LV 13110DBDC4200" {
+output "DP-3" {
+    variable-refresh-rate
     mode "2560x1440@170.071"
 }
 
@@ -28,31 +29,21 @@ debug {
     honor-xdg-activation-with-invalid-serial
 }
 
-workspace "1"
-workspace "2"
-workspace "3"
-
-layout {
-    gaps 10
-    background-color "transparent"
-    shadow {
-        color "#00000077"
-    }
-    focus-ring {
-        width 3
-        inactive-color "#00000000"
-        active-color "#89b3fa"
-    }
-}
-
-overview {
-    workspace-shadow {
+gestures {
+    hot-corners {
         off
     }
 }
 
+blur {
+  passes 2
+  offset 3.0
+  noise 0.03
+  saturation 1.0
+}
+
 window-rule {
-    geometry-corner-radius 10
+    geometry-corner-radius 16
     clip-to-geometry true
     draw-border-with-background false
     opacity 0.9
@@ -63,25 +54,60 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r"(?i)helium"
-    match app-id=r"(?i)zed"
-    match app-id=r"(?i)electron"
-    open-maximized true
+    match app-id="^equibop$"
+    opacity 1.0
 }
 
 window-rule {
-    match app-id=r"(?i)helium"
-    open-on-workspace "1"
+    match app-id="^equibop$" title="^([^E]|E[^q]|Eq[^u]|Equ[^i]|Equi[^b]|Equib[^o]|Equibo[^p])*$"
+    open-floating true
+    default-column-width { fixed 888; }
+    default-window-height { fixed 499; }
+    default-floating-position x=0 y=0 relative-to="bottom-right"
 }
 
 window-rule {
-    match app-id=r"(?i)electron"
-    open-on-workspace "3"
+    match title="^Picture in picture$"
+    opacity 1.0
+    open-floating true
+    default-column-width { fixed 826; }
+    default-window-height { fixed 413; }
+    default-floating-position x=32 y=32 relative-to="bottom-right"
 }
 
 layer-rule {
-    match namespace=r"^noctalia-wallpaper.*"
-    place-within-backdrop true
+  match namespace="^noctalia-wallpaper"
+  place-within-backdrop true
+}
+
+layout {
+  background-color "transparent"
+  //gaps 0
+  focus-ring {
+    on
+  }
+  insert-hint {
+      off
+  }
+  preset-column-widths {
+      proportion 0.33333
+      proportion 0.5
+      proportion 0.66667
+      fixed 1280
+  }
+}
+
+overview {
+  workspace-shadow {
+    off
+    }
+}
+
+layer-rule {
+  match namespace="^noctalia-(bar-main|notification|dock|panel)$"
+  background-effect {
+    xray false
+    }
 }
 
 binds {
@@ -90,112 +116,45 @@ binds {
     Mod+D      { spawn "equibop"; }
     Mod+Z      { spawn "zeditor"; }
 
-    Mod+P     { spawn "noctalia-shell" "ipc" "call" "sessionMenu" "toggle"; }
-    Mod+C     { spawn "noctalia-shell" "ipc" "call" "controlCenter" "toggle"; }
-    Mod+Space { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
-    Mod+O     { spawn "noctalia-shell" "ipc" "call" "bar" "toggle"; }
-    Mod+Print { spawn "noctalia-shell" "ipc" "call" "plugin:screen-recorder" "saveReplay"; }
+    Mod+Escape { spawn "noctalia" "msg" "panel-toggle" "session"; }
+    Mod+C      { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
+    Mod+S      { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+    Mod+V      { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
 
-    XF86AudioRaiseVolume { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
-    XF86AudioLowerVolume { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
-    XF86AudioMute        { spawn "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+    Mod+Shift+C { set-dynamic-cast-window; }
+    Mod+Ctrl+C  { set-dynamic-cast-monitor; }
+
+    XF86AudioRaiseVolume { spawn "noctalia" "msg" "volume-up"; }
+    XF86AudioLowerVolume { spawn "noctalia" "msg" "volume-down"; }
+    XF86AudioMute        { spawn "noctalia" "msg" "volume-mute"; }
 
     Mod+Q       { close-window; }
     Mod+F       { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+Shift+F { toggle-window-rule-opacity; }
     Mod+T       { toggle-window-floating; }
+    Mod+R       { switch-preset-column-width; }
     Mod+Tab     { toggle-overview; }
     Print       { screenshot; }
 
     Mod+H { focus-column-left; }
     Mod+L { focus-column-right; }
-    Mod+J { focus-window-down; }
-    Mod+K { focus-window-up; }
+    Mod+J { focus-workspace-down; }
+    Mod+K { focus-workspace-up; }
 
     Mod+Shift+H { move-column-left; }
     Mod+Shift+L { move-column-right; }
-    Mod+Shift+J { move-window-down; }
-    Mod+Shift+K { move-window-up; }
+    Mod+Shift+J { move-column-to-workspace-down; }
+    Mod+Shift+K { move-column-to-workspace-up; }
 
-    Mod+Ctrl+H { set-column-width "-5%"; }
-    Mod+Ctrl+L { set-column-width "+5%"; }
-    Mod+Ctrl+J { set-window-height "-5%"; }
-    Mod+Ctrl+K { set-window-height "+5%"; }
-
-    Mod+Alt+J { focus-workspace-down; }
-    Mod+Alt+K { focus-workspace-up; }
-
-    Mod+Alt+Shift+J { move-column-to-workspace-down; }
-    Mod+Alt+Shift+K { move-column-to-workspace-up; }
-
-    Mod+WheelScrollUp        { focus-workspace-up; }
-    Mod+WheelScrollDown      { focus-workspace-down; }
-    Mod+Shift+WheelScrollUp  { focus-column-left; }
+    Mod+WheelScrollUp         { focus-workspace-up; }
+    Mod+WheelScrollDown       { focus-workspace-down; }
+    Mod+Shift+WheelScrollUp   { focus-column-left; }
     Mod+Shift+WheelScrollDown { focus-column-right; }
 }
 
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
-spawn-at-startup "noctalia-shell"
-spawn-at-startup "equibop"
-spawn-at-startup "niri" "msg" "action" "focus-workspace" "2"
-spawn-at-startup "noctalia-shell ipc call plugin:screen-recorder startReplay"
-
-animations {
-    window-open {
-        duration-ms 260
-        curve "cubic-bezier" 0.22 1.0 0.36 1.0
-    }
-
-    window-close {
-        duration-ms 180
-        curve "cubic-bezier" 0.32 0.0 0.67 0.0
-    }
-
-    window-resize {
-        spring damping-ratio=1.0 stiffness=720 epsilon=0.0001
-    }
-
-    workspace-switch {
-        spring damping-ratio=1.0 stiffness=760 epsilon=0.0001
-    }
-
-    horizontal-view-movement {
-        spring damping-ratio=1.0 stiffness=640 epsilon=0.0001
-    }
-
-    window-movement {
-        spring damping-ratio=1.0 stiffness=700 epsilon=0.0001
-    }
-
-    config-notification-open-close {
-        spring damping-ratio=1.0 stiffness=820 epsilon=0.001
-    }
-
-    exit-confirmation-open-close {
-        spring damping-ratio=1.0 stiffness=560 epsilon=0.01
-    }
-
-    screenshot-ui-open {
-        duration-ms 220
-        curve "cubic-bezier" 0.22 1.0 0.36 1.0
-    }
-
-    overview-open-close {
-        spring damping-ratio=1.0 stiffness=620 epsilon=0.0001
-    }
-
-    recent-windows-close {
-        spring damping-ratio=1.0 stiffness=680 epsilon=0.001
-    }
-}
-environment
-
-gestures {
-    hot-corners {
-        off
-    }
-}
-
-blur {
-    passes 4
-}
+spawn-at-startup "noctalia"
+spawn-at-startup "bash" "-c" "screencast-monitor"
+spawn-at-startup "bash" "-c" "tile-to-2"
+spawn-at-startup "bash" "-c" "niri-float-sticky -title '^Picture in picture$'"
+spawn-at-startup "bash" "-c" "niri-float-sticky -app-id '^equibop$' -title '^([^E|]|E[^q|]|Eq[^u|]|Equ[^i|]|Equi[^b|]|Equib[^o|]|Equibo[^p|]|Equibop[^$|])[^|]*$'"
