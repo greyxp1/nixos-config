@@ -1,5 +1,5 @@
 {
-  "autoUpdate": false,
+  "autoUpdate": true,
   "autoUpdateNotification": false,
   "disableMinSize": false,
   "enableReactDevtools": false,
@@ -77,7 +77,7 @@
       "statusToSet": "dnd"
     },
     "AutoZipper": {
-      "enabled": true,
+      "enabled": false,
       "extensions": ".psd,.blend,.exe,.dmg,.app,.apk,.iso"
     },
     "BannersEverywhere": {
@@ -1282,7 +1282,7 @@
     },
     "PingNotifications": {
       "dms": true,
-      "enabled": true,
+      "enabled": false,
       "friends": false,
       "ignoreMuted": true,
       "mentions": true,
@@ -1323,72 +1323,101 @@
       "enabled": false
     },
     "Questify": {
-      "claimedSubsort": "Claimed DESC",
-      "completeAchievementQuestsInBackground": true,
-      "completeGameQuestsInBackground": true,
-      "completeVideoQuestsInBackground": true,
-      "completeVideoQuestsQuicker": false,
-      "disableFriendsListActiveNowPromotion": true,
-      "disableMembersListActivelyPlayingIcon": true,
-      "disableQuestsBadgeOnUserProfiles": false,
-      "disableQuestsDirectMessagesTab": false,
-      "disableQuestsDiscoveryTab": false,
-      "disableQuestsEverything": false,
-      "disableQuestsFetchingQuests": false,
-      "disableQuestsGiftInventoryRelocationNotice": true,
-      "disableQuestsPageSponsoredBanner": false,
-      "disableQuestsPopupAboveAccountPanel": true,
       "enabled": true,
-      "expiredSubsort": "Expiring DESC",
-      "fetchingQuestsAlert": "discodo",
-      "fetchingQuestsAlertVolume": 100,
-      "fetchingQuestsInterval": 2700,
-      "ignoredQuestIDs": {
-        "1233920168196046892": [
-          "1495616251706212372",
-          "1493910175655137310",
-          "1495642756264103977",
-          "1493494335877156935",
-          "1496003706251116615",
-          "1497119198889902151",
-          "1496756039046135899"
-        ]
-      },
-      "ignoredQuestProfile": "private",
-      "ignoredSubsort": "Recent DESC",
-      "lastQuestPageFilters": {},
-      "lastQuestPageSort": "questify",
-      "makeMobileQuestsDesktopCompatible": true,
-      "notifyOnQuestComplete": true,
-      "onQuestsPage": false,
-      "questButtonBadgeColor": 2842239,
+      "migrationVersion": 1,
+      "disableQuestsEverything": false,
       "questButtonDisplay": "unclaimed",
+      "disableMembersListPromo": true,
+      "disableFriendsListPromo": true,
+      "disableRelocationNotices": true,
+      "disableSponsoredBanner": false,
+      "disableOrbsAndQuestsBadges": false,
+      "disableAccountPanelPromo": true,
+      "autoCompleteQuestTypes": {
+        "PLAY_ON_DESKTOP": false,
+        "PLAY_ON_XBOX": false,
+        "PLAY_ON_PLAYSTATION": false,
+        "PLAY_ACTIVITY": false,
+        "WATCH_VIDEO": true,
+        "WATCH_VIDEO_ON_MOBILE": true,
+        "ACHIEVEMENT_IN_ACTIVITY": true
+      },
+      "disableAccountPanelQuestProgress": false,
+      "isOnQuestsPage": true,
+      "questButtonBadgeCount": 1,
+      "questButtonBadgeColor": 2842239,
       "questButtonLeftClickAction": "open-quests",
       "questButtonMiddleClickAction": "plugin-settings",
       "questButtonRightClickAction": "context-menu",
-      "questButtonUnclaimed": "both",
-      "questRewardIncludeCollectibles": true,
-      "questRewardIncludeInGame": true,
-      "questRewardIncludeNitroCode": true,
-      "questRewardIncludeOrbs": true,
-      "questRewardIncludeRewardCode": true,
-      "rememberQuestPageFilters": true,
-      "rememberQuestPageSort": true,
-      "reorderQuests": "UNCLAIMED, CLAIMED, IGNORED, EXPIRED",
-      "restyleQuestsClaimed": 6105983,
-      "restyleQuestsExpired": 2368553,
-      "restyleQuestsGradient": "intense",
-      "restyleQuestsIgnored": 8334124,
-      "restyleQuestsPreload": true,
-      "restyleQuestsUnclaimed": 2842239,
-      "resumeQuestIDs": {
-        "watch": [],
-        "play": [],
-        "achievement": []
+      "questButtonIndicator": "both",
+      "newExcludedQuestAlertSound": null,
+      "newQuestAlertSound": "discodo",
+      "questFetchInterval": 2700,
+      "notifyOnNewExcludedQuests": false,
+      "notifyOnNewQuests": true,
+      "ignoredQuestIDs": {
+        "questIDs": ["1496756039046135899", "1499307806434525195"]
       },
-      "triggerQuestsRerender": false,
+      "questButtonIncludedTypes": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true,
+        "WATCH_VIDEO": true,
+        "WATCH_VIDEO_ON_MOBILE": true,
+        "ACHIEVEMENT_IN_ACTIVITY": true,
+        "ACHIEVEMENT_IN_GAME": true,
+        "PLAY_ACTIVITY": false,
+        "PLAY_ON_DESKTOP": false,
+        "PLAY_ON_DESKTOP_V2": false,
+        "STREAM_ON_DESKTOP": true,
+        "PLAY_ON_PLAYSTATION": false,
+        "PLAY_ON_XBOX": false
+      },
+      "resumeInterruptedQuests": true,
+      "rememberQuestPageSort": true,
+      "lastQuestPageSort": "questify",
+      "rememberQuestPageFilters": true,
+      "lastQuestPageFilters": {},
+      "makeMobileVideoQuestsDesktopCompatible": true,
       "unclaimedSubsort": "Expiring ASC",
-      "unclaimedUnignoredQuests": 0
+      "claimedSubsort": "Claimed DESC",
+      "ignoredSubsort": "Recent DESC",
+      "expiredSubsort": "Expiring DESC",
+      "questOrder": ["UNCLAIMED", "CLAIMED", "IGNORED", "EXPIRED"],
+      "questTileUnclaimedColor": {
+        "enabled": true,
+        "color": 2842239
+      },
+      "questTileClaimedColor": {
+        "enabled": true,
+        "color": 6105983
+      },
+      "questTileIgnoredColor": {
+        "enabled": true,
+        "color": 8334124
+      },
+      "questTileExpiredColor": {
+        "enabled": true,
+        "color": 2368553
+      },
+      "questTileGradient": "intense",
+      "questTilePreload": true,
+      "allowChangingDangerousSettings": true,
+      "notifyOnQuestComplete": true,
+      "questCompletedAlertSound": "bop_message1",
+      "questCompletedAlertVolume": 100,
+      "newQuestAlertVolume": 100,
+      "newExcludedQuestAlertVolume": 100,
+      "completeVideoQuestsQuicker": true,
+      "autoCompleteQuestsSimultaneously": true,
+      "resumeQuestIDs": {
+        "1233920168196046892": {
+          "timestamp": 1778437977759,
+          "questIDs": ["1493412800679252078"]
+        }
+      }
     },
     "QuickMention": {
       "enabled": false
@@ -2282,7 +2311,8 @@
     },
     "Settings": {
       "enabled": true,
-      "settingsLocation": "aboveNitro"
+      "settingsLocation": "aboveNitro",
+      "includeVencordInfoWhenCopying": true
     },
     "ConcatenatedComponentExtractor": {
       "enabled": true
@@ -2295,6 +2325,18 @@
     },
     "ConcatenatedModules": {
       "enabled": true
+    },
+    "NoMiddleClickPaste": {
+      "enabled": false
+    },
+    "ProfileSectionsAPI": {
+      "enabled": false
+    },
+    "VoiceStats": {
+      "enabled": false
+    },
+    "Streaks": {
+      "enabled": false
     }
   },
   "themeLinks": [],
@@ -2326,7 +2368,7 @@
     "authenticated": false,
     "url": "https://cloud.equicord.org/",
     "settingsSync": false,
-    "settingsSyncVersion": 1777859516194
+    "settingsSyncVersion": 1778438008859
   },
   "ignoreResetWarning": false,
   "userCssVars": {}
