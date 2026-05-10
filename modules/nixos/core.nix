@@ -26,6 +26,7 @@
 
       users.users.grey = {
         isNormalUser = true;
+        shell = pkgs.fish;
         extraGroups = [
           "networkmanager"
           "wheel"

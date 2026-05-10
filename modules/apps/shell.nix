@@ -3,6 +3,8 @@
   flake.nixosModules.shell =
     { ... }:
     {
+      programs.fish.enable = true;
+
       home-manager.users.grey =
         { ... }:
         {
@@ -16,12 +18,17 @@
             };
           };
 
-          programs.bash = {
+          programs.fish = {
             enable = true;
-            enableCompletion = true;
+            interactiveShellInit = "set -g fish_greeting";
+
+            functions = {
+              rebuild = "nh os switch --no-nom $argv 2>&1 | grep -v '^/nix/store/' | awk '/^<<</{p=1} p'; set -l st $pipestatus[1]; return $st";
+              update = "nh os switch --update --no-nom $argv 2>&1 | grep -v '^/nix/store/' | awk '/^<<</{p=1} p'; set -l st $pipestatus[1]; return $st";
+            };
+
             shellAliases = {
-              rebuild = "nh os switch && sudo systemctl restart home-manager-grey.service";
-              update = "nh os switch --update && sudo systemctl restart home-manager-grey.service";
+              hmswitch = "sudo systemctl restart home-manager-grey.service";
             };
           };
         };
