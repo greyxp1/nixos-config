@@ -44,6 +44,7 @@
             obsidian
             mpv
             thunar
+            python3
           ];
         };
 
