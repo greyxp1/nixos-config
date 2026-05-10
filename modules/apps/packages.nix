@@ -68,7 +68,7 @@
 
           clean = {
             enable = true;
-            extraArgs = "--keep-since 7d --keep 10";
+            extraArgs = "--keep 5";
           };
         };
       };
