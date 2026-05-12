@@ -19,9 +19,6 @@
           [shell.panel]
           attach_control_center = false
 
-          [shell.screen_corners]
-          enabled = true
-
           [theme]
           builtin = "Catppuccin"
           community_palette = "ADW"
