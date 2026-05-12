@@ -130,6 +130,7 @@ binds {
 
     Mod+Q       { close-window; }
     Mod+F       { maximize-column; }
+    Mod+Alt+F   { maximize-window-to-edges; }
     Mod+Shift+F { toggle-window-rule-opacity; }
     Mod+T       { toggle-window-floating; }
     Mod+R       { switch-preset-column-width; }
