@@ -23,11 +23,8 @@
             interactiveShellInit = "set -g fish_greeting";
 
             functions = {
-              rebuild = "nh os switch --no-nom $argv 2>&1 | grep -v '^/nix/store/' | awk '/^<<</{p=1} p'; set -l st $pipestatus[1]; return $st";
-              update = "nh os switch --update --no-nom $argv 2>&1 | grep -v '^/nix/store/' | awk '/^<<</{p=1} p'; set -l st $pipestatus[1]; return $st";
-            };
-
-            shellAliases = {
+              rebuild = "nh os switch";
+              update = "nh os switch --update";
               hmswitch = "sudo systemctl restart home-manager-grey.service";
             };
           };
