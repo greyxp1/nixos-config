@@ -118,8 +118,8 @@ class TimeKeeper:
 
 @dataclass
 class FocusState:
-    workspace_id: int | None = None
-    window_id: int | None = None
+    workspace_id: int = None
+    window_id: int = None
 
     def copy_inplace(self, other_focus_state):
         """Overwrite current data with data from another object (avoids creating new instances)"""
@@ -142,7 +142,7 @@ class NiriSocket:
         assert not is_bad_path, "Cannot connect to niri, no socket path given..."
 
         self._skt = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        self._skt.connect(socket_path)
+        self._skt.connect(skt_path)
         self._bufsize = buffer_size
 
         # Storage for
@@ -293,10 +293,7 @@ def get_windows_by_conditions(
     window_state: dict[int, dict], **conditions
 ) -> dict[int, dict]:
     """Function used to filter window state data according to key-value conditions"""
-
-    def meets_conditions(data):
-        return all(data[k] == v for k, v in conditions.items())
-
+    meets_conditions = lambda data: all(data[k] == v for k, v in conditions.items())
     return {
         winid: windata
         for winid, windata in window_state.items()
@@ -331,17 +328,8 @@ def get_additional_window_data(
     return augment_dict
 
 
-def toggle_window_maximization(target_window_id: int, focused_window_id: int | None):
+def toggle_window_maximization(target_window_id: int, focused_window_id: int):
     """Helper used to toggle the maximization state of a window, without messing with current focused window"""
-
-    # If we don't know the currently-focused window, focus the target, maximize it,
-    # and leave focus on it.
-    if focused_window_id is None:
-        niri_action.action("FocusWindow", id=target_window_id)
-        niri_action.action(
-            "MaximizeWindowToEdges" if USE_MAX_TO_EDGES else "MaximizeColumn"
-        )
-        return
 
     if target_window_id == focused_window_id:
         niri_action.action(
@@ -371,7 +359,7 @@ def maximize_window(
     if need_maximization:
         solo_id = solo_win_data["id"]
         toggle_window_maximization(solo_id, focus_state.window_id)
-        window_state[solo_id]["is_maximized"] = True
+        win_state[solo_id]["is_maximized"] = True
 
     return need_maximization
 
@@ -390,7 +378,7 @@ def collapse_window(
     if need_collapse:
         solo_id = solo_win_data["id"]
         toggle_window_maximization(solo_id, focus_state.window_id)
-        window_state[solo_id]["is_maximized"] = False
+        win_state[solo_id]["is_maximized"] = False
 
     return need_collapse
 
@@ -451,17 +439,14 @@ output_width_lut = {
 prev_focus_state = FocusState()
 focus_state = FocusState()
 timekeeper = TimeKeeper()
-win_state: dict[int, dict] = {}
-wspace_state: dict[int, dict] = {}
+win_state = None
+wspace_state = None
 
 # Main listening loop
 signal.signal(signal.SIGTERM, catch_sigterm)
 try:
     init_time = timekeeper.get_time_elapsed_ms()
     for evt_name, evt_data in niri_reader.read_eventstream():
-        # Skip events that don't include data to satisfy static type checking
-        if evt_data is None:
-            continue
         # For debugging printouts, add spaces between events that don't occur together
         time_elapsed_ms = timekeeper.get_time_elapsed_ms()
         if ENABLE_EVENT_NAME_DEBUG_PRINT or ENABLE_EVENT_DATA_DEBUG_PRINT:
@@ -495,8 +480,7 @@ try:
             # Record new focused workspace (ignore 'active' state, we don't use it)
             if evt_data["focused"]:
                 focus_state.workspace_id = evt_data["id"]
-                if prev_focus_state.workspace_id is not None:
-                    wspace_state[prev_focus_state.workspace_id]["is_focused"] = False
+                wspace_state[prev_focus_state.workspace_id]["is_focused"] = False
             pass
 
         elif evt_name == "WorkspaceActiveWindowChanged":
