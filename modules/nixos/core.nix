@@ -5,7 +5,7 @@
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager
-        inputs.stylix.nixosModules.stylix
+        inputs.catppuccin.nixosModules.catppuccin
         inputs.disko.nixosModules.disko
       ];
 
@@ -38,43 +38,60 @@
         initialPassword = "123";
       };
 
-      nix.settings = {
-        trusted-users = [
-          "root"
-          "@wheel"
-        ];
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
+      nix = {
+        daemonCPUSchedPolicy = "idle";
+        daemonIOSchedClass = "idle";
+
+        settings = {
+          trusted-users = [
+            "root"
+            "@wheel"
+          ];
+          experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
+
+          max-jobs = "auto";
+          cores = 0;
+          http-connections = 128;
+          download-buffer-size = 524288000;
+          narinfo-cache-negative-ttl = 0;
+          builders-use-substitutes = true;
+          keep-going = true;
+        };
       };
 
-      stylix = {
+      catppuccin = {
         enable = true;
-        autoEnable = true;
-        polarity = "dark";
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-        image = inputs.self + "/assets/wallpapers/wheat.jpg";
-
-        cursor = {
-          package = pkgs.catppuccin-cursors.mochaMauve;
-          name = "catppuccin-mocha-mauve-cursors";
-          size = 24;
-        };
+        flavor = "mocha";
+        accent = "mauve";
+        cache.enable = true;
       };
 
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
         backupFileExtension = "backup";
+        sharedModules = [ inputs.catppuccin.homeModules.catppuccin ];
         users.grey =
-          { ... }:
+          { pkgs, ... }:
           {
-            gtk.gtk4.theme = null;
             home = {
               username = "grey";
               homeDirectory = "/home/grey";
               stateVersion = "25.11";
+              pointerCursor = {
+                package = pkgs.catppuccin-cursors.mochaMauve;
+                name = "catppuccin-mocha-mauve-cursors";
+                size = 24;
+                gtk.enable = true;
+              };
+            };
+            catppuccin = {
+              enable = true;
+              flavor = "mocha";
+              accent = "mauve";
             };
           };
       };
