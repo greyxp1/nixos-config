@@ -14,6 +14,7 @@
               "git-firefly"
               "nix"
               "kdl"
+              "toml"
             ];
 
             userSettings = {
