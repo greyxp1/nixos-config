@@ -1343,8 +1343,8 @@
         "ACHIEVEMENT_IN_ACTIVITY": true
       },
       "disableAccountPanelQuestProgress": false,
-      "isOnQuestsPage": true,
-      "questButtonBadgeCount": 1,
+      "isOnQuestsPage": false,
+      "questButtonBadgeCount": 0,
       "questButtonBadgeColor": 2842239,
       "questButtonLeftClickAction": "open-quests",
       "questButtonMiddleClickAction": "plugin-settings",
@@ -1412,12 +1412,7 @@
       "newExcludedQuestAlertVolume": 100,
       "completeVideoQuestsQuicker": true,
       "autoCompleteQuestsSimultaneously": true,
-      "resumeQuestIDs": {
-        "1233920168196046892": {
-          "timestamp": 1778437977759,
-          "questIDs": ["1493412800679252078"]
-        }
-      }
+      "resumeQuestIDs": {}
     },
     "QuickMention": {
       "enabled": false
@@ -1856,11 +1851,11 @@
     },
     "StreamingCodecDisabler": {
       "disableAv1Codec": false,
-      "disableH264Codec": true,
-      "disableH265Codec": true,
-      "disableVP8Codec": true,
-      "disableVP9Codec": true,
-      "enabled": true
+      "disableH264Codec": false,
+      "disableH265Codec": false,
+      "disableVP8Codec": false,
+      "disableVP9Codec": false,
+      "enabled": false
     },
     "Summaries": {
       "enabled": false,
@@ -2174,7 +2169,7 @@
       "applyOnlyToDms": false,
       "enabled": true,
       "preventReconnectIfCallEnded": "both",
-      "rejoinDelay": 1,
+      "rejoinDelay": 2,
       "rejoinTimeout": 30
     },
     "VolumeBooster": {
@@ -2327,7 +2322,7 @@
       "enabled": true
     },
     "NoMiddleClickPaste": {
-      "enabled": false
+      "enabled": true
     },
     "ProfileSectionsAPI": {
       "enabled": false
@@ -2368,7 +2363,7 @@
     "authenticated": false,
     "url": "https://cloud.equicord.org/",
     "settingsSync": false,
-    "settingsSyncVersion": 1778438008859
+    "settingsSyncVersion": 1778704846510
   },
   "ignoreResetWarning": false,
   "userCssVars": {}
