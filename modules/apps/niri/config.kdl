@@ -24,6 +24,10 @@ output "DP-3" {
     mode "2560x1440@170.071"
 }
 
+workspace "browser"
+workspace "default"
+workspace "chat"
+
 hotkey-overlay {
     skip-at-startup
 }
@@ -40,11 +44,8 @@ gestures {
     }
 }
 
-blur {
-  passes 2
-  offset 3.0
-  noise 0.03
-  saturation 1.0
+recent-windows {
+    off
 }
 
 window-rule {
@@ -58,119 +59,119 @@ window-rule {
     }
 }
 
-window-rule {
-    match is-floating=true
-    default-column-width { fixed 1024; } //768 x 432
-    default-window-height { fixed 576; }
-    default-floating-position x=10 y=10 relative-to="top-right"
+blur {
+    passes 3
+    offset 3.0
+    noise 0.03
+    saturation 1.0
 }
 
 window-rule {
-    match app-id="^equibop$|^com.mitchellh.ghostty$"
-    opacity 1.0
+    match app-id="^equibop$"
+    open-on-workspace "chat"
 }
 
 window-rule {
+    match app-id="^helium$"
+    open-on-workspace "browser"
+}
+
+window-rule {
+    match app-id="^equibop$|^com.mitchellh.ghostty$|^mpv$"
     match title="(?i).*(Youtube|Jellyfin-Player).*"
     opacity 1.0
 }
 
 window-rule {
-    match app-id="^equibop$" title="^([^E]|E[^q]|Eq[^u]|Equ[^i]|Equi[^b]|Equib[^o]|Equibo[^p])*$"
+    match app-id="^equibop$"
+    exclude title="^Equibop$"
     match title="^Picture in picture$"
 
     open-floating true
     opacity 1.0
-    default-column-width { fixed 1024; } //768 x 432
+    default-column-width { fixed 1024; } // 768 x 432
     default-window-height { fixed 576; }
     default-floating-position x=10 y=10 relative-to="top-right"
 }
 
 layer-rule {
-  match namespace="^noctalia-wallpaper"
-  place-within-backdrop true
-}
-
-layout {
-  background-color "transparent"
-  gaps 10
-  focus-ring {
-    on
-    active-color "#cba6f7"
-    //inactive-color "#45475a"
-    width 2
-  }
-  insert-hint {
-      off
-  }
-  preset-column-widths {
-      proportion 0.33333
-      proportion 0.5
-      proportion 0.66667
-      fixed 1280
-  }
-  tab-indicator {
-      width 8
-      gap 8
-      length total-proportion=1.0
-      position "top"
-      place-within-column
-  }
-}
-
-overview {
-  workspace-shadow {
-    off
-    }
+    match namespace="^noctalia-wallpaper"
+    place-within-backdrop true
 }
 
 layer-rule {
-  match namespace="^noctalia-(bar-main|notification|dock|panel)$"
-  background-effect {
-    xray false
+    match namespace="^noctalia-(bar-main|notification|dock|panel)$"
+    background-effect {
+        xray false
+    }
+}
+
+layout {
+    background-color "transparent"
+    always-center-single-column
+    gaps 10
+    focus-ring {
+        on
+        active-color "#cba6f7"
+        width 2
+    }
+    insert-hint {
+        off
+    }
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        fixed 1280
+    }
+}
+
+overview {
+    workspace-shadow {
+        off
     }
 }
 
 binds {
-    Mod+Return { spawn "ghostty"; }
-    Mod+B      { spawn "helium"; }
-    Mod+D      { spawn "equibop"; }
-    Mod+Z      { spawn "zeditor"; }
+    Mod+Return repeat=false { spawn "ghostty"; }
+    Mod+B repeat=false { spawn "helium"; }
+    Mod+D repeat=false { spawn "equibop"; }
+    Mod+Z repeat=false { spawn "zeditor"; }
 
-    Mod+Escape { spawn "noctalia" "msg" "panel-toggle" "session"; }
-    Mod+C      { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
-    Mod+S      { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
-    Mod+V      { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+    Mod+Escape repeat=false { spawn "noctalia" "msg" "panel-toggle" "session"; }
+    Mod+C repeat=false { spawn "noctalia" "msg" "panel-toggle" "control-center"; }
+    Mod+S repeat=false { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+    Mod+V repeat=false { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
 
-    Mod+Shift+C { set-dynamic-cast-window; }
-    Mod+Ctrl+C  { set-dynamic-cast-monitor; }
+    Mod+Shift+C repeat=false { set-dynamic-cast-window; }
+    Mod+Ctrl+C repeat=false { set-dynamic-cast-monitor; }
 
-    XF86AudioRaiseVolume { spawn "noctalia" "msg" "volume-up"; }
-    XF86AudioLowerVolume { spawn "noctalia" "msg" "volume-down"; }
-    XF86AudioMute        { spawn "noctalia" "msg" "volume-mute"; }
+    XF86AudioRaiseVolume repeat=false { spawn "noctalia" "msg" "volume-up"; }
+    XF86AudioLowerVolume repeat=false { spawn "noctalia" "msg" "volume-down"; }
+    XF86AudioMute repeat=false { spawn "noctalia" "msg" "volume-mute"; }
 
-    Mod+Q       { close-window; }
-    Mod+F       { maximize-window-to-edges; }
-    Mod+Shift+F { toggle-window-rule-opacity; }
-    Mod+T       { toggle-window-floating; }
-    Mod+R       { switch-preset-column-width; }
-    Mod+Tab     { toggle-overview; }
-    Print       { screenshot; }
+    Mod+Q repeat=false { close-window; }
+    Mod+F repeat=false { maximize-window-to-edges; }
+    Mod+Shift+F repeat=false { toggle-window-rule-opacity; }
+    Mod+T repeat=false { toggle-window-floating; }
+    Mod+R repeat=false { switch-preset-column-width; }
+    Mod+Tab repeat=false { toggle-overview; }
+    Print repeat=false { screenshot; }
 
-    Mod+H { focus-column-left; }
-    Mod+L { focus-column-right; }
-    Mod+J { focus-workspace-down; }
-    Mod+K { focus-workspace-up; }
+    Mod+H repeat=false { focus-column-left; }
+    Mod+L repeat=false { focus-column-right; }
+    Mod+J repeat=false { focus-workspace-down; }
+    Mod+K repeat=false { focus-workspace-up; }
 
-    Mod+Shift+H { move-column-left; }
-    Mod+Shift+L { move-column-right; }
-    Mod+Shift+J { move-column-to-workspace-down; }
-    Mod+Shift+K { move-column-to-workspace-up; }
+    Mod+Shift+H repeat=false { move-column-left; }
+    Mod+Shift+L repeat=false { move-column-right; }
+    Mod+Shift+J repeat=false { move-column-to-workspace-down; }
+    Mod+Shift+K repeat=false { move-column-to-workspace-up; }
 
-    Mod+WheelScrollUp         { focus-workspace-up; }
-    Mod+WheelScrollDown       { focus-workspace-down; }
-    Mod+Shift+WheelScrollUp   { focus-column-left; }
-    Mod+Shift+WheelScrollDown { focus-column-right; }
+    Mod+WheelScrollUp repeat=false { focus-workspace-up; }
+    Mod+WheelScrollDown repeat=false { focus-workspace-down; }
+    Mod+Shift+WheelScrollUp repeat=false { focus-column-left; }
+    Mod+Shift+WheelScrollDown repeat=false { focus-column-right; }
 }
 
 spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
@@ -179,3 +180,5 @@ spawn-sh-at-startup "screencast-monitor"
 spawn-sh-at-startup "tile-to-2"
 spawn-sh-at-startup "niri-float-sticky -title '^Picture in picture$'"
 spawn-sh-at-startup "niri-float-sticky -app-id '^equibop$' -title '^([^E|]|E[^q|]|Eq[^u|]|Equ[^i|]|Equi[^b|]|Equib[^o|]|Equibo[^p|]|Equibop[^$|])[^|]*$'"
+spawn-at-startup "equibop"
+spawn-sh-at-startup "niri msg action focus-workspace 'default'"
