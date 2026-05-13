@@ -15,6 +15,17 @@
           {
             networking.hostName = "main-pc";
             custom.disk.device = "/dev/disk/by-id/nvme-KINGSTON_SNV2S1000G_50026B778557B959";
+
+            # Kernel
+            nixpkgs.overlays = [ inputs.nix-cachyos-kernel.overlays.pinned ];
+            boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto-x86_64-v3;
+
+            # AMD CPU
+            boot.kernelParams = [ "amd_pstate=active" ];
+            powerManagement.cpuFreqGovernor = "performance";
+            hardware.cpu.amd.updateMicrocode = true;
+
+            # Boot / initrd
             boot = {
               initrd = {
                 availableKernelModules = [
@@ -33,13 +44,7 @@
               kernelModules = [ "kvm-amd" ];
             };
 
-            hardware.cpu.amd.updateMicrocode = true;
-            services.xserver.videoDrivers = [ "nvidia" ];
-            hardware.nvidia = {
-              open = true;
-              modesetting.enable = true;
-            };
-
+            # Secure Boot
             boot = {
               loader.systemd-boot.enable = lib.mkForce false;
               lanzaboote = {
@@ -63,6 +68,22 @@
 
             environment.systemPackages = with pkgs; [ sbctl ];
 
+            # NVIDIA
+            services = {
+              xserver.videoDrivers = [ "nvidia" ];
+              acpid.enable = lib.mkForce false;
+            };
+            hardware.nvidia = {
+              open = true;
+              modesetting.enable = true;
+              nvidiaSettings = false;
+              powerManagement = {
+                enable = true;
+                finegrained = false;
+              };
+            };
+
+            # Audio
             services.pipewire = {
               enable = true;
               alsa.enable = true;
