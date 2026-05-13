@@ -8,7 +8,6 @@
         {
           home.packages = with pkgs; [
             # CLI tools
-            neovim
             curl
             lstr
             bat
@@ -18,8 +17,6 @@
             unzip
             wget
             codex
-            alsa-utils
-            foot
             zoxide
 
             # Nix tools
