@@ -1,4 +1,8 @@
 input {
+    focus-follows-mouse max-scroll-amount="10%"
+    touchpad {
+        natural-scroll
+    }
     keyboard {
         xkb {
             layout "us"
@@ -8,10 +12,11 @@ input {
         repeat-rate 50
         numlock
     }
-    touchpad {
-        natural-scroll
-    }
-    focus-follows-mouse max-scroll-amount="10%"
+}
+
+cursor {
+    hide-after-inactive-ms 5000
+    hide-when-typing
 }
 
 output "DP-3" {
@@ -43,10 +48,10 @@ blur {
 }
 
 window-rule {
-    geometry-corner-radius 16
+    geometry-corner-radius 10
     clip-to-geometry true
     draw-border-with-background false
-    opacity 0.9
+    opacity 0.81
     background-effect {
         blur true
         xray true
@@ -54,25 +59,31 @@ window-rule {
 }
 
 window-rule {
-    match app-id="^equibop$"
+    match is-floating=true
+    default-column-width { fixed 1024; } //768 x 432
+    default-window-height { fixed 576; }
+    default-floating-position x=10 y=10 relative-to="top-right"
+}
+
+window-rule {
+    match app-id="^equibop$|^com.mitchellh.ghostty$"
+    opacity 1.0
+}
+
+window-rule {
+    match title="(?i).*(Youtube|Jellyfin-Player).*"
     opacity 1.0
 }
 
 window-rule {
     match app-id="^equibop$" title="^([^E]|E[^q]|Eq[^u]|Equ[^i]|Equi[^b]|Equib[^o]|Equibo[^p])*$"
-    open-floating true
-    default-column-width { fixed 888; }
-    default-window-height { fixed 499; }
-    default-floating-position x=0 y=0 relative-to="bottom-right"
-}
-
-window-rule {
     match title="^Picture in picture$"
-    opacity 1.0
+
     open-floating true
-    default-column-width { fixed 826; }
-    default-window-height { fixed 413; }
-    default-floating-position x=32 y=32 relative-to="bottom-right"
+    opacity 1.0
+    default-column-width { fixed 1024; } //768 x 432
+    default-window-height { fixed 576; }
+    default-floating-position x=10 y=10 relative-to="top-right"
 }
 
 layer-rule {
@@ -82,9 +93,12 @@ layer-rule {
 
 layout {
   background-color "transparent"
-  //gaps 0
+  gaps 10
   focus-ring {
     on
+    active-color "#cba6f7"
+    //inactive-color "#45475a"
+    width 2
   }
   insert-hint {
       off
@@ -94,6 +108,13 @@ layout {
       proportion 0.5
       proportion 0.66667
       fixed 1280
+  }
+  tab-indicator {
+      width 8
+      gap 8
+      length total-proportion=1.0
+      position "top"
+      place-within-column
   }
 }
 
@@ -129,8 +150,7 @@ binds {
     XF86AudioMute        { spawn "noctalia" "msg" "volume-mute"; }
 
     Mod+Q       { close-window; }
-    Mod+F       { maximize-column; }
-    Mod+Alt+F   { maximize-window-to-edges; }
+    Mod+F       { maximize-window-to-edges; }
     Mod+Shift+F { toggle-window-rule-opacity; }
     Mod+T       { toggle-window-floating; }
     Mod+R       { switch-preset-column-width; }
@@ -153,9 +173,9 @@ binds {
     Mod+Shift+WheelScrollDown { focus-column-right; }
 }
 
-spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
+spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "noctalia"
-spawn-at-startup "bash" "-c" "screencast-monitor"
-spawn-at-startup "bash" "-c" "tile-to-2"
-spawn-at-startup "bash" "-c" "niri-float-sticky -title '^Picture in picture$'"
-spawn-at-startup "bash" "-c" "niri-float-sticky -app-id '^equibop$' -title '^([^E|]|E[^q|]|Eq[^u|]|Equ[^i|]|Equi[^b|]|Equib[^o|]|Equibo[^p|]|Equibop[^$|])[^|]*$'"
+spawn-sh-at-startup "screencast-monitor"
+spawn-sh-at-startup "tile-to-2"
+spawn-sh-at-startup "niri-float-sticky -title '^Picture in picture$'"
+spawn-sh-at-startup "niri-float-sticky -app-id '^equibop$' -title '^([^E|]|E[^q|]|Eq[^u|]|Equ[^i|]|Equi[^b|]|Equib[^o|]|Equibo[^p|]|Equibop[^$|])[^|]*$'"
