@@ -23,7 +23,7 @@
             inputs.niri-float-sticky.packages.${pkgs.stdenv.hostPlatform.system}.default
             (pkgs.writeShellScriptBin "screencast-monitor" (builtins.readFile ./screencast-monitor.sh))
             (pkgs.writeShellScriptBin "tile-to-2" ''
-              exec ${pkgs.python3}/bin/python3 ${./tile-to-2.py} -n 2 -m -e "$@"
+              exec ${pkgs.python3.interpreter} ${./tile-to-2.py} -n 2 -m -e "$@"
             '')
           ];
         }
