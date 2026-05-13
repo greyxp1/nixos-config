@@ -1,10 +1,11 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.nixosModules.boot =
-    { pkgs, inputs, ... }:
+    { pkgs, ... }:
     {
       nixpkgs.overlays = [ inputs.nix-cachyos-kernel.overlays.pinned ];
-      boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+      boot.kernelPackages = pkgs.lib.mkDefault pkgs.cachyosKernels.linuxPackages-cachyos-latest;
+
       systemd.network.wait-online.enable = false;
 
       boot = {
