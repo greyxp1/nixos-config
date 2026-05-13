@@ -8,7 +8,6 @@
         {
           home.packages = with pkgs; [
             # CLI tools
-            ghostty
             neovim
             curl
             lstr
@@ -20,10 +19,13 @@
             wget
             codex
             alsa-utils
+            foot
+            zoxide
 
             # Nix tools
             nil
             nixd
+            nix-output-monitor
 
             # Theming
             adwaita-icon-theme
