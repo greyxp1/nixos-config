@@ -38,28 +38,15 @@
         initialPassword = "123";
       };
 
-      nix = {
-        daemonCPUSchedPolicy = "idle";
-        daemonIOSchedClass = "idle";
-
-        settings = {
-          trusted-users = [
-            "root"
-            "@wheel"
-          ];
-          experimental-features = [
-            "nix-command"
-            "flakes"
-          ];
-
-          max-jobs = "auto";
-          cores = 0;
-          http-connections = 128;
-          download-buffer-size = 524288000;
-          narinfo-cache-negative-ttl = 0;
-          builders-use-substitutes = true;
-          keep-going = true;
-        };
+      nix.settings = {
+        trusted-users = [
+          "root"
+          "@wheel"
+        ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
       };
 
       catppuccin = {
