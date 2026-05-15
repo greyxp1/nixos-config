@@ -164,6 +164,7 @@ overview {
 
 binds {
     Mod+Return repeat=false { spawn "kitty"; }
+    Mod+E repeat=false { spawn-sh "kitty -- yazi"; }
     Mod+B repeat=false { spawn "helium"; }
     Mod+D repeat=false { spawn "equibop"; }
     Mod+Z repeat=false { spawn "zeditor"; }
@@ -211,4 +212,3 @@ spawn-sh-at-startup "tile-to-2"
 spawn-sh-at-startup "niri-float-sticky -title '^Picture in picture$'"
 spawn-sh-at-startup "niri-float-sticky -app-id '^equibop$' -title '^([^E|]|E[^q|]|Eq[^u|]|Equ[^i|]|Equi[^b|]|Equib[^o|]|Equibo[^p|]|Equibop[^$|])[^|]*$'"
 spawn-at-startup "equibop"
-spawn-sh-at-startup "niri msg action focus-workspace 'default'"
