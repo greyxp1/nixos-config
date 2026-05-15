@@ -13,6 +13,7 @@
       networking.networkmanager.enable = true;
       nixpkgs.config.allowUnfree = true;
       security.polkit.enable = true;
+      documentation.nixos.enable = false;
 
       system = {
         nixos.label = config.networking.hostName;
