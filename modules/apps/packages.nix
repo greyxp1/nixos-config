@@ -18,11 +18,11 @@
             wget
             codex
             zoxide
+            nerd-fonts.jetbrains-mono
 
             # Nix tools
             nil
             nixd
-            nix-output-monitor
 
             # Theming
             adwaita-icon-theme
@@ -42,7 +42,6 @@
             gpu-screen-recorder
             obsidian
             mpv
-            thunar
             python3
           ];
         };
