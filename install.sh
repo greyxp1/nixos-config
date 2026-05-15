@@ -8,12 +8,12 @@ HOST="${1:-}"
 # ── Host selection ────────────────────────────────────────────────────────────
 if [[ -z "$HOST" || "$HOST" == "--help" || "$HOST" == "-h" ]]; then
   echo "Select a host to install:"
-  echo "  [0] main-pc  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
+  echo "  [0] desktop  — full desktop, Nvidia, CachyOS kernel, Secure Boot"
   echo "  [1] vm       — full desktop, QEMU/SPICE guest tools, standard kernel"
   echo "  [2] generic  — full desktop, portable hardware config, standard kernel"
   read -rp "Choice (number): " HOST_CHOICE
   case "$HOST_CHOICE" in
-    0) HOST="main-pc" ;;
+    0) HOST="desktop" ;;
     1) HOST="vm"      ;;
     2) HOST="generic" ;;
     *) echo "ERROR: Invalid choice."; exit 1 ;;
@@ -21,9 +21,9 @@ if [[ -z "$HOST" || "$HOST" == "--help" || "$HOST" == "-h" ]]; then
 fi
 
 case "$HOST" in
-  main-pc|vm|generic) ;;
+  desktop|vm|generic) ;;
   *)
-    echo "ERROR: Unknown host '$HOST'. Choose: main-pc, vm, or generic."
+    echo "ERROR: Unknown host '$HOST'. Choose: desktop, vm, or generic."
     exit 1 ;;
 esac
 

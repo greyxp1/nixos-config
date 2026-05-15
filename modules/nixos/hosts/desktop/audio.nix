@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.main-pc-audio =
+  flake.nixosModules.desktop-audio =
     {
       pkgs,
       lib,
@@ -8,7 +8,7 @@
       ...
     }:
     {
-      config = lib.mkIf (config.networking.hostName == "main-pc") {
+      config = lib.mkIf (config.networking.hostName == "desktop") {
         environment.systemPackages = [ pkgs.rnnoise-plugin ];
 
         services.pipewire = {

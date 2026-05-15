@@ -7,7 +7,7 @@
       ...
     }:
     {
-      config = lib.mkIf (config.networking.hostName == "main-pc") {
+      config = lib.mkIf (config.networking.hostName == "desktop") {
         home-manager.users.grey =
           { pkgs, ... }:
           {
