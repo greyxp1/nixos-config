@@ -74,13 +74,21 @@ window-rule {
 }
 
 window-rule {
-    match app-id="^equibop$"
-    open-on-workspace "chat"
+    match app-id="^helium$"
+    open-on-workspace "browser"
+    open-maximized-to-edges true
 }
 
 window-rule {
-    match app-id="^helium$"
-    open-on-workspace "browser"
+    match app-id="^dev.zed.Zed$"
+    open-on-workspace "default"
+    open-maximized-to-edges true
+}
+
+window-rule {
+    match app-id="^equibop$"
+    open-on-workspace "chat"
+    open-maximized-to-edges true
 }
 
 window-rule {
