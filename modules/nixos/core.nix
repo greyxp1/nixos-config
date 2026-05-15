@@ -26,7 +26,7 @@
 
       users.users.grey = {
         isNormalUser = true;
-        shell = pkgs.fish;
+        shell = pkgs.nushell;
         extraGroups = [
           "networkmanager"
           "wheel"
@@ -60,14 +60,16 @@
         useGlobalPkgs = true;
         useUserPackages = true;
         backupFileExtension = "backup";
-        sharedModules = [ inputs.catppuccin.homeModules.catppuccin ];
+        sharedModules = [
+          inputs.catppuccin.homeModules.catppuccin
+        ];
         users.grey =
           { pkgs, ... }:
           {
             home = {
               username = "grey";
               homeDirectory = "/home/grey";
-              stateVersion = "25.11";
+              stateVersion = "26.05";
               pointerCursor = {
                 package = pkgs.catppuccin-cursors.mochaMauve;
                 name = "catppuccin-mocha-mauve-cursors";
@@ -83,9 +85,27 @@
           };
       };
 
+      services = {
+        greetd = {
+          enable = true;
+          useTextGreeter = true;
+          restart = false;
+          settings.default_session = {
+            command = "niri-session";
+            user = "grey";
+          };
+        };
+        flatpak.enable = true;
+        upower.enable = true;
+        power-profiles-daemon.enable = true;
+        dbus.enable = true;
+        gvfs.enable = true;
+      };
+
       environment = {
         pathsToLink = [ "/share/applications" ];
         sessionVariables = {
+          GTK_USE_PORTAL = "1";
           NIXOS_OZONE_WL = "1";
           ELECTRON_OZONE_PLATFORM_HINT = "wayland";
           MOZ_ENABLE_WAYLAND = "1"; # Firefox and Thunderbird
