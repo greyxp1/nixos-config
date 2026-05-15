@@ -23,6 +23,7 @@
               window_decorations = "server";
               project_panel.dock = "left";
               git_panel.dock = "left";
+              buffer_font_family = "JetBrainsMono Nerd Font";
 
               telemetry = {
                 diagnostics = false;
