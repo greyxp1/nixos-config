@@ -813,7 +813,7 @@
       "invertScroll": true,
       "nearestNeighbour": false,
       "saveZoomValues": true,
-      "size": 100,
+      "size": 500,
       "square": true,
       "zoom": 2,
       "zoomSpeed": 0.5
