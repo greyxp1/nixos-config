@@ -15,7 +15,7 @@ input {
 }
 
 cursor {
-    hide-after-inactive-ms 5000
+    hide-after-inactive-ms 3000
     hide-when-typing
 }
 
@@ -67,6 +67,13 @@ blur {
 }
 
 window-rule {
+    match is-floating=true
+    background-effect {
+        xray false
+    }
+}
+
+window-rule {
     match app-id="^equibop$"
     open-on-workspace "chat"
 }
@@ -77,7 +84,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="^equibop$|^com.mitchellh.ghostty$|^mpv$"
+    match app-id="^kitty$|^equibop$|^mpv$"
     match title="(?i).*(Youtube|Jellyfin-Player).*"
     opacity 1.0
 }
@@ -92,6 +99,21 @@ window-rule {
     default-column-width { fixed 1024; } // 768 x 432
     default-window-height { fixed 576; }
     default-floating-position x=10 y=10 relative-to="top-right"
+}
+
+window-rule {
+    match app-id="^chrome-ldgfbffkinooeloadekpmfoklnobpien-Default$"
+    open-floating true
+    default-column-width { fixed 1024; }
+    default-window-height { fixed 576; }
+    default-floating-position x=10 y=10 relative-to="top-right"
+}
+
+window-rule {
+    match app-id="^yazi-filepicker$"
+    open-floating true
+    default-column-width { fixed 1600; }
+    default-window-height { fixed 900; }
 }
 
 layer-rule {
@@ -133,7 +155,7 @@ overview {
 }
 
 binds {
-    Mod+Return repeat=false { spawn "ghostty"; }
+    Mod+Return repeat=false { spawn "kitty"; }
     Mod+B repeat=false { spawn "helium"; }
     Mod+D repeat=false { spawn "equibop"; }
     Mod+Z repeat=false { spawn "zeditor"; }
