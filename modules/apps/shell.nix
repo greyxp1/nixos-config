@@ -3,8 +3,6 @@
   flake.nixosModules.shell =
     { ... }:
     {
-      programs.fish.enable = true;
-
       home-manager.users.grey =
         { ... }:
         {
@@ -18,14 +16,15 @@
             };
           };
 
-          programs.fish = {
+          programs.nushell = {
             enable = true;
-            interactiveShellInit = "set -g fish_greeting";
 
-            functions = {
+            extraConfig = "$env.config.show_banner = false";
+
+            shellAliases = {
               rebuild = "nh os switch";
               update = "nh os switch --update";
-              hmswitch = "sudo systemctl restart home-manager-grey.service";
+              home = "sudo systemctl restart home-manager-grey.service";
             };
           };
         };
