@@ -5,7 +5,7 @@
     {
       environment.systemPackages = with pkgs; [
         virt-manager
-        virt-viewer
+        #virt-viewer
         spice
         spice-gtk
         spice-protocol
