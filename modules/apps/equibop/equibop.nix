@@ -5,6 +5,17 @@
     {
       home-manager.users.grey =
         { pkgs, lib, ... }:
+        let
+          inlineCss = pkgs.writeText "quickCss.css" ''
+            @import url("https://refact0r.github.io/midnight-discord/build/midnight.css");
+            @import url(https://mwittrien.github.io/BetterDiscordAddons/Themes/EmojiReplace/base/Apple.css);
+            body {
+              --remove-bg-layer: on;
+              --top-bar-height: var(--gap);
+            }
+            :root { --bg-4: hsla(220, 15%, 10%, 0.81); }
+          '';
+        in
         {
           home.packages = [
             (pkgs.equibop.overrideAttrs (old: {
@@ -20,7 +31,7 @@
           home.activation.equibopSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
             EQUIBOP_DIR="$HOME/.config/equibop"
             install -d -m 0755 "$EQUIBOP_DIR/settings"
-            install -m 0644 ${./quickCss.css} "$EQUIBOP_DIR/settings/quickCss.css"
+            install -m 0644 ${inlineCss} "$EQUIBOP_DIR/settings/quickCss.css"
             install -m 0644 ${./plugins.json} "$EQUIBOP_DIR/settings/settings.json"
             install -m 0644 ${./settings.json} "$EQUIBOP_DIR/settings.json"
             printf '{"firstLaunch":false}\n' > "$EQUIBOP_DIR/state.json"
