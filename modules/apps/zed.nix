@@ -4,7 +4,7 @@
     { ... }:
     {
       home-manager.users.grey =
-        { ... }:
+        { pkgs, ... }:
         {
           programs.zed-editor = {
             enable = true;
@@ -36,6 +36,11 @@
               };
             };
           };
+
+          home.packages = with pkgs; [
+            nil
+            nixd
+          ];
         };
     };
 }
