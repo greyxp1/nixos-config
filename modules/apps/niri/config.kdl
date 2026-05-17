@@ -173,7 +173,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="^kitty$|^equibop$|^mpv$"
+    match app-id="^kitty$|^equibop$|^mpv$|^.virt-manager-wrapped$"
     match title="(?i).*(Youtube|Jellyfin-Player).*"
     match title="^Picture in picture$"
     opacity 1.0
