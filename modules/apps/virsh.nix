@@ -4,10 +4,36 @@
     {
       lib,
       config,
+      pkgs,
       ...
     }:
     {
       config = lib.mkIf (config.networking.hostName == "desktop") {
+
+        environment.systemPackages = with pkgs; [
+          virt-manager
+          spice
+          spice-gtk
+          spice-protocol
+          virtio-win
+        ];
+
+        virtualisation = {
+          libvirtd = {
+            enable = true;
+            qemu.swtpm.enable = true;
+          };
+
+          vmVariant = {
+            spiceUSBRedirection.enable = true;
+            virtualisation.qemu.options = [
+              "-device virtio-vga-gl"
+              "-display gtk,gl=on"
+              "-cpu host"
+            ];
+          };
+        };
+
         home-manager.users.grey =
           { pkgs, ... }:
           {
