@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.nixosModules.virsh =
+  flake.nixosModules.virt =
     {
       lib,
       config,
