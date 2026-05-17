@@ -20,30 +20,31 @@
                 Type = "oneshot";
                 RemainAfterExit = true;
                 ExecStart = pkgs.writeShellScript "define-nixos-vm" ''
-                                    VM_DIR="$HOME/.local/share/libvirt/images"
-                                    VM_XML="$HOME/.local/share/libvirt/nixos-vm.xml"
-                                    DISK="$VM_DIR/nixos-vm.qcow2"
+                  VM_DIR="$HOME/.local/share/libvirt/images"
+                  VM_XML="$HOME/.local/share/libvirt/nixos-vm.xml"
+                  DISK="$VM_DIR/nixos-vm.qcow2"
 
-                                    mkdir -p "$VM_DIR"
-                                    mkdir -p "$HOME/.local/share/libvirt/qemu/nvram"
-                                    NVRAM="$HOME/.local/share/libvirt/qemu/nvram/nixos-vm_VARS.fd"
-                                    if [ ! -f "$NVRAM" ]; then
-                                      cp /run/libvirt/nix-ovmf/edk2-i386-vars.fd "$NVRAM"
-                                      chmod 600 "$NVRAM"
-                                    fi
+                  mkdir -p "$VM_DIR"
+                  mkdir -p "$HOME/.local/share/libvirt/qemu/nvram"
 
-                                    ISO="$VM_DIR/nixos-installer.iso"
-                                    ISO_URL="https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso"
-                                    if [ ! -f "$ISO" ]; then
-                                      echo "Downloading NixOS ISO..."
-                                      ${pkgs.curl}/bin/curl -L --fail -o "$ISO.tmp" "$ISO_URL" && mv "$ISO.tmp" "$ISO"
-                                    fi
+                  NVRAM="$HOME/.local/share/libvirt/qemu/nvram/nixos-vm_VARS.fd"
+                  if [ ! -f "$NVRAM" ]; then
+                    cp /run/libvirt/nix-ovmf/edk2-i386-vars.fd "$NVRAM"
+                    chmod 600 "$NVRAM"
+                  fi
 
-                                    if [ ! -f "$DISK" ]; then
-                                      ${pkgs.qemu}/bin/qemu-img create -f qcow2 "$DISK" 40G
-                                    fi
+                  ISO="$VM_DIR/nixos-installer.iso"
+                  ISO_URL="https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso"
+                  if [ ! -f "$ISO" ]; then
+                    echo "Downloading NixOS ISO..."
+                    ${pkgs.curl}/bin/curl -L --fail -o "$ISO.tmp" "$ISO_URL" && mv "$ISO.tmp" "$ISO"
+                  fi
 
-                                    cat > "$VM_XML" << XMLEOF
+                  if [ ! -f "$DISK" ]; then
+                    ${pkgs.qemu}/bin/qemu-img create -f qcow2 "$DISK" 40G
+                  fi
+
+                  cat > "$VM_XML" << XMLEOF
                   <domain type='kvm'>
                     <name>nixos-vm</name>
                     <memory unit='GiB'>4</memory>
@@ -126,9 +127,9 @@
                   </domain>
                   XMLEOF
 
-                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session destroy nixos-vm 2>/dev/null || true
-                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session undefine --nvram nixos-vm 2>/dev/null || true
-                                    ${pkgs.libvirt}/bin/virsh -c qemu:///session define "$VM_XML" || true
+                  ${pkgs.libvirt}/bin/virsh -c qemu:///session destroy nixos-vm 2>/dev/null || true
+                  ${pkgs.libvirt}/bin/virsh -c qemu:///session undefine --nvram nixos-vm 2>/dev/null || true
+                  ${pkgs.libvirt}/bin/virsh -c qemu:///session define "$VM_XML" || true
                 '';
               };
               Install.WantedBy = [ "default.target" ];
