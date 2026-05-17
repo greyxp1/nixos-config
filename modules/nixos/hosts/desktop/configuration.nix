@@ -66,7 +66,10 @@
               '';
             };
 
-            environment.systemPackages = with pkgs; [ sbctl ];
+            environment.systemPackages = with pkgs; [
+              nvidia-vaapi-driver
+              sbctl
+            ];
 
             # NVIDIA
             services = {
